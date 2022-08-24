@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.reports;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import javax.annotation.sql.DataSourceDefinition;
 
 @SpringBootApplication
 @SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, it's not a utility class
