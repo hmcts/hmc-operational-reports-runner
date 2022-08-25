@@ -1,6 +1,17 @@
 #!groovy
-
+import uk.gov.hmcts.contino.AppPipelineDsl
+properties(
+        [
+                [
+                        $class       : 'GithubProjectProperty',
+                        projectUrlStr: 'https://github.com/hmcts/hmc-operational-reports-runner'
+                ],
+                pipelineTriggers([[$class: 'GitHubPushTrigger']])
+        ]
+)
 @Library("Infrastructure")
+
+import uk.gov.hmcts.contino.GradleBuilder
 
 def type = "java"
 def product = "hmc"
