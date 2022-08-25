@@ -1,5 +1,5 @@
 java:
-  applicationPort: 
+  applicationPort: 4459
   image: 'hmctspublic.azurecr.io/hmc/hmc-operational-reports-runner:latest'
   ingressHost: hmc-operational-reports-runner-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   aadIdentityName: hmc
