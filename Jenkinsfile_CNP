@@ -6,6 +6,8 @@ def type = "java"
 def product = "hmc"
 def component = "operational-reports-runner"
 
+GradleBuilder builder = new GradleBuilder(this, product)
+
 withPipeline(type, product, component) {
 
     after('test') {
