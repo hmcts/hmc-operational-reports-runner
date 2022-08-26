@@ -5,7 +5,6 @@ ARG PLATFORM=""
 
 FROM hmctspublic.azurecr.io/base/java:17-distroless
 
-COPY lib/AI-Agent.xml /opt/app/
 COPY build/libs/hmc-operational-reports-runner.jar /opt/app/
 
 EXPOSE 4459
