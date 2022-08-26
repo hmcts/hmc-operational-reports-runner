@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.controllers;
+package uk.gov.hmcts.reform.reports.controllers;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
