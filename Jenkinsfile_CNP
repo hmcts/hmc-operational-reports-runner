@@ -42,18 +42,6 @@ withPipeline(type, product, component) {
         builder.gradle('integration')
     }
 
-    // Check if the build should be wired to an environment higher than 'preview'.
-    if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'demo' || env.BRANCH_NAME == 'perftest') {
-        environmentOfDependencies = env.BRANCH_NAME
-        // use aat environment for dependencies of master and CI/CD builds.
-        if (env.BRANCH_NAME.startsWith("PR") || env.BRANCH_NAME == 'master') {
-            environmentOfDependencies = "aat"
-        }
-    }
-
-    syncBranchesWithMaster(branchesToSync)
-    overrideVaultEnvironments(vaultOverrides)
-
     enableAksStagingDeployment()
     disableLegacyDeployment()
     nonServiceApp()
