@@ -15,7 +15,7 @@ public class ApplicationBootstrap implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         executeTask();
-        log.info("Completed the Operational-Reports-Runner job successfully.");
+        logMessage("Completed the Operational-Reports-Runner job successfully.");
     }
 
     public static void main(final String[] args) {
@@ -24,7 +24,12 @@ public class ApplicationBootstrap implements ApplicationRunner {
     }
 
     protected boolean executeTask() {
-        log.info("Task run successfully.");
+        logMessage("Task run successfully.");
+        return true;
+    }
+
+    protected boolean logMessage(String msg) {
+        log.info(msg);
         return true;
     }
 

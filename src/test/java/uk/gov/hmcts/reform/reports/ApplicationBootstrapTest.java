@@ -27,4 +27,9 @@ class ApplicationBootstrapTest {
     void shouldExecuteTask() {
         assertTrue(underTest.executeTask());
     }
+
+    @Test
+    void shouldLogMessage() {
+        assertTrue(underTest.logMessage("Testing 1, 2, 3!"));
+    }
 }
