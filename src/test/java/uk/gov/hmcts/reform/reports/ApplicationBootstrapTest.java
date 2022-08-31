@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.ApplicationArguments;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @ExtendWith(MockitoExtension.class)
 class ApplicationBootstrapTest {
 
@@ -17,8 +19,12 @@ class ApplicationBootstrapTest {
     private ApplicationBootstrap underTest;
 
     @Test
-    void testShouldRunExecutor() {
+    void shouldRunExecutor() {
         underTest.run(applicationArguments);
     }
 
+    @Test
+    void shouldExecuteTask() {
+        assertTrue(underTest.executeTask());
+    }
 }

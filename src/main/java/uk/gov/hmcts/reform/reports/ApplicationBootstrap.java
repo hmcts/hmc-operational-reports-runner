@@ -14,12 +14,18 @@ public class ApplicationBootstrap implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        executeTask();
         log.info("Completed the Operational-Reports-Runner job successfully.");
     }
 
     public static void main(final String[] args) {
         final ApplicationContext context = SpringApplication.run(ApplicationBootstrap.class);
         SpringApplication.exit(context);
+    }
+
+    protected boolean executeTask() {
+        log.info("Task run successfully.");
+        return true;
     }
 
 }
