@@ -24,6 +24,8 @@ public class ApplicationBootstrap implements ApplicationRunner {
     }
 
     protected boolean executeTask() {
+        int x = dummyCodeCoverageAnswer(200, 4);
+        logMessage("answer = " + x);
         logMessage("Task run successfully.");
         return true;
     }
@@ -31,6 +33,14 @@ public class ApplicationBootstrap implements ApplicationRunner {
     protected boolean logMessage(String msg) {
         log.info(msg);
         return true;
+    }
+
+    protected Integer dummyCodeCoverageAnswer(Integer x, Integer y) {
+        int z = 0;
+        if (y != 0) {
+            z = x / y;
+        }
+        return z;
     }
 
 }
