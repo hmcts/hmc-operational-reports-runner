@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This job will start up, execute and then shut down
+This job will start up, create the Operational Reports for sharing and then shut down
 
 ## Getting Started
 
