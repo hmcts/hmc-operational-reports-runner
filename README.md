@@ -26,8 +26,6 @@ To build the project execute the following command:
 
 ### Running the application
 
-This is a standalone job that will run and terminate
-
 Create the image of the application by executing the following command:
 
 ```bash
