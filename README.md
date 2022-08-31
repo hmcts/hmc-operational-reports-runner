@@ -2,11 +2,14 @@
 
 [![Build Status](https://travis-ci.org/hmcts/hmc-operational-reports-runner.svg?branch=master)](https://travis-ci.org/hmcts/hmc-operational-reports-runner)
 
-## Notes
+## Purpose
 
-Since Spring Boot 2.1 bean overriding is disabled. If you want to enable it you will need to set `spring.main.allow-bean-definition-overriding` to `true`.
+This job will start up, create the Operational Data Reports for sharing and then shut down
 
-JUnit 5 is now enabled by default in the project. Please refrain from using JUnit4 and use the next generation
+## Getting Started
+
+### Prerequisites
+- [JDK 17](https://java.com)
 
 ## Building and deploying the application
 
