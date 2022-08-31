@@ -24,8 +24,8 @@ public class ApplicationBootstrap implements ApplicationRunner {
     }
 
     protected boolean executeTask() {
-        int x = dummyCodeCoverageAnswer(200, 4);
-        logMessage("answer = " + x);
+        int answer = dummyCodeCoverageAnswer(250, 5);
+        logMessage("answer = " + answer);
         logMessage("Task run successfully.");
         return true;
     }
@@ -35,12 +35,12 @@ public class ApplicationBootstrap implements ApplicationRunner {
         return true;
     }
 
-    protected Integer dummyCodeCoverageAnswer(Integer x, Integer y) {
-        int z = 0;
-        if (y != 0) {
-            z = x / y;
+    protected Integer dummyCodeCoverageAnswer(Integer numerator, Integer divider) {
+        int answer = 0;
+        if (divider != 0) {
+            answer = numerator / divider;
         }
-        return z;
+        return answer;
     }
 
 }
