@@ -39,15 +39,6 @@ sourceSets {
     }
     resources.srcDir file('src/integrationTest/resources')
   }
-
-  smokeTest {
-    java {
-      compileClasspath += main.output
-      runtimeClasspath += main.output
-      srcDir file('src/smokeTest/java')
-    }
-    resources.srcDir file('src/smokeTest/resources')
-  }
 }
 
 configurations {
@@ -97,12 +88,6 @@ task integration(type: Test) {
   failFast = true
 }
 
-task smoke(type: Test) {
-  description = "Runs Smoke Tests"
-  testClassesDirs = sourceSets.smokeTest.output.classesDirs
-  classpath = sourceSets.smokeTest.runtimeClasspath
-}
-
 checkstyle {
   toolVersion '10.3.1'
 }
@@ -113,7 +98,7 @@ tasks.withType(Checkstyle) {
 
 pmd {
   toolVersion = "6.41.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest, sourceSets.smokeTest]
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest]
   reportsDir = file("$project.buildDir/reports/pmd")
   // https://github.com/pmd/pmd/issues/876
   ruleSets = []
@@ -137,6 +122,8 @@ sonarqube {
     property "sonar.projectName", "Reform :: hmc-operational-reports-runner"
     property "sonar.projectKey", "uk.gov.hmcts.reform:hmc-operational-reports-runner"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
+    property "sonar.coverage.exclusions", "**/hmc/ApplicationBootstrap.java"
+    property "sonar.exclusions","**/hmc/ApplicationExecutor.java"
   }
 }
 
@@ -186,6 +173,8 @@ ext {
 }
 
 dependencies {
+  implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
@@ -215,7 +204,7 @@ dependencies {
   }
 }
 
-mainClassName = 'uk.gov.hmcts.reform.reports.Application'
+mainClassName = 'uk.gov.hmcts.reform.reports.ApplicationBootstrap'
 
 bootJar {
   archiveFileName = "hmc-operational-reports-runner.jar"
