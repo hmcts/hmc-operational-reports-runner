@@ -1,10 +1,39 @@
+server:
+  port:
+
+management:
+  endpoint:
+    health:
+      show-details: "always"
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health, info, prometheus
+
+springdoc:
+  packagesToScan: uk.gov.hmcts.reform.reports.controllers
+
+#If you use a database then uncomment below lines and update db properties accordingly
 spring:
-  main:
-    web-application-type: none
   config:
     import: "optional:configtree:/mnt/secrets/hmc/"
   application:
-    name: Operational Reports Runner
+    name: HMC Operational Reports Runner
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${CFT_HEARING_SERVICE_DB_HOST:localhost}:${CFT_HEARING_SERVICE_DB_PORT:5060}/${DB_NAME}${CFT_HEARING_SERVICE_DB_OPTIONS:}
+    username: ${CFT_HEARING_SERVICE_DB_USERNAME:hmc}
+    password: ${CFT_HEARING_SERVICE_DB_PASSWORD:hmc}
+    properties:
+      charSet: UTF-8
+    hikari:
+      minimumIdle: 2
+      maximumPoolSize: 10
+      idleTimeout: 10000
+      #      poolName: {to-be-defined}HikariCP
+      maxLifetime: 7200000
+      connectionTimeout: 30000
   jpa:
     database: postgresql
     show-sql: false
@@ -14,29 +43,10 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
-  datasource:
-    hikari:
-      data-source-properties: stringtype=unspecified
-    tomcat:
-      connection-properties: stringtype=unspecified
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${CFT_HEARING_SERVICE_DB_HOST:localhost}:${CFT_HEARING_SERVICE_DB_PORT:5060}/${CFT_HEARING_SERVICE_DB_NAME:hmc_cft_hearing_service}${CFT_HEARING_SERVICE_DB_OPTIONS:}
-    username: ${CFT_HEARING_SERVICE_DB_USERNAME:hmc}
-    password: ${CFT_HEARING_SERVICE_DB_PASSWORD:hmc}
-    type: com.zaxxer.hikari.HikariDataSource
-  flyway:
-    out-of-order: true
-    ignore-missing-migrations: true
-
-#application-insights:
-#  default:
-#    modules:
-#      WebSyntheticRequestTelemetryInitializer:
-#        enabled: false
-#
-#azure:
-#  application-insights:
-#    instrumentation-key: ${APPINSIGHTS_INSTRUMENTATIONKEY:00000000-0000-0000-0000-000000000000}
+azure:
+  application-insights:
+    web.enabled: false
+    instrumentation-key: ${hmc.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
 smoke.test.enabled: false
 

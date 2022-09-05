@@ -1,12 +1,14 @@
 plugins {
   id 'application'
+  id 'checkstyle'
   id 'idea'
+  id 'pmd'
   id 'jacoco'
   id 'org.springframework.boot' version '2.7.3'
   id 'org.owasp.dependencycheck' version '6.5.3'
   id 'com.github.ben-manes.versions' version '0.42.0'
   id 'org.sonarqube' version '3.3'
-  id "io.freefair.lombok" version "6.5.1"
+  id 'io.freefair.lombok' version '6.5.1'
   id 'uk.gov.hmcts.java' version '0.12.27'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
@@ -18,12 +20,6 @@ java {
   toolchain {
     languageVersion = JavaLanguageVersion.of(17)
   }
-}
-
-configurations {
-  contractTestCompile.extendsFrom(testCompile)
-  contractTestRuntime.extendsFrom(testRuntime)
-  cftlibRuntimeClasspath.extendsFrom(runtimeClasspath)
 }
 
 sourceSets {
@@ -45,15 +41,6 @@ sourceSets {
     resources.srcDir file('src/integrationTest/resources')
   }
 
-  smokeTest {
-    java {
-      compileClasspath += main.output
-      runtimeClasspath += main.output
-      srcDir file('src/smokeTest/java')
-    }
-    resources.srcDir file('src/smokeTest/resources')
-  }
-
   idea {
     module {
       // config to allow Intellij to mark test source and resource files correctly to help linting tools
@@ -63,6 +50,7 @@ sourceSets {
       testResourceDirs += project.sourceSets.integrationTest.resources.srcDirs
     }
   }
+
 }
 
 configurations {
@@ -110,12 +98,7 @@ task integration(type: Test) {
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
   failFast = true
-}
-
-task smoke(type: Test) {
-  description = "Runs Smoke Tests"
-  testClassesDirs = sourceSets.smokeTest.output.classesDirs
-  classpath = sourceSets.smokeTest.runtimeClasspath
+  mustRunAfter test
 }
 
 checkstyle {
@@ -126,11 +109,20 @@ tasks.withType(Checkstyle) {
   exclude '**/package-info.java'
 }
 
+pmd {
+  toolVersion = "6.41.0"
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest]
+  reportsDir = file("$project.buildDir/reports/pmd")
+  // https://github.com/pmd/pmd/issues/876
+  ruleSets = []
+  ruleSetFiles = files("config/pmd/ruleset.xml")
+}
+
 jacocoTestReport {
   executionData(test, integration)
   reports {
-    xml.enabled = true
-    csv.enabled = false
+    xml.required = true
+    csv.required = false
     xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
   }
 }
@@ -143,6 +135,8 @@ sonarqube {
     property "sonar.projectName", "Reform :: hmc-operational-reports-runner"
     property "sonar.projectKey", "uk.gov.hmcts.reform:hmc-operational-reports-runner"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
+    property "sonar.coverage.exclusions", "**/hmc/ApplicationBootstrap.java"
+    property "sonar.exclusions","**/hmc/ApplicationExecutor.java"
   }
 }
 
@@ -185,6 +179,7 @@ dependencyCheck {
   skipConfigurations = [
     "checkstyle",
     "compileOnly",
+    "pmd",
     "integrationTest",
     "functionalTest",
     "smokeTest",
@@ -203,17 +198,9 @@ ext {
   log4JVersion = "2.17.1"
 }
 
-
-ext.libraries = [
-        junit5: [
-                "org.junit.jupiter:junit-jupiter-api:${versions.junit}",
-                "org.junit.jupiter:junit-jupiter-engine:${versions.junit}",
-                "org.junit.jupiter:junit-jupiter-params:${versions.junit}",
-                "org.junit.platform:junit-platform-commons:${versions.junitPlatform}",
-                "org.junit.platform:junit-platform-engine:${versions.junitPlatform}"
-        ]
-]
 dependencies {
+  implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
@@ -251,28 +238,15 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
-  testImplementation group: 'org.mockito', name: 'mockito-inline', version: '3.11.1'
-  testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.9'
-  testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.9'
-  testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '3.1.0'
 
   integrationTestImplementation sourceSets.main.runtimeClasspath
   integrationTestImplementation sourceSets.test.runtimeClasspath
-  integrationTestImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
-  integrationTestImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-  integrationTestImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
-  integrationTestImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
-  integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.4.7'
-  integrationTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
   functionalTestImplementation sourceSets.main.runtimeClasspath
   functionalTestImplementation sourceSets.test.runtimeClasspath
-  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.1'
-  functionalTestImplementation libraries.junit5
-
 }
 
-mainClassName = 'uk.gov.hmcts.reform.reports.Application'
+mainClassName = 'uk.gov.hmcts.reform.reports.ApplicationBootstrap'
 
 bootJar {
   archiveFileName = "hmc-operational-reports-runner.jar"
