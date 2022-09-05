@@ -2,9 +2,6 @@ package uk.gov.hmcts.reform.hmc.constants;
 
 public final class Constants {
 
-    private Constants() {
-    }
-
     public static final String POST_HEARING_STATUS = "HEARING_REQUESTED";
     public static final String HEARING_STATUS_UPDATE_REQUESTED = "UPDATE_REQUESTED";
     public static final Integer VERSION_NUMBER_TO_INCREMENT = 1;
@@ -36,4 +33,8 @@ public final class Constants {
     public static final String CANCEL = "CNCL";
     public static final String AMEND_REASON_CODE = "AMEND";
     public static final String HMCTS_SERVICE_ID = "hmctsServiceId";
+
+    private Constants() {
+    }
+
 }

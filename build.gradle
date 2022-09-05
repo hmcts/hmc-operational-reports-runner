@@ -2,15 +2,15 @@ plugins {
   id 'application'
   id 'checkstyle'
   id 'idea'
-  id 'pmd'
   id 'jacoco'
-  id 'org.springframework.boot' version '2.7.3'
-  id 'org.owasp.dependencycheck' version '6.5.3'
+  id 'pmd'
   id 'com.github.ben-manes.versions' version '0.42.0'
-  id 'org.sonarqube' version '3.3'
   id 'io.freefair.lombok' version '6.5.1'
-  id 'uk.gov.hmcts.java' version '0.12.27'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'org.owasp.dependencycheck' version '6.5.3'
+  id 'org.sonarqube' version '3.3'
+  id 'org.springframework.boot' version '2.7.3'
+  id 'uk.gov.hmcts.java' version '0.12.27'
 }
 
 group = 'uk.gov.hmcts.reform'
@@ -199,18 +199,20 @@ ext {
 }
 
 dependencies {
+
   implementation group: 'javax.inject', name: 'javax.inject', version: '1'
 
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
   implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc') {
     exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
   }
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
   implementation group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
 
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.7'
@@ -221,13 +223,16 @@ dependencies {
   implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
 
   // temporary work around for dependency check
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
-  implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: '2.13.3', ext: 'pom'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jackson
+  implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jackson, ext: 'pom'
 
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
 
   implementation group: 'io.rest-assured', name: 'rest-assured'
+
+  implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.5.7.Final'
+  runtime group: 'org.postgresql', name: 'postgresql', version: '42.3.3'
 
   annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
   testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
@@ -238,12 +243,24 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+  testImplementation group: 'org.mockito', name: 'mockito-inline', version: '3.11.1'
+  testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.9'
+  testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.9'
+  testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '3.1.0'
+  testImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
+  testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: versions.testcontainers
 
   integrationTestImplementation sourceSets.main.runtimeClasspath
   integrationTestImplementation sourceSets.test.runtimeClasspath
+  integrationTestImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
+  integrationTestImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+  integrationTestImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
+  integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.4.7'
+  integrationTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
   functionalTestImplementation sourceSets.main.runtimeClasspath
   functionalTestImplementation sourceSets.test.runtimeClasspath
+  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.1'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.reports.ApplicationBootstrap'
@@ -257,9 +274,6 @@ bootJar {
 }
 
 // Gradle 7.x issue, workaround from: https://github.com/gradle/gradle/issues/17236#issuecomment-894768083
-rootProject.tasks.named("processSmokeTestResources") {
-  duplicatesStrategy = 'include'
-}
 rootProject.tasks.named("processIntegrationTestResources") {
   duplicatesStrategy = 'include'
 }
