@@ -8,7 +8,7 @@ java:
   aadIdentityName: hmc
   #  Uncomment once the vault containing the app insights key has been set up
   keyVaults:
-    ccd:
+    hmc:
       secrets:
         - name: AppInsightsInstrumentationKey
           alias: azure.application-insights.instrumentation-key
