@@ -1,15 +1,14 @@
 plugins {
   id 'application'
-  id 'checkstyle'
-  id 'uk.gov.hmcts.java' version '0.12.27'
-  id 'pmd'
+  id 'idea'
   id 'jacoco'
-  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.springframework.boot' version '2.7.3'
-  id 'io.freefair.lombok' version '6.5.0.3'
   id 'org.owasp.dependencycheck' version '6.5.3'
   id 'com.github.ben-manes.versions' version '0.42.0'
   id 'org.sonarqube' version '3.3'
+  id "io.freefair.lombok" version "6.5.1"
+  id 'uk.gov.hmcts.java' version '0.12.27'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 group = 'uk.gov.hmcts.reform'
@@ -19,6 +18,12 @@ java {
   toolchain {
     languageVersion = JavaLanguageVersion.of(17)
   }
+}
+
+configurations {
+  contractTestCompile.extendsFrom(testCompile)
+  contractTestRuntime.extendsFrom(testRuntime)
+  cftlibRuntimeClasspath.extendsFrom(runtimeClasspath)
 }
 
 sourceSets {
@@ -47,6 +52,16 @@ sourceSets {
       srcDir file('src/smokeTest/java')
     }
     resources.srcDir file('src/smokeTest/resources')
+  }
+
+  idea {
+    module {
+      // config to allow Intellij to mark test source and resource files correctly to help linting tools
+      testSourceDirs += project.sourceSets.functionalTest.java.srcDirs
+      testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
+      testResourceDirs += project.sourceSets.functionalTest.resources.srcDirs
+      testResourceDirs += project.sourceSets.integrationTest.resources.srcDirs
+    }
   }
 }
 
@@ -111,20 +126,11 @@ tasks.withType(Checkstyle) {
   exclude '**/package-info.java'
 }
 
-pmd {
-  toolVersion = "6.41.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest, sourceSets.smokeTest]
-  reportsDir = file("$project.buildDir/reports/pmd")
-  // https://github.com/pmd/pmd/issues/876
-  ruleSets = []
-  ruleSetFiles = files("config/pmd/ruleset.xml")
-}
-
 jacocoTestReport {
   executionData(test, integration)
   reports {
-    xml.required = true
-    csv.required = false
+    xml.enabled = true
+    csv.enabled = false
     xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
   }
 }
@@ -139,6 +145,19 @@ sonarqube {
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
   }
 }
+
+def versions = [
+        junit           : '5.7.2',
+        junitPlatform   : '1.7.2',
+        lombok          : '1.18.20',
+        reformLogging   : '5.1.9',
+        jackson         : '2.13.3',
+        springBoot      : springBoot.class.package.implementationVersion,
+        springFramework : '5.3.20',
+        springCloud     : '2020.0.1',
+        springfoxSwagger: '3.0.0',
+        testcontainers  : '1.16.0'
+]
 
 // before committing a change, make sure task still works
 dependencyUpdates {
@@ -166,7 +185,6 @@ dependencyCheck {
   skipConfigurations = [
     "checkstyle",
     "compileOnly",
-    "pmd",
     "integrationTest",
     "functionalTest",
     "smokeTest",
@@ -182,18 +200,38 @@ repositories {
 }
 
 ext {
-  log4JVersion = "2.17.0"
+  log4JVersion = "2.17.1"
 }
 
+
+ext.libraries = [
+        junit5: [
+                "org.junit.jupiter:junit-jupiter-api:${versions.junit}",
+                "org.junit.jupiter:junit-jupiter-engine:${versions.junit}",
+                "org.junit.jupiter:junit-jupiter-params:${versions.junit}",
+                "org.junit.platform:junit-platform-commons:${versions.junitPlatform}",
+                "org.junit.platform:junit-platform-engine:${versions.junitPlatform}"
+        ]
+]
 dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+  implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc') {
+    exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
+  }
+  implementation group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
 
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.7'
 
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
+
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
 
   // temporary work around for dependency check
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
@@ -204,8 +242,8 @@ dependencies {
 
   implementation group: 'io.rest-assured', name: 'rest-assured'
 
-  annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
-  testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+  annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+  testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
   testImplementation(platform('org.junit:junit-bom:5.8.2'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
@@ -213,6 +251,25 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+  testImplementation group: 'org.mockito', name: 'mockito-inline', version: '3.11.1'
+  testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.9'
+  testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.9'
+  testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '3.1.0'
+
+  integrationTestImplementation sourceSets.main.runtimeClasspath
+  integrationTestImplementation sourceSets.test.runtimeClasspath
+  integrationTestImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
+  integrationTestImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+  integrationTestImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
+  integrationTestImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
+  integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.4.7'
+  integrationTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+
+  functionalTestImplementation sourceSets.main.runtimeClasspath
+  functionalTestImplementation sourceSets.test.runtimeClasspath
+  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.1'
+  functionalTestImplementation libraries.junit5
+
 }
 
 mainClassName = 'uk.gov.hmcts.reform.reports.Application'
@@ -227,6 +284,9 @@ bootJar {
 
 // Gradle 7.x issue, workaround from: https://github.com/gradle/gradle/issues/17236#issuecomment-894768083
 rootProject.tasks.named("processSmokeTestResources") {
+  duplicatesStrategy = 'include'
+}
+rootProject.tasks.named("processIntegrationTestResources") {
   duplicatesStrategy = 'include'
 }
 
