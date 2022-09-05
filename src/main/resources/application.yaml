@@ -42,6 +42,15 @@ spring:
 #            # silence the 'wall-of-text' - unnecessary exception throw about blob types
 #            non_contextual_creation: true
 
+notify:
+  api-key: ${NOTIFY_HMC_API_KEY:notify-gov-api-key}
+  email-templates:
+      error-template-id: ${NOTIFY_EMAIL_ERROR_TEMPLATE_ID:a60215dd-08bb-475e-956c-e97fdb7e448c}
+      awaiting-hearings-template-id: ${NOTIFY_EMAIL_AWAITING_ACTUALS_TEMPLATE_ID:a60215dd-08bb-475e-956c-e97fdb7e448c}
+  email-addresses:
+    error-email-address: ${NOTIFY_EMAIL_ERROR_ADDRESS}
+    awaiting-hearings-email-address: ${NOTIFY_EMAIL_AWAITING_ACTUALS_ADDRESS}
+
 azure:
   application-insights:
     web.enabled: false

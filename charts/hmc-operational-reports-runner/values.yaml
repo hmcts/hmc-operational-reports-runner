@@ -12,6 +12,16 @@ java:
       secrets:
         - name: AppInsightsInstrumentationKey
           alias: azure.application-insights.instrumentation-key
+        - name: notify-hmc-api-key
+          alias: NOTIFY_HMC_API_KEY
+        - name: notify-email-error-template-id
+          alias: NOTIFY_EMAIL_ERROR_TEMPLATE_ID
+        - name: notify-email-awaiting-actuals-template-id
+          alias: NOTIFY_EMAIL_AWAITING_ACTUALS_TEMPLATE_ID
+        - name: notify-email-error-address
+          alias: NOTIFY_EMAIL_ERROR_ADDRESS
+        - name: notify-email-address-actuals-address
+          alias: NOTIFY_EMAIL_AWAITING_ACTUALS_ADDRESS
   environment:
   #    TODO
   global:
