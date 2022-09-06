@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
+import uk.gov.hmcts.reform.hmc.reports.BaseTest;
 import uk.gov.hmcts.reform.hmc.repository.CaseHearingRequestRepository;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CaseHearingRequestRepositoryIT {
+class CaseHearingRequestRepositoryIT extends BaseTest {
 
     @Autowired
     CaseHearingRequestRepository caseHearingRequestRepository;
