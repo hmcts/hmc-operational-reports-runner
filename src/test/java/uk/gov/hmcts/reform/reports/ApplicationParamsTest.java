@@ -5,10 +5,10 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ApplicationParamsTest {
+class ApplicationParamsTest {
 
     private static final String VALUE = "test-value";
-    private ApplicationParams applicationParams = new ApplicationParams();
+    private final ApplicationParams applicationParams = new ApplicationParams();
 
 
     @Test

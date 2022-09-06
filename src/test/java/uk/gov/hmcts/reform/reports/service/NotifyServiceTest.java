@@ -1,18 +1,18 @@
 package uk.gov.hmcts.reform.reports.service;
 
 
-import java.io.File;
-import java.io.IOException;
-import javax.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import uk.gov.hmcts.reform.reports.ApplicationParams;
 import uk.gov.service.notify.NotificationClient;
 import uk.gov.service.notify.NotificationClientException;
 import uk.gov.service.notify.SendEmailResponse;
+
+import java.io.File;
+import java.io.IOException;
+import javax.validation.ValidationException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -27,9 +27,6 @@ import static org.mockito.Mockito.verify;
 class NotifyServiceTest {
 
     @Mock
-    private ApplicationParams appParams;
-
-    @Mock
     private NotificationClient notificationClient;
 
     private NotifyService notifyService;
@@ -37,7 +34,7 @@ class NotifyServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.notifyService = new NotifyService(appParams, notificationClient);
+        this.notifyService = new NotifyService(notificationClient);
     }
 
 
@@ -45,7 +42,6 @@ class NotifyServiceTest {
     @DisplayName("should fail when email addresses is null")
     void shouldThrowValidationExceptionWhenEmailAddressesIsNull() throws IOException {
         String templateId = "TestTemplateId";
-        given(appParams.getNotifyErrorTemplateId()).willReturn(templateId);
         String replyToId = "TestReplyToId";
 
         File temp = File.createTempFile("test.csv", ".csv");
@@ -67,8 +63,7 @@ class NotifyServiceTest {
 
 
         SendEmailResponse sendEmailResponse = mock(SendEmailResponse.class);
-        given(this.notificationClient.
-                  sendEmail(
+        given(this.notificationClient.sendEmail(
                       anyString(),
                       anyString(),
                       anyMap(),

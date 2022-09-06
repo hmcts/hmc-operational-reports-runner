@@ -18,8 +18,8 @@ import javax.inject.Named;
 @Named
 public class ApplicationExecutor {
 
-    private NotifyService notifyService;
-    private ApplicationParams appParams;
+    private final NotifyService notifyService;
+    private final ApplicationParams appParams;
 
     @Autowired
     public ApplicationExecutor(ApplicationParams appParams,
@@ -50,12 +50,14 @@ public class ApplicationExecutor {
         log.info("Hmc-Operational-Reports-Runner finished.");
     }
 
+    @SuppressWarnings("PMD")
     public String convertToCsv(String[] data) {
         return Stream.of(data)
             .map(this::escapeSpecialCharacters)
             .collect(Collectors.joining(","));
     }
 
+    @SuppressWarnings("PMD")
     public String escapeSpecialCharacters(String data) {
         String escapedData = data.replaceAll("\\R", " ");
         if (data.contains(",") || data.contains("\"") || data.contains("'")) {
