@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import javax.validation.ValidationException;
 
+import static uk.gov.service.notify.NotificationClient.prepareUpload;
+
 @Slf4j
 @Service
 public class NotifyService {
@@ -33,15 +35,15 @@ public class NotifyService {
     }
 
     @Retryable(value = {ConnectException.class}, backoff = @Backoff(delay = 1000, multiplier = 3))
-    public SendEmailResponse sendEmail(String templateId, String emailAddressId, File file, String replyToEmailAddress)
+    public SendEmailResponse sendEmail(String templateId, String emailAddressId, File csvFile, String replyToEmailAddress)
         throws IOException, NotificationClientException {
         if (emailAddressId == null) {
             throw new ValidationException("An email address is required to send notification");
         }
 
         HashMap<String, Object> personalisation = new HashMap<>();
-        personalisation.put("link_to_file", notificationClient.prepareUpload(FileUtils.readFileToByteArray(file),
-                                                                             true));
+        personalisation.put("link_to_file", prepareUpload(FileUtils.readFileToByteArray(csvFile),
+                                                          true));
         personalisation.put("date", new SimpleDateFormat(PATTERN, Locale.ENGLISH).format(new Date()));
 
         log.info("Invoking Notify Service");
