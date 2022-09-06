@@ -13,8 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 @Table(name = "contact_details")
@@ -22,9 +20,6 @@ import javax.persistence.Table;
 @Entity
 @Data
 @NoArgsConstructor
-@SecondaryTable(name = "hearing_party",
-    pkJoinColumns = {
-        @PrimaryKeyJoinColumn(name = "TECH_PARTY_ID")})
 public class ContactDetailsEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -4144280388835257685L;

@@ -33,9 +33,6 @@ import javax.persistence.Table;
 @Entity
 @Data
 @NoArgsConstructor
-@SecondaryTable(name = "HEARING",
-    pkJoinColumns = {
-        @PrimaryKeyJoinColumn(name = "hearing_id")})
 public class CaseHearingRequestEntity extends BaseEntity implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -3590902739857407292L;

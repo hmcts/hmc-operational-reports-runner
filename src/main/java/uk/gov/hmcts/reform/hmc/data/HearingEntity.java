@@ -36,9 +36,6 @@ import static java.util.stream.Collectors.toList;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@SecondaryTable(name = "CASE_HEARING_REQUEST",
-    pkJoinColumns = {
-        @PrimaryKeyJoinColumn(name = "CASE_HEARING_ID")})
 public class HearingEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 5837513924648640249L;

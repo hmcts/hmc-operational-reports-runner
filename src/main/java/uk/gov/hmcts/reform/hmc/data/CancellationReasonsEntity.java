@@ -20,9 +20,6 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@SecondaryTable(name = "CASE_HEARING_REQUEST",
-    pkJoinColumns = {
-        @PrimaryKeyJoinColumn(name = "CASE_HEARING_ID")})
 public class CancellationReasonsEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -2368217815246644116L;
