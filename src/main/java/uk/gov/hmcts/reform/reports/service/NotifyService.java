@@ -35,7 +35,10 @@ public class NotifyService {
     }
 
     @Retryable(value = {ConnectException.class}, backoff = @Backoff(delay = 1000, multiplier = 3))
-    public SendEmailResponse sendEmail(String templateId, String emailAddressId, File csvFile, String replyToEmailAddress)
+    public SendEmailResponse sendEmail(String templateId,
+                                       String emailAddressId,
+                                       File csvFile,
+                                       String replyToEmailAddress)
         throws IOException, NotificationClientException {
         if (emailAddressId == null) {
             throw new ValidationException("An email address is required to send notification");
