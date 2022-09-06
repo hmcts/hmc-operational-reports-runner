@@ -4,6 +4,7 @@ import groovy.util.logging.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
+import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.hmcts.reform.hmc.helper.GetHearingRequestToCsvMapper;
 import uk.gov.hmcts.reform.hmc.model.HearingRequestForCsv;
 import uk.gov.hmcts.reform.hmc.repository.CaseHearingRequestRepository;
@@ -24,6 +25,20 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
                                   GetHearingRequestToCsvMapper getHearingRequestToCsvMapper) {
         this.caseHearingRequestRepository = caseHearingRequestRepository;
         this.getHearingRequestToCsvMapper = getHearingRequestToCsvMapper;
+    }
+
+    @Override
+    public File createCsvFileForExceptions() {
+        List<String> statuses = List.of(HearingStatus.EXCEPTION.name());
+        return createCsvFileForGivenStatuses(statuses);
+    }
+
+    @Override
+    public File createCsvFileForGivenStatuses(List<String> statuses) {
+        List<CaseHearingRequestEntity> entities = getHearingsForStatuses(statuses);
+        List<HearingRequestForCsv> csvObjects = mapToCsvObjects(entities);
+        File csvFile = createCsvFile(csvObjects);
+        return csvFile;
     }
 
     @Override
