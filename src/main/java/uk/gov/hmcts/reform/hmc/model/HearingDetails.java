@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.hmc.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uk.gov.hmcts.reform.hmc.client.hmi.ListingReasonCode;
@@ -31,7 +30,6 @@ public class HearingDetails {
     private Boolean autoListFlag;
 
     @ListingReasonCodeEnumPattern(enumClass = ListingReasonCode.class, fieldName = "listingAutoChangeReasonCode")
-    @ApiModelProperty(allowableValues = "no-mapping-available")
     @Size(max = 70, message = ValidationError.LISTING_REASON_CODE_MAX_LENGTH)
     private String listingAutoChangeReasonCode;
 
