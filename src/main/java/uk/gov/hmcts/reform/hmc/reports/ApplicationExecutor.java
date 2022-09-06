@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.reports;
+package uk.gov.hmcts.reform.hmc.reports;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,11 @@ import javax.inject.Named;
 public class ApplicationExecutor {
 
     @Autowired
-    OperationalReportsService operationalReportsService;
+    private final OperationalReportsService operationalReportsService;
+
+    public ApplicationExecutor(OperationalReportsService operationalReportsService) {
+        this.operationalReportsService = operationalReportsService;
+    }
 
     public void execute() {
         log.info("Hmc-Operational-Reports-Runner started...");
