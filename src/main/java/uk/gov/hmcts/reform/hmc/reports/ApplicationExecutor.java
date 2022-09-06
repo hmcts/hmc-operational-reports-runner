@@ -12,11 +12,7 @@ import javax.inject.Named;
 public class ApplicationExecutor {
 
     @Autowired
-    private final OperationalReportsService operationalReportsService;
-
-    public ApplicationExecutor(OperationalReportsService operationalReportsService) {
-        this.operationalReportsService = operationalReportsService;
-    }
+    OperationalReportsService operationalReportsService;
 
     public void execute() {
         log.info("Hmc-Operational-Reports-Runner started...");

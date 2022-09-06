@@ -135,8 +135,8 @@ sonarqube {
     property "sonar.projectName", "Reform :: hmc-operational-reports-runner"
     property "sonar.projectKey", "uk.gov.hmcts.reform:hmc-operational-reports-runner"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
-    property "sonar.coverage.exclusions", "**/hmc/ApplicationBootstrap.java"
-    property "sonar.exclusions","**/hmc/ApplicationExecutor.java"
+    property "sonar.coverage.exclusions", "**/hmc/reports/ApplicationBootstrap.java"
+    property "sonar.exclusions","**/hmc/reports/ApplicationExecutor.java"
   }
 }
 
@@ -259,7 +259,7 @@ dependencies {
   functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.1'
 }
 
-mainClassName = 'uk.gov.hmcts.reform.reports.ApplicationBootstrap'
+mainClassName = 'uk.gov.hmcts.reform.hmc.reports.ApplicationBootstrap'
 
 bootJar {
   archiveFileName = "hmc-operational-reports-runner.jar"
