@@ -123,7 +123,7 @@ sonarqube {
     property "sonar.projectName", "Reform :: hmc-operational-reports-runner"
     property "sonar.projectKey", "uk.gov.hmcts.reform:hmc-operational-reports-runner"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
-    property "sonar.coverage.exclusions", "**/hmc/ApplicationBootstrap.java"
+    property "sonar.coverage.exclusions", "**/hmc/ApplicationBootstrap.java, **/hmc/ApplicationExecutor.java"
     property "sonar.exclusions","**/hmc/ApplicationExecutor.java"
   }
 }
