@@ -46,7 +46,6 @@ public class LinkedGroupDetails extends BaseEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "link_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private LinkType linkType;
 
     @Column(name = "reason_for_link", nullable = false)

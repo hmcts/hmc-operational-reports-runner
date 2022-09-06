@@ -52,7 +52,6 @@ public class HearingPartyEntity extends BaseEntity implements Serializable, Clon
 
     @Enumerated(EnumType.STRING)
     @Column(name = "party_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private PartyType partyType;
 
     @Column(name = "party_role_type")

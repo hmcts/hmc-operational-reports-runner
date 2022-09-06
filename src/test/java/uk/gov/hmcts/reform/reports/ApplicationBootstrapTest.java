@@ -7,8 +7,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.ApplicationArguments;
 
-import uk.gov.hmcts.reform.hmc.reports.ApplicationBootstrap;
-import uk.gov.hmcts.reform.hmc.reports.ApplicationExecutor;
+
+import uk.gov.hmcts.reform.hmc.ApplicationBootstrap;
+import uk.gov.hmcts.reform.hmc.ApplicationExecutor;
 
 import static org.mockito.Mockito.verify;
 

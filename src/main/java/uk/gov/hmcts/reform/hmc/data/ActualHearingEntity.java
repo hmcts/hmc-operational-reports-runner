@@ -45,7 +45,6 @@ public class ActualHearingEntity extends BaseEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "hearing_result_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private HearingResultType hearingResultType;
 
     @Column(name = "hearing_result_reason_type")

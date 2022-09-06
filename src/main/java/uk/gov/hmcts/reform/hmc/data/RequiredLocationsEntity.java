@@ -43,7 +43,6 @@ public class RequiredLocationsEntity extends BaseEntity implements Serializable 
     private String locationId;
 
     @Column(name = "location_level_type", columnDefinition = "locationType", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     @Enumerated(EnumType.STRING)
     private LocationType locationLevelType;
 

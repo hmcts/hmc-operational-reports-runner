@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.hmc.reports;
+package uk.gov.hmcts.reform.hmc;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
