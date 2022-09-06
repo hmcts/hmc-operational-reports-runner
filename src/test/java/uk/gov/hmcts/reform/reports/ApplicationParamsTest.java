@@ -23,7 +23,6 @@ public class ApplicationParamsTest {
         assertEquals(VALUE, applicationParams.getNotifyErrorTemplateId());
     }
 
-
     @Test
     void shouldGetNotifyAwaitingActualsTemplateId() {
         ReflectionTestUtils.setField(applicationParams, "notifyAwaitingHearingsTemplateId", VALUE);
@@ -40,5 +39,17 @@ public class ApplicationParamsTest {
     void shouldGetNotifyAwaitingActualsEmailAddress() {
         ReflectionTestUtils.setField(applicationParams, "notifyAwaitingHearingsEmailAddress", VALUE);
         assertEquals(VALUE, applicationParams.getNotifyAwaitingHearingsEmailAddress());
+    }
+
+    @Test
+    void shouldGetNotifyAwaitingActualsReplyToEmailAddress() {
+        ReflectionTestUtils.setField(applicationParams, "notifyAwaitingHearingsReplyToEmailAddress", VALUE);
+        assertEquals(VALUE, applicationParams.getNotifyAwaitingHearingsReplyToEmailAddress());
+    }
+
+    @Test
+    void shouldGetNotifyErrorReplyToEmailAddress() {
+        ReflectionTestUtils.setField(applicationParams, "notifyErrorReplyToEmailAddress", VALUE);
+        assertEquals(VALUE, applicationParams.getNotifyErrorReplyToEmailAddress());
     }
 }

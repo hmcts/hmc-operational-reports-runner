@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
@@ -16,9 +18,9 @@ import uk.gov.hmcts.reform.reports.ApplicationParams;
 import uk.gov.service.notify.NotificationClient;
 import uk.gov.service.notify.NotificationClientException;
 import uk.gov.service.notify.SendEmailResponse;
-
 import javax.validation.ValidationException;
 
+@Slf4j
 @Service
 public class NotifyService {
 
@@ -33,7 +35,8 @@ public class NotifyService {
     }
 
     @Retryable(value = {ConnectException.class}, backoff = @Backoff(delay = 1000, multiplier = 3))
-    public SendEmailResponse sendEmail(String templateId, String emailAddressId, File file) throws IOException, NotificationClientException {
+    public SendEmailResponse sendEmail(String templateId, String emailAddressId, File file, String replyToEmailAddress)
+        throws IOException, NotificationClientException {
         byte[] fileContents = FileUtils.readFileToByteArray(file);
         String pattern = "dd-MM-yyyy";
         String currentDate = new SimpleDateFormat(pattern).format(new Date());
@@ -42,17 +45,17 @@ public class NotifyService {
             throw new ValidationException("An email address is required to send notification");
         }
 
-        HashMap<String, Object> personalisation = new HashMap<String,Object>();
-        //personalisation.put("link_to_file", notificationClient.prepareUpload(fileContents, true));
-        personalisation.put("link_to_file", notificationClient.prepareUpload(fileContents));
+        HashMap<String, Object> personalisation = new HashMap<String, Object>();
+        personalisation.put("link_to_file", notificationClient.prepareUpload(fileContents, true));
         personalisation.put("date", currentDate);
 
+        log.info("Invoking Notify Service");
         return this.notificationClient.sendEmail(
             templateId,
             emailAddressId,
             personalisation,
-            "null",
-            "emailReplyToId"
+            StringUtils.EMPTY,
+            replyToEmailAddress
         );
     }
 

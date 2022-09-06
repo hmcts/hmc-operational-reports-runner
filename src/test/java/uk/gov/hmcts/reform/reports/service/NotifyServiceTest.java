@@ -46,11 +46,12 @@ class NotifyServiceTest {
     void shouldThrowValidationExceptionWhenEmailAddressesIsNull() throws IOException {
         String templateId = "TestTemplateId";
         given(appParams.getNotifyErrorTemplateId()).willReturn(templateId);
+        String replyToId = "TestReplyToId";
 
         File temp = File.createTempFile("test.csv", ".csv");
 
         ValidationException exception = assertThrows(ValidationException.class, () ->
-            this.notifyService.sendEmail(templateId, null, temp));
+            this.notifyService.sendEmail(templateId, null, temp, replyToId));
 
         assertThat(exception.getMessage(), is("An email address is required to send notification"));
     }
@@ -60,6 +61,7 @@ class NotifyServiceTest {
     void shouldInvokeNotificationClientSendNotification() throws NotificationClientException, IOException {
         String emailTemplateId = "TestEmailTemplateId";
         String templateId = "TestTemplateId";
+        String replyToId = "TestReplyToId";
 
         File temp = File.createTempFile("test.csv", ".csv");
 
@@ -75,7 +77,7 @@ class NotifyServiceTest {
                   ))
             .willReturn(sendEmailResponse);
 
-        SendEmailResponse response =  this.notifyService.sendEmail(templateId, emailTemplateId, temp);
+        SendEmailResponse response =  this.notifyService.sendEmail(templateId, emailTemplateId, temp, replyToId);
 
         assertNotNull(response);
         verify(this.notificationClient).sendEmail(
