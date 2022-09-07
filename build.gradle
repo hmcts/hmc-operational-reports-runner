@@ -3,7 +3,6 @@ plugins {
   id 'checkstyle'
   id 'idea'
   id 'jacoco'
-  id 'pmd'
   id 'com.github.ben-manes.versions' version '0.42.0'
   id 'io.freefair.lombok' version '6.5.1'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -109,15 +108,6 @@ tasks.withType(Checkstyle) {
   exclude '**/package-info.java'
 }
 
-pmd {
-  toolVersion = "6.41.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest]
-  reportsDir = file("$project.buildDir/reports/pmd")
-  // https://github.com/pmd/pmd/issues/876
-  ruleSets = []
-  ruleSetFiles = files("config/pmd/ruleset.xml")
-}
-
 jacocoTestReport {
   executionData(test, integration)
   reports {
@@ -179,7 +169,6 @@ dependencyCheck {
   skipConfigurations = [
     "checkstyle",
     "compileOnly",
-    "pmd",
     "integrationTest",
     "functionalTest",
     "smokeTest",
@@ -201,6 +190,7 @@ ext {
 dependencies {
 
   implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+  implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.4'
 
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'

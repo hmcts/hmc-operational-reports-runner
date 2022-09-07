@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
+import uk.gov.hmcts.reform.hmc.reports.BaseTest;
 import uk.gov.hmcts.reform.hmc.repository.CaseHearingRequestRepository;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CaseHearingRequestRepositoryIT {
+class CaseHearingRequestRepositoryIT extends BaseTest {
 
     @Autowired
     CaseHearingRequestRepository caseHearingRequestRepository;
@@ -21,7 +22,7 @@ class CaseHearingRequestRepositoryIT {
 
     @Test
     @Sql(scripts = {DELETE_HEARING_DATA_SCRIPT, GET_HEARINGS_DATA_SCRIPT})
-    void testGetCaseHearingDetails_StatusesListed() {
+    void getCaseHearingDetailsForStatusesListed() {
         List<String> statuses = List.of("LISTED");
         List<CaseHearingRequestEntity> entities = caseHearingRequestRepository
                 .getCaseHearingDetailsWithStatuses(statuses);
@@ -30,7 +31,7 @@ class CaseHearingRequestRepositoryIT {
 
     @Test
     @Sql(scripts = {DELETE_HEARING_DATA_SCRIPT, GET_HEARINGS_DATA_SCRIPT})
-    void testGetCaseHearingDetails_StatusesHearingRequested() {
+    void getCaseHearingDetailsForStatusesHearingRequested() {
         List<String> statuses = List.of("HEARING_REQUESTED");
         List<CaseHearingRequestEntity> entities = caseHearingRequestRepository
                 .getCaseHearingDetailsWithStatuses(statuses);
@@ -39,7 +40,7 @@ class CaseHearingRequestRepositoryIT {
 
     @Test
     @Sql(scripts = {DELETE_HEARING_DATA_SCRIPT, GET_HEARINGS_DATA_SCRIPT})
-    void testGetCaseHearingDetails_StatusesListedAndHearingRequested() {
+    void getCaseHearingDetailsForStatusesListedAndHearingRequested() {
         List<String> statuses = List.of("LISTED", "HEARING_REQUESTED");
         List<CaseHearingRequestEntity> entities = caseHearingRequestRepository
                 .getCaseHearingDetailsWithStatuses(statuses);
