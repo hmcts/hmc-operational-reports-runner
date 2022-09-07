@@ -6,8 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.ApplicationArguments;
-
-
 import uk.gov.hmcts.reform.hmc.ApplicationBootstrap;
 import uk.gov.hmcts.reform.hmc.ApplicationExecutor;
 

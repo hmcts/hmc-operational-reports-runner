@@ -22,7 +22,7 @@ class CaseHearingRequestRepositoryIT extends BaseTest {
 
     @Test
     @Sql(scripts = {DELETE_HEARING_DATA_SCRIPT, GET_HEARINGS_DATA_SCRIPT})
-    void testGetCaseHearingDetails_StatusesListed() {
+    void testGetCaseHearingDetailsStatusesListed() {
         List<String> statuses = List.of("LISTED");
         List<CaseHearingRequestEntity> entities = caseHearingRequestRepository
                 .getCaseHearingDetailsWithStatuses(statuses);
@@ -31,7 +31,7 @@ class CaseHearingRequestRepositoryIT extends BaseTest {
 
     @Test
     @Sql(scripts = {DELETE_HEARING_DATA_SCRIPT, GET_HEARINGS_DATA_SCRIPT})
-    void testGetCaseHearingDetails_StatusesHearingRequested() {
+    void testGetCaseHearingDetailsStatusesHearingRequested() {
         List<String> statuses = List.of("HEARING_REQUESTED");
         List<CaseHearingRequestEntity> entities = caseHearingRequestRepository
                 .getCaseHearingDetailsWithStatuses(statuses);
@@ -40,7 +40,7 @@ class CaseHearingRequestRepositoryIT extends BaseTest {
 
     @Test
     @Sql(scripts = {DELETE_HEARING_DATA_SCRIPT, GET_HEARINGS_DATA_SCRIPT})
-    void testGetCaseHearingDetails_StatusesListedAndHearingRequested() {
+    void testGetCaseHearingDetailsStatusesListedAndHearingRequested() {
         List<String> statuses = List.of("LISTED", "HEARING_REQUESTED");
         List<CaseHearingRequestEntity> entities = caseHearingRequestRepository
                 .getCaseHearingDetailsWithStatuses(statuses);
