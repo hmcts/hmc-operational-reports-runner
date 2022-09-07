@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.Type;
 import uk.gov.hmcts.reform.hmc.model.HearingResultType;
 
 import java.io.Serializable;
@@ -45,7 +44,6 @@ public class ActualHearingEntity extends BaseEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "hearing_result_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private HearingResultType hearingResultType;
 
     @Column(name = "hearing_result_reason_type")

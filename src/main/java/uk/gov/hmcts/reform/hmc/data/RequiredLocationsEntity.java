@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.hmc.data;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import uk.gov.hmcts.reform.hmc.model.LocationType;
 
 import java.io.Serializable;
@@ -43,7 +42,6 @@ public class RequiredLocationsEntity extends BaseEntity implements Serializable 
     private String locationId;
 
     @Column(name = "location_level_type", columnDefinition = "locationType", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     @Enumerated(EnumType.STRING)
     private LocationType locationLevelType;
 

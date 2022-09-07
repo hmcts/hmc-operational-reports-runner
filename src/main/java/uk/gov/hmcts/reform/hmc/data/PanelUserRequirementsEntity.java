@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.hmc.data;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import uk.gov.hmcts.reform.hmc.model.RequirementType;
 
 import java.io.Serializable;
@@ -51,7 +50,6 @@ public class PanelUserRequirementsEntity extends BaseEntity implements Serializa
 
     @Enumerated(EnumType.STRING)
     @Column(name = "requirement_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private RequirementType requirementType;
 
     public PanelUserRequirementsEntity(PanelUserRequirementsEntity original) {

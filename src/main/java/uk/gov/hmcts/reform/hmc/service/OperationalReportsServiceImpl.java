@@ -1,6 +1,6 @@
 package uk.gov.hmcts.reform.hmc.service;
 
-import groovy.util.logging.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
@@ -30,20 +30,33 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
     @Override
     public File createCsvFileForExceptions() {
         List<String> statuses = List.of(HearingStatus.EXCEPTION.name());
-        return createCsvFileForGivenStatuses(statuses);
+        List<HearingRequestForCsv> hearingRequestForCsvs = createCsvObjectsForGivenStatuses(statuses);
+        return createCsvFile(hearingRequestForCsvs);
     }
 
     @Override
-    public File createCsvFileForGivenStatuses(List<String> statuses) {
+    public File createCsvFileForAwaitingActuals() {
+        List<String> statuses = List.of(HearingStatus.LISTED.name(), HearingStatus.UPDATE_REQUESTED.name(),
+                                            HearingStatus.UPDATE_SUBMITTED.name());
+        List<HearingRequestForCsv> hearingRequestForCsvs = createCsvObjectsForGivenStatuses(statuses);
+        // filter
+
+        return createCsvFile(hearingRequestForCsvs);
+    }
+
+    @Override
+    public List<HearingRequestForCsv> createCsvObjectsForGivenStatuses(List<String> statuses) {
         List<CaseHearingRequestEntity> entities = getHearingsForStatuses(statuses);
-        List<HearingRequestForCsv> csvObjects = mapToCsvObjects(entities);
-        File csvFile = createCsvFile(csvObjects);
-        return csvFile;
+        log.info("Found {} caseHearingRequests.", entities.size());
+        return mapToCsvObjects(entities);
     }
 
     @Override
     public List<CaseHearingRequestEntity> getHearingsForStatuses(List<String> statuses) {
-        return caseHearingRequestRepository.getCaseHearingDetailsWithStatuses(statuses);
+        List<CaseHearingRequestEntity> entities =
+                caseHearingRequestRepository.getCaseHearingDetailsWithStatuses(statuses);
+        log.info("Found {} caseHearingRequests.", entities.size());
+        return entities;
     }
 
     @Override
@@ -52,6 +65,7 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
         caseHearings.stream().forEach(requestEntity ->
             csvRequests.add(getHearingRequestToCsvMapper.toHearingRequestForCsv(requestEntity))
         );
+        log.info("Created {} CSV Request bjects.", csvRequests.size());
         return csvRequests;
     }
 

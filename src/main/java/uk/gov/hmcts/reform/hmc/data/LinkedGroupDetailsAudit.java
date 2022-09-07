@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.hmc.data;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.Type;
 import uk.gov.hmcts.reform.hmc.domain.model.enums.LinkType;
 
 import java.time.LocalDateTime;
@@ -43,7 +42,6 @@ public class LinkedGroupDetailsAudit extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "link_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private LinkType linkType;
 
     @Column(name = "request_id", nullable = false)

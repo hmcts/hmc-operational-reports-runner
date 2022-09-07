@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.hmc.data;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import uk.gov.hmcts.reform.hmc.model.CaseCategoryType;
 
 import java.io.Serializable;
@@ -40,7 +39,6 @@ public class CaseCategoriesEntity extends BaseEntity implements Serializable {
     private Long id;
 
     @Column(name = "case_category_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     @Enumerated(EnumType.STRING)
     private CaseCategoryType categoryType;
 

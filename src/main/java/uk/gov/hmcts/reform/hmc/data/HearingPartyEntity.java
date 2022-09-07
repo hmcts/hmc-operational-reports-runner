@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.hmc.data;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import uk.gov.hmcts.reform.hmc.model.PartyType;
 
 import java.io.Serializable;
@@ -52,7 +51,6 @@ public class HearingPartyEntity extends BaseEntity implements Serializable, Clon
 
     @Enumerated(EnumType.STRING)
     @Column(name = "party_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private PartyType partyType;
 
     @Column(name = "party_role_type")

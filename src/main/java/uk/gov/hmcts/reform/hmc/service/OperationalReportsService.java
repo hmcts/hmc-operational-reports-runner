@@ -10,7 +10,9 @@ public interface OperationalReportsService {
 
     File createCsvFileForExceptions();
 
-    File createCsvFileForGivenStatuses(List<String> statuses);
+    File createCsvFileForAwaitingActuals();
+
+    List<HearingRequestForCsv> createCsvObjectsForGivenStatuses(List<String> statuses);
 
     List<CaseHearingRequestEntity> getHearingsForStatuses(List<String> statuses);
 

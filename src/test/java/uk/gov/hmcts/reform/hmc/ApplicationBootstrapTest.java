@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.reports;
+package uk.gov.hmcts.reform.hmc;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

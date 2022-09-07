@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-import org.hibernate.annotations.Type;
 import uk.gov.hmcts.reform.hmc.domain.model.enums.LinkType;
 
 import java.io.Serializable;
@@ -46,7 +45,6 @@ public class LinkedGroupDetails extends BaseEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "link_type", nullable = false)
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private LinkType linkType;
 
     @Column(name = "reason_for_link", nullable = false)

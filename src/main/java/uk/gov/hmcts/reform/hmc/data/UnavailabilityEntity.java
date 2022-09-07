@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.hmc.data;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import uk.gov.hmcts.reform.hmc.model.DayOfWeekUnAvailableType;
 import uk.gov.hmcts.reform.hmc.model.DayOfWeekUnavailable;
 
@@ -43,12 +42,10 @@ public class UnavailabilityEntity extends BaseEntity  implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "day_of_week_unavailable")
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private DayOfWeekUnavailable dayOfWeekUnavailable;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "day_of_week_unavailable_type")
-    @Type(type = "uk.gov.hmcts.reform.hmc.model.PostgresEnumType")
     private DayOfWeekUnAvailableType dayOfWeekUnavailableType;
 
     @Column(name = "start_date")
