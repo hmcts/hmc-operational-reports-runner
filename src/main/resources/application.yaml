@@ -37,8 +37,10 @@ spring:
   jpa:
     database: postgresql
     show-sql: false
+    generate-ddl: true
+
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         jdbc:
