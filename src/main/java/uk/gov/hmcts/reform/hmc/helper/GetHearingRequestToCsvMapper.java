@@ -27,7 +27,7 @@ public class GetHearingRequestToCsvMapper {
             HearingResponseEntity latestHearingResponse =
                     requestEntity.getHearing().getLatestHearingResponse().get();
             if (null != latestHearingResponse.getHearingResponseId()) {
-                hearingRequestForCsv.setListAssistId(latestHearingResponse.getHearingResponseId().toString());
+                hearingRequestForCsv.setListAssistId(latestHearingResponse.getListingTransactionId());
             }
             if (null != latestHearingResponse.getRequestTimeStamp()) {
                 hearingRequestForCsv.setHearingResponseReceivedDateTime(

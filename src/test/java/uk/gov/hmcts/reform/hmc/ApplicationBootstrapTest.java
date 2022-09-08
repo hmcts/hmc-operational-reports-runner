@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.reports;
+package uk.gov.hmcts.reform.hmc;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -6,8 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.ApplicationArguments;
-import uk.gov.hmcts.reform.hmc.ApplicationBootstrap;
-import uk.gov.hmcts.reform.hmc.ApplicationExecutor;
 
 import static org.mockito.Mockito.verify;
 
