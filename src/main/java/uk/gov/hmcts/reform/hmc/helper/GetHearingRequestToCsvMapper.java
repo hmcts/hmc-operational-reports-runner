@@ -6,6 +6,8 @@ import uk.gov.hmcts.reform.hmc.data.HearingDayDetailsEntity;
 import uk.gov.hmcts.reform.hmc.data.HearingResponseEntity;
 import uk.gov.hmcts.reform.hmc.model.HearingRequestForCsv;
 
+import java.util.Optional;
+
 @Component
 public class GetHearingRequestToCsvMapper {
 
@@ -23,9 +25,9 @@ public class GetHearingRequestToCsvMapper {
 
     private void loadHearingResponseValues(CaseHearingRequestEntity requestEntity,
                                            HearingRequestForCsv hearingRequestForCsv) {
-        if (requestEntity.getHearing().getLatestHearingResponse().isPresent()) {
-            HearingResponseEntity latestHearingResponse =
-                    requestEntity.getHearing().getLatestHearingResponse().get();
+        Optional<HearingResponseEntity> hearingResponseEntity = requestEntity.getHearing().getLatestHearingResponse();
+        if (hearingResponseEntity.isPresent()) {
+            HearingResponseEntity latestHearingResponse = hearingResponseEntity.get();
             if (null != latestHearingResponse.getHearingResponseId()) {
                 hearingRequestForCsv.setListAssistId(latestHearingResponse.getListingTransactionId());
             }
@@ -33,9 +35,10 @@ public class GetHearingRequestToCsvMapper {
                 hearingRequestForCsv.setHearingResponseReceivedDateTime(
                         latestHearingResponse.getRequestTimeStamp().toString());
             }
-            if (latestHearingResponse.getEarliestHearingDayDetails().isPresent()) {
-                HearingDayDetailsEntity hearingDayDetails = latestHearingResponse.getEarliestHearingDayDetails().get();
-                hearingRequestForCsv.setFirstScheduledHearingDate(hearingDayDetails.getStartDateTime().toString());
+            Optional<HearingDayDetailsEntity> hearingDayDetails = latestHearingResponse.getEarliestHearingDayDetails();
+            if (hearingDayDetails.isPresent()) {
+                HearingDayDetailsEntity earliestHearingDayDetails = hearingDayDetails.get();
+                hearingRequestForCsv.setFirstScheduledHearingDate(earliestHearingDayDetails.getStartDateTime().toString());
             }
         }
     }
