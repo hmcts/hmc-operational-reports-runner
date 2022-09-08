@@ -24,17 +24,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 @Table(name = "hearing_response")
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@SecondaryTable(name = "hearing",
-    pkJoinColumns = {
-        @PrimaryKeyJoinColumn(name = "hearing_id")})
 public class HearingResponseEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -3354306831150920356L;
@@ -53,9 +48,6 @@ public class HearingResponseEntity extends BaseEntity implements Serializable {
 
     @Column(name = "listing_case_status", nullable = false)
     private String listingCaseStatus;
-
-    @Column(name = "list_assist_transaction_id", nullable = false)
-    private String listAssistTransactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hearing_id")

@@ -12,17 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 @Table(name = "hearing_attendee_details")
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@SecondaryTable(name = "HEARING_DAY_DETAILS",
-    pkJoinColumns = {
-        @PrimaryKeyJoinColumn(name = "hearing_day_id")})
 public class HearingAttendeeDetailsEntity extends BaseEntity implements Serializable  {
 
     private static final long serialVersionUID = -2090910835541795958L;

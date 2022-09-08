@@ -25,8 +25,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PreUpdate;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -36,9 +34,6 @@ import static java.util.stream.Collectors.toList;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@SecondaryTable(name = "CASE_HEARING_REQUEST",
-    pkJoinColumns = {
-        @PrimaryKeyJoinColumn(name = "CASE_HEARING_ID")})
 public class HearingEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 5837513924648640249L;

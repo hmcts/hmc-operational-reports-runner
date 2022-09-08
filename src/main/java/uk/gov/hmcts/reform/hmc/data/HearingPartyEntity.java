@@ -20,8 +20,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 @Table(name = "hearing_party")
@@ -29,9 +27,6 @@ import javax.persistence.Table;
 @Entity
 @Data
 @NoArgsConstructor
-@SecondaryTable(name = "CASE_HEARING_REQUEST",
-    pkJoinColumns = {
-        @PrimaryKeyJoinColumn(name = "CASE_HEARING_ID")})
 public class HearingPartyEntity extends BaseEntity implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -1378995263864233869L;

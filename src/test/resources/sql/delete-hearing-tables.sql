@@ -5,7 +5,6 @@ DELETE FROM actual_hearing_day_pauses;
 DELETE FROM actual_hearing_day;
 DELETE FROM actual_hearing;
 DELETE FROM non_standard_durations;
-DELETE FROM required_locations;
 DELETE FROM required_facilities;
 DELETE FROM hearing_channels;
 DELETE FROM case_categories;
@@ -38,5 +37,3 @@ DELETE FROM linked_hearing_details_audit;
 DELETE FROM linked_group_details_audit;
 DELETE FROM hearing;
 DELETE FROM linked_group_details;
-
-ALTER SEQUENCE public.case_hearing_id_seq RESTART WITH 1;
