@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.hmc.reports;
+package uk.gov.hmcts.reform.hmc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.ApplicationRunner;
