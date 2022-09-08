@@ -1,33 +1,19 @@
 package uk.gov.hmcts.reform.hmc.utils;
 
 import uk.gov.hmcts.reform.hmc.client.hmi.ListingReasonCode;
-import uk.gov.hmcts.reform.hmc.data.ActualAttendeeIndividualDetailEntity;
-import uk.gov.hmcts.reform.hmc.data.ActualHearingDayEntity;
-import uk.gov.hmcts.reform.hmc.data.ActualHearingDayPausesEntity;
-import uk.gov.hmcts.reform.hmc.data.ActualHearingPartyEntity;
-import uk.gov.hmcts.reform.hmc.data.ActualPartyRelationshipDetailEntity;
 import uk.gov.hmcts.reform.hmc.data.CaseCategoriesEntity;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
-import uk.gov.hmcts.reform.hmc.data.ContactDetailsEntity;
-import uk.gov.hmcts.reform.hmc.data.HearingAttendeeDetailsEntity;
 import uk.gov.hmcts.reform.hmc.data.HearingChannelsEntity;
-import uk.gov.hmcts.reform.hmc.data.HearingDayDetailsEntity;
-import uk.gov.hmcts.reform.hmc.data.HearingDayPanelEntity;
 import uk.gov.hmcts.reform.hmc.data.HearingPartyEntity;
-import uk.gov.hmcts.reform.hmc.data.HearingResponseEntity;
-import uk.gov.hmcts.reform.hmc.data.IndividualDetailEntity;
 import uk.gov.hmcts.reform.hmc.data.NonStandardDurationsEntity;
 import uk.gov.hmcts.reform.hmc.data.OrganisationDetailEntity;
 import uk.gov.hmcts.reform.hmc.data.PanelAuthorisationRequirementsEntity;
 import uk.gov.hmcts.reform.hmc.data.PanelRequirementsEntity;
 import uk.gov.hmcts.reform.hmc.data.PanelSpecialismsEntity;
 import uk.gov.hmcts.reform.hmc.data.PanelUserRequirementsEntity;
-import uk.gov.hmcts.reform.hmc.data.PartyRelationshipDetailsEntity;
-import uk.gov.hmcts.reform.hmc.data.ReasonableAdjustmentsEntity;
 import uk.gov.hmcts.reform.hmc.data.RequiredFacilitiesEntity;
 import uk.gov.hmcts.reform.hmc.data.RequiredLocationsEntity;
 import uk.gov.hmcts.reform.hmc.data.UnavailabilityEntity;
-import uk.gov.hmcts.reform.hmc.domain.model.enums.ListAssistCaseStatus;
 import uk.gov.hmcts.reform.hmc.model.CaseCategoryType;
 import uk.gov.hmcts.reform.hmc.model.DayOfWeekUnAvailableType;
 import uk.gov.hmcts.reform.hmc.model.DayOfWeekUnavailable;
@@ -36,7 +22,6 @@ import uk.gov.hmcts.reform.hmc.model.PartyType;
 import uk.gov.hmcts.reform.hmc.model.RequirementType;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
