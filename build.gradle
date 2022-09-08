@@ -125,8 +125,8 @@ sonarqube {
     property "sonar.projectName", "Reform :: hmc-operational-reports-runner"
     property "sonar.projectKey", "uk.gov.hmcts.reform:hmc-operational-reports-runner"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
-    property "sonar.coverage.exclusions", "**/hmc/ApplicationBootstrap.java"
-    property "sonar.exclusions","**/hmc/ApplicationExecutor.java"
+    property "sonar.coverage.exclusions", "**/reports/ApplicationBootstrap.java"
+    property "sonar.exclusions","**/reports/ApplicationExecutor.java"
   }
 }
 
@@ -181,6 +181,9 @@ repositories {
   mavenLocal()
   mavenCentral()
   maven { url 'https://jitpack.io' }
+  maven {
+    url  "https://dl.bintray.com/gov-uk-notify/maven"
+  }
 }
 
 ext {
@@ -199,10 +202,14 @@ dependencies {
   implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc') {
     exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
   }
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
 
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.7'
+  implementation group: 'org.springframework.retry', name: 'spring-retry'
+
+  implementation 'uk.gov.service.notify:notifications-java-client:3.17.3-RELEASE'
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
 
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
@@ -249,7 +256,7 @@ dependencies {
   functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.1'
 }
 
-mainClassName = 'uk.gov.hmcts.reform.hmc.ApplicationBootstrap'
+mainClassName = 'uk.gov.hmcts.reform.reports.ApplicationBootstrap'
 
 bootJar {
   archiveFileName = "hmc-operational-reports-runner.jar"
