@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.reports;
+package uk.gov.hmcts.reform.hmc;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -17,7 +17,6 @@ public class ApplicationParams {
     private String notifyErrorEmailAddress;
     @Value("${notify.email-templates.error.reply-to-email-address}")
     private String notifyErrorReplyToEmailAddress;
-
     @Value("${notify.email-templates.awaiting-actuals.template-id}")
     private String notifyAwaitingHearingsTemplateId;
     @Value("${notify.email-templates.awaiting-actuals.email-address}")

@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.reports.service;
+package uk.gov.hmcts.reform.hmc.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;

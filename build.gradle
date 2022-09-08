@@ -125,8 +125,8 @@ sonarqube {
     property "sonar.projectName", "Reform :: hmc-operational-reports-runner"
     property "sonar.projectKey", "uk.gov.hmcts.reform:hmc-operational-reports-runner"
     property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
-    property "sonar.coverage.exclusions", "**/reports/ApplicationBootstrap.java"
-    property "sonar.exclusions","**/reports/ApplicationExecutor.java"
+    property "sonar.coverage.exclusions", "**/hmc/ApplicationBootstrap.java"
+    property "sonar.exclusions","**/hmc/ApplicationExecutor.java"
   }
 }
 
@@ -192,6 +192,8 @@ ext {
 
 dependencies {
 
+  implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+
   implementation group: 'javax.inject', name: 'javax.inject', version: '1'
   implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.4'
 
@@ -256,7 +258,7 @@ dependencies {
   functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.1'
 }
 
-mainClassName = 'uk.gov.hmcts.reform.reports.ApplicationBootstrap'
+mainClassName = 'uk.gov.hmcts.reform.hmc.ApplicationBootstrap'
 
 bootJar {
   archiveFileName = "hmc-operational-reports-runner.jar"
