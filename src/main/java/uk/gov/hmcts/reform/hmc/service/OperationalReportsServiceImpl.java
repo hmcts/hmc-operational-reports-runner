@@ -1,6 +1,8 @@
 package uk.gov.hmcts.reform.hmc.service;
 
-import groovy.util.logging.Slf4j;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
@@ -9,7 +11,6 @@ import uk.gov.hmcts.reform.hmc.helper.GetHearingRequestToCsvMapper;
 import uk.gov.hmcts.reform.hmc.model.HearingRequestForCsv;
 import uk.gov.hmcts.reform.hmc.repository.CaseHearingRequestRepository;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,37 +29,51 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
     }
 
     @Override
-    public File createCsvFileForExceptions() {
+    public String createCsvDataForExceptions() {
         List<String> statuses = List.of(HearingStatus.EXCEPTION.name());
-        return createCsvFileForGivenStatuses(statuses);
+        List<HearingRequestForCsv> hearingRequestForCsvs = createCsvObjectsForGivenStatuses(statuses);
+        return createCsvData(hearingRequestForCsvs);
     }
 
     @Override
-    public File createCsvFileForGivenStatuses(List<String> statuses) {
+    public List<HearingRequestForCsv> createCsvObjectsForGivenStatuses(List<String> statuses) {
         List<CaseHearingRequestEntity> entities = getHearingsForStatuses(statuses);
-        List<HearingRequestForCsv> csvObjects = mapToCsvObjects(entities);
-        File csvFile = createCsvFile(csvObjects);
-        return csvFile;
+        log.info("Found {} caseHearingRequests.", entities.size());
+        return mapToCsvObjects(entities);
     }
 
     @Override
     public List<CaseHearingRequestEntity> getHearingsForStatuses(List<String> statuses) {
-        return caseHearingRequestRepository.getCaseHearingDetailsWithStatuses(statuses);
+        List<CaseHearingRequestEntity> entities =
+                caseHearingRequestRepository.getCaseHearingDetailsWithStatuses(statuses);
+        log.info("Found {} caseHearingRequests.", entities.size());
+        return entities;
     }
 
     @Override
     public List<HearingRequestForCsv> mapToCsvObjects(List<CaseHearingRequestEntity> caseHearings) {
         List<HearingRequestForCsv> csvRequests = new ArrayList<>();
         caseHearings.stream().forEach(requestEntity ->
-            csvRequests.add(getHearingRequestToCsvMapper.toHearingRequestForCsv(requestEntity))
+                csvRequests.add(getHearingRequestToCsvMapper.toHearingRequestForCsv(requestEntity))
         );
+        log.info("Created {} CSV Request objects.", csvRequests.size());
         return csvRequests;
     }
 
     @Override
-    public File createCsvFile(List<HearingRequestForCsv> hearingRequestForCsvs) {
+    public String createCsvData(List<HearingRequestForCsv> hearingRequestForCsvs) {
+        final CsvMapper csvMapper = new CsvMapper();
+        final CsvSchema schemaWithHeader = csvMapper.schemaFor(HearingRequestForCsv.class)
+                .withHeader();
+        StringBuilder sb = new StringBuilder();
+        try {
+            sb.append(csvMapper.writer(schemaWithHeader).writeValueAsString(hearingRequestForCsvs));
+        } catch (Exception e) {
+            log.error("Exception converting to CSV");
+        }
 
-        return null;
+        log.info(sb.toString());
+        return sb.toString();
     }
 
 
