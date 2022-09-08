@@ -38,7 +38,8 @@ public class GetHearingRequestToCsvMapper {
             Optional<HearingDayDetailsEntity> hearingDayDetails = latestHearingResponse.getEarliestHearingDayDetails();
             if (hearingDayDetails.isPresent()) {
                 HearingDayDetailsEntity earliestHearingDayDetails = hearingDayDetails.get();
-                hearingRequestForCsv.setFirstScheduledHearingDate(earliestHearingDayDetails.getStartDateTime().toString());
+                hearingRequestForCsv.setFirstScheduledHearingDate(earliestHearingDayDetails
+                                                                      .getStartDateTime().toString());
             }
         }
     }
