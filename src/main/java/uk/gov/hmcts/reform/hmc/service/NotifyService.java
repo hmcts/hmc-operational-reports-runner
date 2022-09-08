@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.service.notify.NotificationClient;
 import uk.gov.service.notify.NotificationClientException;
 import uk.gov.service.notify.SendEmailResponse;
@@ -38,18 +39,16 @@ public class NotifyService {
     public SendEmailResponse sendEmail(String templateId,
                                        String emailAddressId,
                                        File csvFile,
-                                       String replyToEmailAddress)
+                                       String replyToEmailAddress, String status)
         throws IOException, NotificationClientException {
         if (emailAddressId == null) {
             throw new ValidationException("An email address is required to send notification");
         }
 
         HashMap<String, Object> personalisation = new HashMap<>();
-        personalisation.put("link_to_file", prepareUpload(FileUtils.readFileToByteArray(csvFile),
-                                                          true));
-        personalisation.put("date", new SimpleDateFormat(PATTERN, Locale.ENGLISH).format(new Date()));
+        addPersonalisation(csvFile, status, personalisation);
 
-        log.info("Invoking Notify Service");
+        log.info("Invoking Notify Service for " + status);
         return this.notificationClient.sendEmail(
             templateId,
             emailAddressId,
@@ -59,4 +58,19 @@ public class NotifyService {
         );
     }
 
+    private void addPersonalisation(File csvFile, String status, HashMap<String, Object> personalisation)
+        throws NotificationClientException, IOException {
+        personalisation.put("link_to_file", prepareUpload(
+            FileUtils.readFileToByteArray(csvFile),
+            true
+        ));
+        personalisation.put("date", new SimpleDateFormat(PATTERN, Locale.ENGLISH).format(new Date()));
+        if (status.equalsIgnoreCase(HearingStatus.EXCEPTION.name())) {
+            personalisation.put("subjectStatus", status);
+            personalisation.put("bodyStatus", "an " + status.toLowerCase());
+        } else if (status.equalsIgnoreCase("awaiting actuals")) {
+            personalisation.put("subjectStatus", status.toUpperCase(Locale.ROOT));
+            personalisation.put("bodyStatus", "an awaiting hearing actuals");
+        }
+    }
 }

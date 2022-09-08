@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.service.notify.NotificationClient;
 import uk.gov.service.notify.NotificationClientException;
 import uk.gov.service.notify.SendEmailResponse;
@@ -47,7 +48,8 @@ class NotifyServiceTest {
         File temp = File.createTempFile("test.csv", ".csv");
 
         ValidationException exception = assertThrows(ValidationException.class, () ->
-            this.notifyService.sendEmail(templateId, null, temp, replyToId));
+            this.notifyService.sendEmail(templateId, null, temp, replyToId,
+                                         HearingStatus.EXCEPTION.name()));
 
         assertThat(exception.getMessage(), is("An email address is required to send notification"));
     }
@@ -72,7 +74,8 @@ class NotifyServiceTest {
                   ))
             .willReturn(sendEmailResponse);
 
-        SendEmailResponse response =  this.notifyService.sendEmail(templateId, emailTemplateId, temp, replyToId);
+        SendEmailResponse response =  this.notifyService.sendEmail(templateId, emailTemplateId, temp, replyToId,
+                                                                   HearingStatus.EXCEPTION.name());
 
         assertNotNull(response);
         verify(this.notificationClient).sendEmail(

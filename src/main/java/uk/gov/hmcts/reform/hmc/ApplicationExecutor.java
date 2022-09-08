@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.hmc;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.hmcts.reform.hmc.service.NotifyService;
 import uk.gov.hmcts.reform.hmc.service.OperationalReportsService;
 import uk.gov.service.notify.NotificationClientException;
@@ -39,7 +40,7 @@ public class ApplicationExecutor {
         log.info("CSV Data for Exceptions successfully created.");
         log.info("Invoking Notify Service for Exceptions report...");
         notifyService.sendEmail(appParams.getNotifyErrorTemplateId(), appParams.getNotifyErrorEmailAddress(),
-                                report, appParams.getNotifyErrorReplyToEmailAddress()
+                                report, appParams.getNotifyErrorReplyToEmailAddress(), HearingStatus.EXCEPTION.name()
         );
         log.info("Successfully invoked Notify Service for Exceptions report.");
     }

@@ -15,13 +15,17 @@ import uk.gov.hmcts.reform.hmc.repository.CaseHearingRequestRepository;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Service
 public class OperationalReportsServiceImpl implements OperationalReportsService {
 
+    private static final String PATTERN = "dd-MM-yyyy";
     private CaseHearingRequestRepository caseHearingRequestRepository;
     private GetHearingRequestToCsvMapper getHearingRequestToCsvMapper;
 
@@ -83,7 +87,8 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
 
     @Override
     public File generateFileFromString(String data) throws IOException {
-        File csvOutputFile = new File("test.csv");
+        File csvOutputFile = new File(new SimpleDateFormat(PATTERN, Locale.ENGLISH)
+                                          .format(new Date()) + ".csv");
         FileUtils.writeStringToFile(csvOutputFile, data, Charset.defaultCharset());
         return csvOutputFile;
     }
