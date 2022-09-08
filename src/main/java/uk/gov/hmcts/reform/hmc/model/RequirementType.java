@@ -17,9 +17,4 @@ public enum RequirementType {
         this.label = label;
     }
 
-    public static RequirementType getByLabel(String label) {
-        return Arrays.stream(RequirementType.values())
-            .filter(eachRequirement -> eachRequirement.toString().toLowerCase(Locale.ROOT)
-                .equals(label.toLowerCase(Locale.ROOT))).findAny().orElse(null);
-    }
 }
