@@ -55,8 +55,8 @@ class NotifyServiceTest {
     }
 
     @Test
-    @DisplayName("should invoke notification client sendEmail")
-    void shouldInvokeNotificationClientSendNotification() throws NotificationClientException, IOException {
+    @DisplayName("should invoke notification client sendEmail for Exception status")
+    void shouldInvokeNotificationClientSendNotificationException() throws NotificationClientException, IOException {
         String emailTemplateId = "TestEmailTemplateId";
         String templateId = "TestTemplateId";
         String replyToId = "TestReplyToId";
@@ -76,6 +76,39 @@ class NotifyServiceTest {
 
         SendEmailResponse response =  this.notifyService.sendEmail(templateId, emailTemplateId, temp, replyToId,
                                                                    HearingStatus.EXCEPTION.name());
+
+        assertNotNull(response);
+        verify(this.notificationClient).sendEmail(
+            anyString(),
+            anyString(),
+            anyMap(),
+            anyString(),
+            anyString()
+        );
+    }
+
+    @Test
+    @DisplayName("should invoke notification client sendEmail for awaiting actuals status")
+    void shouldInvokeNotificationClientSendNotificationAwaitingActuals() throws NotificationClientException, IOException {
+        String emailTemplateId = "TestEmailTemplateId";
+        String templateId = "TestTemplateId";
+        String replyToId = "TestReplyToId";
+
+        File temp = File.createTempFile("test.csv", ".csv");
+
+
+        SendEmailResponse sendEmailResponse = mock(SendEmailResponse.class);
+        given(this.notificationClient.sendEmail(
+            anyString(),
+            anyString(),
+            anyMap(),
+            anyString(),
+            anyString()
+        ))
+            .willReturn(sendEmailResponse);
+
+        SendEmailResponse response =  this.notifyService.sendEmail(templateId, emailTemplateId, temp, replyToId,
+                                                                   "awaiting actuals");
 
         assertNotNull(response);
         verify(this.notificationClient).sendEmail(
