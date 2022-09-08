@@ -146,10 +146,6 @@ public class HearingEntity extends BaseEntity implements Serializable {
         return hearingStatus;
     }
 
-    public Integer getNextRequestVersion() {
-        return getLatestRequestVersion() + 1;
-    }
-
     public boolean hasHearingResponses() {
         return getHearingResponses() != null && !getHearingResponses().isEmpty();
     }

@@ -47,11 +47,4 @@ public class PanelUserRequirementsEntity extends BaseEntity implements Serializa
     @Column(name = "requirement_type", nullable = false)
     private RequirementType requirementType;
 
-    public PanelUserRequirementsEntity(PanelUserRequirementsEntity original) {
-        this.id = original.id;
-        this.caseHearing = original.caseHearing;
-        this.judicialUserId = original.judicialUserId;
-        this.userType = original.userType;
-        this.requirementType = original.requirementType;
-    }
 }

@@ -56,13 +56,4 @@ public class UnavailabilityEntity extends BaseEntity  implements Serializable {
     @JoinColumn(name = "tech_party_id")
     private HearingPartyEntity hearingParty;
 
-    public UnavailabilityEntity(UnavailabilityEntity original) {
-        this.id = original.id;
-        this.dayOfWeekUnavailable = original.dayOfWeekUnavailable;
-        this.dayOfWeekUnavailableType = original.dayOfWeekUnavailableType;
-        this.startDate = original.startDate;
-        this.endDate = original.endDate;
-        this.unAvailabilityType = original.unAvailabilityType;
-        this.hearingParty = original.hearingParty;
-    }
 }

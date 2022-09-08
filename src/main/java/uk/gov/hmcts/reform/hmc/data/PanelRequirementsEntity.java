@@ -37,9 +37,4 @@ public class PanelRequirementsEntity extends BaseEntity implements Serializable 
     @Column(name = "role_type")
     private String roleType;
 
-    public PanelRequirementsEntity(PanelRequirementsEntity original) {
-        this.id = original.id;
-        this.caseHearing = original.caseHearing;
-        this.roleType = original.roleType;
-    }
 }

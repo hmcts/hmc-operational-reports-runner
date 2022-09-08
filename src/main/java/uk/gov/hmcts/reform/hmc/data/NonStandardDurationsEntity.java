@@ -39,9 +39,4 @@ public class NonStandardDurationsEntity extends BaseEntity implements Serializab
     @JoinColumn(name = "case_hearing_id")
     private CaseHearingRequestEntity caseHearing;
 
-    public NonStandardDurationsEntity(NonStandardDurationsEntity original) {
-        this.id = original.id;
-        this.nonStandardHearingDurationReasonType = original.nonStandardHearingDurationReasonType;
-        this.caseHearing = original.caseHearing;
-    }
 }

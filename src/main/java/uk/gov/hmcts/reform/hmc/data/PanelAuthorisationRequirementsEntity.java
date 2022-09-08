@@ -40,10 +40,4 @@ public class PanelAuthorisationRequirementsEntity extends BaseEntity implements 
     @Column(name = "authorisation_subtype")
     private String authorisationSubType;
 
-    public PanelAuthorisationRequirementsEntity(PanelAuthorisationRequirementsEntity original) {
-        this.id = original.id;
-        this.caseHearing = original.caseHearing;
-        this.authorisationType = original.authorisationType;
-        this.authorisationSubType = original.authorisationSubType;
-    }
 }

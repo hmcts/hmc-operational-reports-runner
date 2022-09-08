@@ -37,9 +37,4 @@ public class ReasonableAdjustmentsEntity extends BaseEntity implements Serializa
     @JoinColumn(name = "tech_party_id")
     private HearingPartyEntity hearingParty;
 
-    public ReasonableAdjustmentsEntity(ReasonableAdjustmentsEntity original) {
-        this.id = original.id;
-        this.reasonableAdjustmentCode = original.reasonableAdjustmentCode;
-        this.hearingParty = original.hearingParty;
-    }
 }
