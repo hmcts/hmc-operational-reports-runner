@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import uk.gov.hmcts.reform.hmc.model.PartyType;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
