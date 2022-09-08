@@ -89,7 +89,8 @@ class NotifyServiceTest {
 
     @Test
     @DisplayName("should invoke notification client sendEmail for awaiting actuals status")
-    void shouldInvokeNotificationClientSendNotificationAwaitingActuals() throws NotificationClientException, IOException {
+    void shouldInvokeNotificationClientSendNotificationAwaitingActuals()
+        throws NotificationClientException, IOException {
         String emailTemplateId = "TestEmailTemplateId";
         String templateId = "TestTemplateId";
         String replyToId = "TestReplyToId";
