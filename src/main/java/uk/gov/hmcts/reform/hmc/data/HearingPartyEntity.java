@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @Entity
 @Data
 @NoArgsConstructor
-public class HearingPartyEntity extends BaseEntity implements Serializable, Cloneable {
+public class HearingPartyEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -1378995263864233869L;
 

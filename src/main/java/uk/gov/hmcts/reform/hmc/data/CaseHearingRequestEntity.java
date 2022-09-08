@@ -28,7 +28,7 @@ import javax.persistence.Table;
 @Entity
 @Data
 @NoArgsConstructor
-public class CaseHearingRequestEntity extends BaseEntity implements Cloneable, Serializable {
+public class CaseHearingRequestEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -3590902739857407292L;
 
@@ -160,20 +160,5 @@ public class CaseHearingRequestEntity extends BaseEntity implements Cloneable, S
     @OneToMany(mappedBy = "caseHearing", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ChangeReasonsEntity> amendReasonCodes;
-
-    private HearingPartyEntity getHearingPartyEntityByReference(String relatedPartyId,
-                                                                List<HearingPartyEntity> hearingPartyEntities) {
-
-        final List<HearingPartyEntity> matchingHearingPartyEntities = hearingPartyEntities.stream()
-            .filter(hearingPartyEntity -> relatedPartyId.equals(hearingPartyEntity.getPartyReference()))
-            .toList();
-
-        if (matchingHearingPartyEntities.size() != 1) {
-            throw new BadRequestException(
-                String.format("Cannot find unique PartyID with value %s", relatedPartyId));
-        }
-
-        return matchingHearingPartyEntities.get(0);
-    }
 
 }
