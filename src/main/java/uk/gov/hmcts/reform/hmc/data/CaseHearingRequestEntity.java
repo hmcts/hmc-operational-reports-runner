@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import uk.gov.hmcts.reform.hmc.exceptions.BadRequestException;
 
 import java.io.Serializable;
 import java.time.LocalDate;
