@@ -18,13 +18,13 @@ java:
           alias: NOTIFY_ERROR_TEMPLATE_ID
         - name: notify-error-email-address
           alias: NOTIFY_ERROR_EMAIL_ADDRESS
-        - name: notify-error-replay-to-email-address
+        - name: notify-error-reply-to-email-address
           alias: NOTIFY_ERROR_REPLY_TO_EMAIL_ADDRESS
         - name: notify-awaiting-actuals-template-id
           alias: NOTIFY_AWAITING_ACTUALS_TEMPLATE_ID
         - name: notify-awaiting-actuals-email-address
           alias: NOTIFY_AWAITING_ACTUALS_EMAIL_ADDRESS
-        - name: notify-awaiting-actuals-replay-to-email-address
+        - name: notify-awaiting-actuals-reply-to-email-address
           alias: NOTIFY_AWAITING_ACTUALS_REPLY_TO_EMAIL_ADDRESS
   environment:
   #    TODO
