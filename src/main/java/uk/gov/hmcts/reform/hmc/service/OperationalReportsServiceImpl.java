@@ -37,12 +37,29 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
 
     @Override
     public String createCsvDataForAwaitingActuals() {
-        List<String> statuses = List.of(HearingStatus.LISTED.name(), HearingStatus.UPDATE_REQUESTED.name(),
-                                            HearingStatus.UPDATE_SUBMITTED.name());
-        List<HearingRequestForCsv> hearingRequestForCsvs = createCsvObjectsForGivenStatuses(statuses);
-        // filter
-
+        List<String> statuses = List.of(HearingStatus.LISTED.name(),
+                                        HearingStatus.UPDATE_REQUESTED.name(),
+                                        HearingStatus.UPDATE_SUBMITTED.name());
+        List<CaseHearingRequestEntity> caseHearingRequestEntities =  getHearingsForStatuses(statuses);
+        List<CaseHearingRequestEntity> filteredCaseHearingRequests =
+                filterCaseHearingRequests(caseHearingRequestEntities);
+        List<HearingRequestForCsv> hearingRequestForCsvs = mapToCsvObjects(filteredCaseHearingRequests);
         return createCsvData(hearingRequestForCsvs);
+    }
+
+    @Override
+    public List<CaseHearingRequestEntity> filterCaseHearingRequests(
+            List<CaseHearingRequestEntity> caseHearingRequestEntities) {
+
+        return caseHearingRequestEntities;
+        //        List<CaseHearingRequestEntity> filteredEntities = new ArrayList<>();
+        //        caseHearingRequestEntities.stream().forEach(e -> {
+        //            LocalDate
+        //            if (e.getHearingWindowEndDateRange().)
+        //        });
+        //
+        //        log.info("Found {} caseHearingRequests.", entities.size());
+        //        return mapToCsvObjects(entities);
     }
 
     @Override

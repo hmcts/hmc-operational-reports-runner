@@ -19,4 +19,7 @@ public interface OperationalReportsService {
 
     String createCsvData(List<HearingRequestForCsv> hearingRequestForCsvs);
 
+    List<CaseHearingRequestEntity> filterCaseHearingRequests(
+            List<CaseHearingRequestEntity> caseHearingRequestEntities);
+
 }
