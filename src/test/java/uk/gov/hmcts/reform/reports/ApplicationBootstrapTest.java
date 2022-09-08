@@ -7,8 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.ApplicationArguments;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class ApplicationBootstrapTest {
@@ -16,26 +15,16 @@ class ApplicationBootstrapTest {
     @Mock
     private ApplicationArguments applicationArguments;
 
+    @Mock
+    private ApplicationExecutor applicationExecutor;
+
     @InjectMocks
     private ApplicationBootstrap underTest;
 
     @Test
-    void shouldRunExecutor() {
+    void testShouldRunExecutor() throws Exception {
         underTest.run(applicationArguments);
-    }
 
-    @Test
-    void shouldExecuteTask() {
-        assertTrue(underTest.executeTask());
-    }
-
-    @Test
-    void shouldLogMessage() {
-        assertTrue(underTest.logMessage("Testing 1, 2, 3!"));
-    }
-
-    @Test
-    void shouldDummyCodeCoverageAnswer() {
-        assertEquals(50, underTest.dummyCodeCoverageAnswer(200, 4));
+        verify(applicationExecutor).execute();
     }
 }
