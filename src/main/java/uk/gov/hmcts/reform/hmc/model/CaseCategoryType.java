@@ -16,11 +16,4 @@ public enum CaseCategoryType {
         this.label = label;
     }
 
-    public static CaseCategoryType getByLabel(String label) {
-        return Arrays.stream(CaseCategoryType.values())
-            .filter(eachCategory -> eachCategory.toString().toLowerCase(Locale.ROOT)
-                .equals(label.toLowerCase(Locale.ROOT))).findAny().orElse(null);
-    }
-
-
 }

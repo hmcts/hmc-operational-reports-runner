@@ -16,11 +16,4 @@ public enum HearingResultType {
     HearingResultType(String label) {
         this.label = label;
     }
-
-    public static HearingResultType getByLabel(String label) {
-        return Arrays.stream(HearingResultType.values())
-            .filter(eachResultType -> eachResultType.toString().toLowerCase(Locale.ROOT)
-                .equals(label.toLowerCase(Locale.ROOT))).findAny().orElse(null);
-    }
-
 }

@@ -16,10 +16,4 @@ public enum LocationType {
     LocationType(String label) {
         this.label = label;
     }
-
-    public static LocationType getByLabel(String label) {
-        return Arrays.stream(LocationType.values())
-            .filter(eachLocation -> eachLocation.toString().toLowerCase(Locale.ROOT)
-                .equals(label.toLowerCase(Locale.ROOT))).findAny().orElse(null);
-    }
 }

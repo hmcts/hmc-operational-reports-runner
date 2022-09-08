@@ -18,14 +18,4 @@ public enum DayOfWeekUnAvailableType {
         this.label = label;
     }
 
-    public static DayOfWeekUnAvailableType getByLabel(String label) {
-        if (label == null) {
-            throw new BadRequestException("unsupported type for unavailability type");
-        }
-        return Arrays.stream(DayOfWeekUnAvailableType.values())
-            .filter(eachDowUnavailable -> eachDowUnavailable.getLabel().toLowerCase(Locale.ROOT)
-                .equals(label.toLowerCase(Locale.ROOT))).findAny()
-            .orElseThrow(() -> new BadRequestException("unsupported type for unavailability type"));
-    }
-
 }
