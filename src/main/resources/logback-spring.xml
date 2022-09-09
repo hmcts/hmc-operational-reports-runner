@@ -46,7 +46,7 @@
   </logger>
 
   <!-- LOG "uk.gov.hmcts.reform.pcqbackend*" at DBUG level -->
-  <logger name="uk.gov.hmcts.reform.ccd" level="debug" additivity="false">
+  <logger name="uk.gov.hmcts.reform.hmc.service" level="debug" additivity="false">
     <appender-ref ref="RollingFile" />
     <appender-ref ref="Console" />
   </logger>

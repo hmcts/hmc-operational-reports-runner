@@ -86,6 +86,11 @@ public class HearingResponseEntity extends BaseEntity implements Serializable {
             .min(Comparator.comparing(HearingDayDetailsEntity::getStartDateTime));
     }
 
+    public Optional<HearingDayDetailsEntity> getLatestHearingDayDetails() {
+        return getHearingDayDetails().stream()
+                .max(Comparator.comparing(HearingDayDetailsEntity::getEndDateTime));
+    }
+
     public boolean hasHearingDayDetails() {
         return getHearingDayDetails() != null && !getHearingDayDetails().isEmpty();
     }

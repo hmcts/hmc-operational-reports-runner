@@ -37,10 +37,8 @@ spring:
   jpa:
     database: postgresql
     show-sql: false
-    generate-ddl: true
-
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         jdbc:
@@ -51,16 +49,18 @@ azure:
     instrumentation-key: ${hmc.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
 notify:
-  api-key: ${NOTIFY_HMC_API_KEY:notify-api-key}
+  api-key: ${NOTIFY_HMC_API_KEY:team_and_guest_list-339063cc-26db-4374-bfad-40edc9033d83-dd0f01c6-6d7b-4e76-869c-d823f3ab780b}
   email-templates:
     error:
-      template-id: ${NOTIFY_ERROR_TEMPLATE_ID}
-      email-address: ${NOTIFY_ERROR_EMAIL_ADDRESS}
-      reply-to-email-address: ${NOTIFY_ERROR_REPLY_TO_EMAIL_ADDRESS}
+      template-id: ${NOTIFY_ERROR_TEMPLATE_ID:952167ce-a823-432f-9a2c-f5a2a28076d9}
+      email-address: ${NOTIFY_ERROR_EMAIL_ADDRESS:rebecca.baker@hmcts.net}
+      reply-to-email-address: ${NOTIFY_ERROR_REPLY_TO_EMAIL_ADDRESS:8276915e-dfbc-4791-adbc-5e553607b2bd}
     awaiting-actuals:
-      template-id: ${NOTIFY_AWAITING_ACTUALS_TEMPLATE_ID}
-      email-address: ${NOTIFY_AWAITING_ACTUALS_EMAIL_ADDRESS}
-      reply-to-email-address: ${NOTIFY_AWAITING_ACTUALS_REPLY_TO_EMAIL_ADDRESS}
+      template-id: ${NOTIFY_AWAITING_ACTUALS_TEMPLATE_ID:952167ce-a823-432f-9a2c-f5a2a28076d9}
+      email-address: ${NOTIFY_AWAITING_ACTUALS_EMAIL_ADDRESS:rebecca.baker@hmcts.net}
+      reply-to-email-address: ${NOTIFY_AWAITING_ACTUALS_REPLY_TO_EMAIL_ADDRESS:8276915e-dfbc-4791-adbc-5e553607b2bd}
+
+app.configuredNumberOfDays: 0
 
 smoke.test.enabled: false
 

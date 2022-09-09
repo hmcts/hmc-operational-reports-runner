@@ -5,8 +5,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import uk.gov.hmcts.reform.hmc.ApplicationParams;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
 import uk.gov.hmcts.reform.hmc.data.HearingDayDetailsEntity;
 import uk.gov.hmcts.reform.hmc.data.HearingResponseEntity;
@@ -34,12 +34,16 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class OperationalReportsServiceImpl implements OperationalReportsService {
 
     private static final String PATTERN = "dd-MM-yyyy";
+
+    private final ApplicationParams appParams;
     private CaseHearingRequestRepository caseHearingRequestRepository;
     private GetHearingRequestToCsvMapper getHearingRequestToCsvMapper;
 
     @Autowired
-    OperationalReportsServiceImpl(CaseHearingRequestRepository caseHearingRequestRepository,
+    OperationalReportsServiceImpl(ApplicationParams appParams,
+                                  CaseHearingRequestRepository caseHearingRequestRepository,
                                   GetHearingRequestToCsvMapper getHearingRequestToCsvMapper) {
+        this.appParams = appParams;
         this.caseHearingRequestRepository = caseHearingRequestRepository;
         this.getHearingRequestToCsvMapper = getHearingRequestToCsvMapper;
     }
@@ -71,19 +75,27 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
         List<CaseHearingRequestEntity> filteredEntities = new ArrayList<>();
 
         caseHearingRequestEntities.stream().forEach(e -> {
+            log.debug("caseHearingRequest id: {}; status {}", e.getCaseHearingID(), e.getHearing().getStatus());
             Optional<HearingResponseEntity> hearingResponse = e.getHearing().getLatestHearingResponse();
             if (hearingResponse.isPresent()) {
                 HearingResponseEntity latestHearingResponse = hearingResponse.get();
+                log.debug("latestHearingResponse id: {}", latestHearingResponse.getHearingResponseId());
                 Optional<HearingDayDetailsEntity> hearingDayDetails =
-                        latestHearingResponse.getEarliestHearingDayDetails();
+                        latestHearingResponse.getLatestHearingDayDetails();
                 if (latestHearingResponse.hasHearingDayDetails() && hearingDayDetails.isPresent()) {
                     HearingDayDetailsEntity hearingDayDetailsEntity = hearingDayDetails.get();
+                    log.debug("latestHearingDayDetails id: {}", hearingDayDetailsEntity.getHearingDayId());
                     if (isToBeIncluded(hearingDayDetailsEntity.getEndDateTime())) {
+                        log.debug("isToBeIncluded == true");
                         filteredEntities.add(e);
+                    } else {
+                        log.debug("isToBeIncluded == false");
                     }
                 }
             }
         });
+
+        log.info("Filtered to {} caseHearingRequests.", filteredEntities.size());
         return filteredEntities;
     }
 
@@ -138,12 +150,18 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
 
     @Override
     public boolean isToBeIncluded(LocalDateTime endDate) {
-        long configuredNumberOfDays = 0;
+        long configuredNumberOfDays = appParams.getConfiguredNumberOfDays();
         return isToBeIncluded(endDate, LocalDate.now(), configuredNumberOfDays);
     }
 
     @Override
     public boolean isToBeIncluded(LocalDateTime endDateTime, LocalDate now, Long configuredNumberOfDays) {
+        if (endDateTime.toLocalDate().isAfter(now)) {
+            log.debug("endDateTime {} is after now {}", endDateTime, now);
+            return false;
+        }
+        log.debug("Days between endDateTime {} and now {} = {}. configuredNumberOfDays {}",
+                endDateTime, now, DAYS.between(endDateTime.toLocalDate(), now), configuredNumberOfDays);
         return (DAYS.between(endDateTime.toLocalDate(), now) > configuredNumberOfDays);
     }
 
