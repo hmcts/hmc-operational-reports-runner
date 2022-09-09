@@ -58,42 +58,40 @@ values (1, 105, 'reasonOne');
 insert into cancellation_reasons (id, case_hearing_id, cancellation_reason_Type)
 values (2, 105, 'reasonTwo');
 
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (1, '2000000000', '2020-08-10 11:20:00', 'DRAFT', 'CASE_CREATED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version, parties_notified_datetime)
-values (2, '2000000010', '2021-08-10 11:20:00', 'PROVISIONAL', 'AWAITING_LISTING', 1, '2020-08-10 11:20:00');
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (3, '2000000009', '2021-08-10 11:20:00', 'FIXED', 'LISTED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (4, '2000000011', '2021-08-10 11:20:00', 'FIXED', 'LISTED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (5, '2000000012', '2020-08-10 11:20:00', 'DRAFT', 'CASE_CREATED', 1);
-
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (6, '2000000013', '2021-08-10 21:20:00', 'FIXED', 'LISTED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (7, '2000000014', '2020-08-10 22:40:00', 'DRAFT', 'CASE_CREATED', 1);
-
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (8, '2000000015', '2021-08-10 21:20:00', 'FIXED', 'LISTED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (9, '2000000015', '2020-08-10 22:40:00', 'DRAFT', 'CASE_CREATED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (10, '2000000016', '2021-08-10 21:20:00', 'FIXED', 'LISTED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (11, '2000000016', '2020-08-10 22:40:00', 'DRAFT', 'CASE_CREATED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (12, '2000000017', '2020-08-10 22:40:00', 'DRAFT', 'CASE_CREATED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (13, '2000000017', '2021-08-10 21:20:00', 'FIXED', 'LISTED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (14 '2000000018', '2020-08-10 22:40:00', 'DRAFT', 'CASE_CREATED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (15, '2000000018', '2021-08-10 21:20:00', 'FIXED', 'LISTED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (16, '2000000019', '2020-08-10 22:40:00', 'DRAFT', 'CASE_CREATED', 1);
-insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_status, listing_case_status, request_version)
-values (17, '2000000019', '2020-08-10 22:40:00', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (1, '2000000000', '2020-08-10 11:20:00', 'LT0001', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version, parties_notified_datetime)
+values (2, '2000000010', '2021-08-10 11:20:00', 'LT0002', 'PROVISIONAL', 'AWAITING_LISTING', 1, '2020-08-10 11:20:00');
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (3, '2000000009', '2021-08-10 11:20:00', 'LT0003', 'FIXED', 'LISTED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (4, '2000000011', '2021-08-10 11:20:00', 'LT0004', 'FIXED', 'LISTED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (5, '2000000012', '2020-08-10 11:20:00', 'LT0005', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (6, '2000000013', '2021-08-10 21:20:00', 'LT0006', 'FIXED', 'LISTED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (7, '2000000014', '2020-08-10 22:40:00', 'LT0007', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (8, '2000000015', '2021-08-10 21:20:00', 'LT0008', 'FIXED', 'LISTED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (9, '2000000015', '2020-08-10 22:40:00', 'LT0009', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (10, '2000000016', '2021-08-10 21:20:00', 'LT0010', 'FIXED', 'LISTED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (11, '2000000016', '2020-08-10 22:40:00', 'LT0011', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (12, '2000000017', '2020-08-10 22:40:00', 'LT0012', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (13, '2000000017', '2021-08-10 21:20:00', 'LT0013', 'FIXED', 'LISTED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (14, '2000000018', '2020-08-10 22:40:00', 'LT0014', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (15, '2000000018', '2021-08-10 21:20:00', 'LT0015', 'FIXED', 'LISTED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (16, '2000000019', '2020-08-10 22:40:00', 'LT0016', 'DRAFT', 'CASE_CREATED', 1);
+insert into hearing_response(hearing_response_id, hearing_id, received_date_time, listing_transaction_id, listing_status, listing_case_status, request_version)
+values (17, '2000000019', '2020-08-10 22:40:00', 'LT0017', 'DRAFT', 'CASE_CREATED', 1);
 
 
 
