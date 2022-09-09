@@ -16,8 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import javax.validation.ValidationException;
 
@@ -36,12 +38,12 @@ public class NotifyService {
     }
 
     @Retryable(value = {ConnectException.class}, backoff = @Backoff(delay = 1000, multiplier = 3))
-    public SendEmailResponse sendEmail(String templateId,
-                                       String emailAddressId,
-                                       File csvFile,
-                                       String replyToEmailAddress, String status)
+    public List<SendEmailResponse> sendEmail(String templateId,
+                                             List<String> emailAddressIds,
+                                             File csvFile,
+                                             String replyToEmailAddress, String status)
         throws IOException, NotificationClientException {
-        if (emailAddressId == null) {
+        if (null == emailAddressIds || emailAddressIds.isEmpty()) {
             throw new ValidationException("An email address is required to send notification");
         }
 
@@ -49,13 +51,17 @@ public class NotifyService {
         addPersonalisation(csvFile, status, personalisation);
 
         log.info("Invoking Notify Service for " + status);
-        return this.notificationClient.sendEmail(
-            templateId,
-            emailAddressId,
-            personalisation,
-            StringUtils.EMPTY,
-            replyToEmailAddress
-        );
+        List<SendEmailResponse> responses = new ArrayList<>();
+        for (String emailAddress : emailAddressIds) {
+            responses.add(this.notificationClient.sendEmail(
+                templateId,
+                emailAddress,
+                personalisation,
+                StringUtils.EMPTY,
+                replyToEmailAddress
+            ));
+        }
+        return responses;
     }
 
     private void addPersonalisation(File csvFile, String status, HashMap<String, Object> personalisation)

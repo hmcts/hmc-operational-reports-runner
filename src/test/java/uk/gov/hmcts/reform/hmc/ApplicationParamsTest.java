@@ -3,6 +3,8 @@ package uk.gov.hmcts.reform.hmc;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ApplicationParamsTest {
@@ -31,14 +33,16 @@ class ApplicationParamsTest {
 
     @Test
     void shouldGetNotifyErrorEmailAddress() {
-        ReflectionTestUtils.setField(applicationParams, "notifyErrorEmailAddress", VALUE);
-        assertEquals(VALUE, applicationParams.getNotifyErrorEmailAddress());
+        ReflectionTestUtils.setField(applicationParams, "notifyErrorEmailAddress", List.of(VALUE));
+        assertEquals(VALUE, applicationParams.getNotifyErrorEmailAddress().get(0));
+        assertEquals(1, applicationParams.getNotifyErrorEmailAddress().size());
     }
 
     @Test
     void shouldGetNotifyAwaitingActualsEmailAddress() {
-        ReflectionTestUtils.setField(applicationParams, "notifyAwaitingHearingsEmailAddress", VALUE);
-        assertEquals(VALUE, applicationParams.getNotifyAwaitingHearingsEmailAddress());
+        ReflectionTestUtils.setField(applicationParams, "notifyAwaitingHearingsEmailAddress", List.of(VALUE));
+        assertEquals(VALUE, applicationParams.getNotifyAwaitingHearingsEmailAddress().get(0));
+        assertEquals(1, applicationParams.getNotifyAwaitingHearingsEmailAddress().size());
     }
 
     @Test

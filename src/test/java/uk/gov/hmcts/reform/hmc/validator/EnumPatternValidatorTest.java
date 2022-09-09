@@ -12,18 +12,19 @@ import uk.gov.hmcts.reform.hmc.model.LocationType;
 import uk.gov.hmcts.reform.hmc.model.PanelPreference;
 import uk.gov.hmcts.reform.hmc.model.RequirementType;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.gov.hmcts.reform.hmc.exceptions.ValidationError.*;
+import static uk.gov.hmcts.reform.hmc.exceptions.ValidationError.CATEGORY_TYPE_EMPTY;
+import static uk.gov.hmcts.reform.hmc.exceptions.ValidationError.LOCATION_ID_EMPTY;
 
 class EnumPatternValidatorTest {
 

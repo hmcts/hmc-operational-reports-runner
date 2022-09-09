@@ -13,6 +13,7 @@ import uk.gov.service.notify.SendEmailResponse;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import javax.validation.ValidationException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -74,10 +75,13 @@ class NotifyServiceTest {
                   ))
             .willReturn(sendEmailResponse);
 
-        SendEmailResponse response =  this.notifyService.sendEmail(templateId, emailTemplateId, temp, replyToId,
-                                                                   HearingStatus.EXCEPTION.name());
+        List<SendEmailResponse> responses =  this.notifyService.sendEmail(templateId,
+                                                                          List.of(emailTemplateId),
+                                                                          temp,
+                                                                          replyToId,
+                                                                          HearingStatus.EXCEPTION.name());
 
-        assertNotNull(response);
+        assertNotNull(responses);
         verify(this.notificationClient).sendEmail(
             anyString(),
             anyString(),
@@ -108,10 +112,13 @@ class NotifyServiceTest {
         ))
             .willReturn(sendEmailResponse);
 
-        SendEmailResponse response =  this.notifyService.sendEmail(templateId, emailTemplateId, temp, replyToId,
+        List<SendEmailResponse> responses =  this.notifyService.sendEmail(templateId,
+                                                                          List.of(emailTemplateId),
+                                                                          temp,
+                                                                          replyToId,
                                                                    "awaiting actuals");
 
-        assertNotNull(response);
+        assertNotNull(responses);
         verify(this.notificationClient).sendEmail(
             anyString(),
             anyString(),

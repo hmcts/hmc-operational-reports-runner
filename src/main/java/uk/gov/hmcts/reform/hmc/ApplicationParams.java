@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.hmc;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.List;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -13,14 +14,14 @@ public class ApplicationParams {
     private String notifyApiKey;
     @Value("${notify.email-templates.error.template-id}")
     private String notifyErrorTemplateId;
-    @Value("${notify.email-templates.error.email-address}")
-    private String notifyErrorEmailAddress;
+    @Value("#{'${notify.email-templates.error.email-address}'.split(',')}")
+    private List<String> notifyErrorEmailAddress;
     @Value("${notify.email-templates.error.reply-to-email-address}")
     private String notifyErrorReplyToEmailAddress;
     @Value("${notify.email-templates.awaiting-actuals.template-id}")
     private String notifyAwaitingHearingsTemplateId;
-    @Value("${notify.email-templates.awaiting-actuals.email-address}")
-    private String notifyAwaitingHearingsEmailAddress;
+    @Value("#{'${notify.email-templates.awaiting-actuals.email-address}'.split(',')}")
+    private List<String> notifyAwaitingHearingsEmailAddress;
     @Value("${notify.email-templates.awaiting-actuals.reply-to-email-address}")
     private String notifyAwaitingHearingsReplyToEmailAddress;
 
@@ -36,11 +37,11 @@ public class ApplicationParams {
         return notifyAwaitingHearingsTemplateId;
     }
 
-    public String getNotifyErrorEmailAddress() {
+    public List<String> getNotifyErrorEmailAddress() {
         return notifyErrorEmailAddress;
     }
 
-    public String getNotifyAwaitingHearingsEmailAddress() {
+    public List<String> getNotifyAwaitingHearingsEmailAddress() {
         return notifyAwaitingHearingsEmailAddress;
     }
 
