@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ApplicationParamsTest {
 
     private static final String VALUE = "test-value";
-    private static final String LONG_VALUE = 2L;
+    private static final Long LONG_VALUE = 2L;
     private final ApplicationParams applicationParams = new ApplicationParams();
 
 
