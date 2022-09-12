@@ -65,20 +65,20 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
     @Override
     public List<CaseHearingRequestEntity> getAwaitingActualsCases(
             List<CaseHearingRequestEntity> caseHearingRequestEntities) {
-        List<CaseHearingRequestEntity> filteredEntities = new ArrayList<>();
+        List<CaseHearingRequestEntity> awaitingActualsEntities = new ArrayList<>();
 
         caseHearingRequestEntities.forEach(e -> {
             log.debug("caseHearingRequest id: {}; status {}", e.getCaseHearingID(), e.getHearing().getStatus());
             if (hearingActualsHelper.getHearingStatus(e.getHearing()).equals(HearingActualsHelper.AWAITING_ACTUALS)) {
                 log.debug(HearingActualsHelper.AWAITING_ACTUALS);
-                filteredEntities.add(e);
+                awaitingActualsEntities.add(e);
             } else {
                 log.debug("NOT " + HearingActualsHelper.AWAITING_ACTUALS);
             }
         });
 
-        log.info("Found {} awaiting actuals requests.", filteredEntities.size());
-        return filteredEntities;
+        log.info("Found {} awaiting actuals requests.", awaitingActualsEntities.size());
+        return awaitingActualsEntities;
     }
 
     @Override

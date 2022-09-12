@@ -48,6 +48,8 @@ public class HearingActualsHelper {
                 latestHearingResponse.getEarliestHearingDayDetails();
         if (latestHearingResponse.hasHearingDayDetails() && hearingDayDetails.isPresent()) {
             HearingDayDetailsEntity hearingDayDetailsEntity = hearingDayDetails.get();
+            log.debug("is now {} after earliest planned day {} ?", LocalDate.now(),
+                    hearingDayDetailsEntity.getStartDateTime().toLocalDate());
             return (LocalDate.now().isAfter(hearingDayDetailsEntity.getStartDateTime().toLocalDate()));
         }
         return false;
@@ -71,7 +73,7 @@ public class HearingActualsHelper {
     public boolean isLastPlannedHearingDaysValid(LocalDateTime endDateTime, LocalDate now,
                                                  Long configuredNumberOfDays) {
         if (endDateTime.toLocalDate().isAfter(now)) {
-            log.debug("endDateTime {} is after now {}", endDateTime, now);
+            log.debug("last planned datetime {} is not after now {}", endDateTime, now);
             return false;
         }
         log.debug("Days between endDateTime {} and now {} = {}. configuredNumberOfDays {}",
