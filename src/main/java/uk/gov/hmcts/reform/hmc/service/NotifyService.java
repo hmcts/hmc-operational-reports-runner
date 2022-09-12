@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import javax.validation.ValidationException;
 
+import static uk.gov.hmcts.reform.hmc.ApplicationExecutor.AWAITING_ACTUALS;
 import static uk.gov.service.notify.NotificationClient.prepareUpload;
 
 @Slf4j
@@ -68,7 +69,7 @@ public class NotifyService {
         if (status.equalsIgnoreCase(HearingStatus.EXCEPTION.name())) {
             personalisation.put("subjectStatus", status);
             personalisation.put("bodyStatus", "an " + status.toLowerCase());
-        } else if (status.equalsIgnoreCase("awaiting actuals")) {
+        } else if (status.equalsIgnoreCase(AWAITING_ACTUALS)) {
             personalisation.put("subjectStatus", status.toUpperCase(Locale.ROOT));
             personalisation.put("bodyStatus", "an awaiting hearing actuals");
         }

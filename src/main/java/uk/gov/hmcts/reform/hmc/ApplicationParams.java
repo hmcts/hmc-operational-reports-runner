@@ -9,6 +9,8 @@ import javax.inject.Singleton;
 @Singleton
 public class ApplicationParams {
 
+    @Value("${app.configuredNumberOfDays}")
+    private Long configuredNumberOfDays;
     @Value("${notify.api-key}")
     private String notifyApiKey;
     @Value("${notify.email-templates.error.template-id}")
@@ -51,4 +53,9 @@ public class ApplicationParams {
     public String getNotifyAwaitingHearingsReplyToEmailAddress() {
         return notifyAwaitingHearingsReplyToEmailAddress;
     }
+
+    public Long getConfiguredNumberOfDays() {
+        return configuredNumberOfDays;
+    }
+
 }

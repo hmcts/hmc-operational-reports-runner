@@ -29,12 +29,10 @@ import static uk.gov.hmcts.reform.hmc.constants.Constants.UNAVAILABILITY_DOW_TYP
 import static uk.gov.hmcts.reform.hmc.constants.Constants.UNAVAILABILITY_RANGE_TYPE;
 
 public class TestingUtil {
-
     public static Long ID = 2000000000L;
 
     private TestingUtil() {
     }
-
 
     public static PanelRequirementsEntity panelRequirementsEntity() {
         PanelRequirementsEntity panelRequirements = new PanelRequirementsEntity();
@@ -51,9 +49,9 @@ public class TestingUtil {
     }
 
     public static PanelSpecialismsEntity panelSpecialismsEntity() {
-        PanelSpecialismsEntity panelRequirements = new PanelSpecialismsEntity();
-        panelRequirements.setSpecialismType("Specialism 1");
-        return panelRequirements;
+        PanelSpecialismsEntity paneSpecialisms = new PanelSpecialismsEntity();
+        paneSpecialisms.setSpecialismType("Specialism 1");
+        return paneSpecialisms;
     }
 
     public static PanelUserRequirementsEntity panelUserRequirementsEntity() {
@@ -124,7 +122,6 @@ public class TestingUtil {
         return entity;
     }
 
-
     public static CaseHearingRequestEntity caseHearingRequestEntityWithPartyOrg() {
         CaseHearingRequestEntity entity1 = new CaseHearingRequestEntity();
         entity1.setVersionNumber(1);
@@ -168,5 +165,6 @@ public class TestingUtil {
         entity.setLocationLevelType(LocationType.COURT);
         return entity;
     }
+
 }
 
