@@ -49,6 +49,7 @@ class GetHearingRequestToCsvMapperTest {
         hearingResponse.setRequestVersion(requestVersion);
         hearingResponse.setRequestTimeStamp(
             LocalDateTime.of(timestampYear, 1, 1, 12, 0));
+        hearingResponse.setListingTransactionId("transactionId");
         return hearingResponse;
     }
 
