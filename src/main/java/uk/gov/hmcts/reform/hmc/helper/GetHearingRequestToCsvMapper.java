@@ -11,11 +11,18 @@ import java.util.Optional;
 @Component
 public class GetHearingRequestToCsvMapper {
 
+
+    private HearingActualsHelper hearingActualsHelper;
+
+    GetHearingRequestToCsvMapper(HearingActualsHelper hearingActualsHelper) {
+        this.hearingActualsHelper = hearingActualsHelper;
+    }
+
     public HearingRequestForCsv toHearingRequestForCsv(CaseHearingRequestEntity requestEntity) {
         HearingRequestForCsv hearingRequestForCsv = new HearingRequestForCsv();
         hearingRequestForCsv.setCaseReference(requestEntity.getCaseReference());
-        hearingRequestForCsv.setCaseName(requestEntity.getPublicCaseName());
-        hearingRequestForCsv.setHearingStatus(requestEntity.getHearing().getStatus());
+        hearingRequestForCsv.setCaseName(requestEntity.getCaseUrlContextPath());
+        hearingRequestForCsv.setHearingStatus(hearingActualsHelper.getHearingStatus(requestEntity.getHearing()));
         hearingRequestForCsv.setHearingId(requestEntity.getHearing().getId().toString());
         hearingRequestForCsv.setHearingRequestReceivedDateTime(
                 requestEntity.getHearingRequestReceivedDateTime().toString());
