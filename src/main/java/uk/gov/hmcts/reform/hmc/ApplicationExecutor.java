@@ -15,6 +15,8 @@ import javax.inject.Named;
 @Named
 public class ApplicationExecutor {
 
+    public static final String AWAITING_ACTUALS =  "awaiting actuals";
+
     private final NotifyService notifyService;
     private final ApplicationParams appParams;
 
@@ -30,26 +32,36 @@ public class ApplicationExecutor {
 
     public void execute() throws IOException, NotificationClientException {
         log.info("Hmc-Operational-Reports-Runner started...");
-        generateExceptionReports();
+        generateExceptionReport();
+        generateAwaitingActualsReport();
         log.info("Hmc-Operational-Reports-Runner finished.");
     }
 
-    private void generateExceptionReports() throws IOException, NotificationClientException {
+    private void generateExceptionReport() throws IOException, NotificationClientException {
         log.info("Creating CSV data for Exceptions...");
         File reportExceptions = operationalReportsService.createCsvDataForExceptions();
         log.info("CSV Data for Exceptions successfully created.");
         log.info("Invoking Notify Service for the Exceptions report...");
-        notifyService.sendEmail(appParams.getNotifyErrorTemplateId(), appParams.getNotifyErrorEmailAddress(),
-                              reportExceptions, appParams.getNotifyErrorReplyToEmailAddress(),
+        notifyService.sendEmail(appParams.getNotifyErrorTemplateId(),
+                                appParams.getNotifyErrorEmailAddress(),
+                                reportExceptions,
+                                appParams.getNotifyErrorReplyToEmailAddress(),
                                 HearingStatus.EXCEPTION.name()
         );
         log.info("Successfully invoked Notify Service for the Exceptions report.");
+    }
 
+    private void generateAwaitingActualsReport() throws IOException, NotificationClientException {
         log.info("Creating CSV data for Awaiting Actuals...");
         File reportAwaitingActuals = operationalReportsService.createCsvDataForAwaitingActuals();
         log.info("CSV Data for Awaiting Actuals successfully created.");
-
+        log.info("Invoking Notify Service for the Awaiting Actuals report...");
+        notifyService.sendEmail(appParams.getNotifyAwaitingHearingsTemplateId(),
+                                appParams.getNotifyAwaitingHearingsEmailAddress(),
+                                reportAwaitingActuals,
+                                appParams.getNotifyAwaitingHearingsReplyToEmailAddress(),
+                                AWAITING_ACTUALS
+        );
+        log.info("Successfully invoked Notify Service for the Awaiting Actuals report.");
     }
-
-
 }
