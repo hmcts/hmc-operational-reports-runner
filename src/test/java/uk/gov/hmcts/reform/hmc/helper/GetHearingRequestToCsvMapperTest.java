@@ -33,7 +33,7 @@ class GetHearingRequestToCsvMapperTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         getHearingRequestToCsvMapper =
-                new GetHearingRequestToCsvMapper(hearingActualsHelper);
+                new GetHearingRequestToCsvMapper();
     }
 
     @Test
