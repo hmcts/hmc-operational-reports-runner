@@ -26,9 +26,9 @@ public class HearingActualsHelper {
     }
 
     public String getHearingStatus(HearingEntity hearingEntity) {
-        if (hearingEntity.getStatus().equals(HearingStatus.LISTED)
-            || hearingEntity.getStatus().equals(HearingStatus.UPDATE_REQUESTED)
-            || hearingEntity.getStatus().equals(HearingStatus.UPDATE_SUBMITTED)) {
+        if (hearingEntity.getStatus().equals(HearingStatus.LISTED.name())
+            || hearingEntity.getStatus().equals(HearingStatus.UPDATE_REQUESTED.name())
+            || hearingEntity.getStatus().equals(HearingStatus.UPDATE_SUBMITTED.name())) {
             Optional<HearingResponseEntity> hearingResponse = hearingEntity.getLatestHearingResponse();
             if (hearingResponse.isPresent()) {
                 HearingResponseEntity latestHearingResponse = hearingResponse.get();
