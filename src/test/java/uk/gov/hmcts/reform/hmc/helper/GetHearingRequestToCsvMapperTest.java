@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class GetHearingRequestToCsvMapperTest {
 
@@ -42,6 +43,12 @@ class GetHearingRequestToCsvMapperTest {
         GetHearingRequestToCsvMapper mapper = new GetHearingRequestToCsvMapper();
         HearingRequestForCsv hearingRequestForCsv = mapper.toHearingRequestForCsv(caseHearingRequestEntity);
         assertEquals(hearingRequestForCsv.getHearingId(), hearingEntity.getId().toString());
+        assertEquals(hearingRequestForCsv.getHearingResponseReceivedDateTime(),"2004-01-01T12:00");
+        assertEquals(hearingRequestForCsv.getFirstScheduledHearingDate(), "2020-08-10T12:20");
+        assertNull(hearingRequestForCsv.getHearingStatus());
+        assertNull(hearingRequestForCsv.getCaseReference());
+        assertNull(hearingRequestForCsv.getCaseName());
+        assertNull(hearingRequestForCsv.getListAssistId());
     }
 
     private HearingResponseEntity hearingResponse(int requestVersion, int timestampYear) {
@@ -49,14 +56,13 @@ class GetHearingRequestToCsvMapperTest {
         hearingResponse.setRequestVersion(requestVersion);
         hearingResponse.setRequestTimeStamp(
             LocalDateTime.of(timestampYear, 1, 1, 12, 0));
-        hearingResponse.setListingTransactionId("transactionId");
         return hearingResponse;
     }
 
     public static HearingDayDetailsEntity hearingDayDetailsEntities(LocalDateTime startTime, LocalDateTime endTime) {
         HearingDayDetailsEntity entity = new HearingDayDetailsEntity();
-        entity.setStartDateTime(LocalDateTime.parse("2020-08-10T12:20:00"));
-        entity.setEndDateTime(LocalDateTime.parse("2021-08-10T12:20:00"));
+        entity.setStartDateTime(startTime);
+        entity.setEndDateTime(endTime);
         entity.setVenueId("venue1");
         entity.setRoomId("room1");
         return entity;
