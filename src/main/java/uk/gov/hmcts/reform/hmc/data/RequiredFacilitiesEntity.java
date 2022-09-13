@@ -36,10 +36,4 @@ public class RequiredFacilitiesEntity extends BaseEntity implements Serializable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "case_hearing_id")
     private CaseHearingRequestEntity caseHearing;
-
-    public RequiredFacilitiesEntity(RequiredFacilitiesEntity original) {
-        this.id = original.id;
-        this.facilityType = original.facilityType;
-        this.caseHearing = original.caseHearing;
-    }
 }

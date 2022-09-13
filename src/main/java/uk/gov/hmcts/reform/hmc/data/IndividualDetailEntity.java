@@ -61,17 +61,4 @@ public class IndividualDetailEntity extends BaseEntity implements Serializable {
     @Column(name = "custody_status")
     private String custodyStatus;
 
-    public IndividualDetailEntity(IndividualDetailEntity original) {
-        this.id = original.id;
-        this.vulnerabilityDetails = original.vulnerabilityDetails;
-        this.vulnerableFlag = original.vulnerableFlag;
-        this.interpreterLanguage = original.interpreterLanguage;
-        this.channelType = original.channelType;
-        this.lastName = original.lastName;
-        this.firstName = original.firstName;
-        this.title = original.title;
-        this.hearingParty = original.hearingParty;
-        this.otherReasonableAdjustmentDetails = original.otherReasonableAdjustmentDetails;
-        this.custodyStatus = original.custodyStatus;
-    }
 }

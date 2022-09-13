@@ -47,11 +47,4 @@ public class CaseCategoriesEntity extends BaseEntity implements Serializable {
     @JoinColumn(name = "case_hearing_id")
     private CaseHearingRequestEntity caseHearing;
 
-    public CaseCategoriesEntity(CaseCategoriesEntity original) {
-        this.id = original.id;
-        this.categoryType = original.categoryType;
-        this.caseCategoryValue = original.caseCategoryValue;
-        this.caseCategoryParent = original.caseCategoryParent;
-        this.caseHearing = original.caseHearing;
-    }
 }

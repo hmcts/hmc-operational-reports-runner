@@ -37,9 +37,4 @@ public class PanelSpecialismsEntity extends BaseEntity implements Serializable {
     @Column(name = "specialism_type")
     private String specialismType;
 
-    public PanelSpecialismsEntity(PanelSpecialismsEntity original) {
-        this.id = original.id;
-        this.caseHearing = original.caseHearing;
-        this.specialismType = original.specialismType;
-    }
 }

@@ -43,11 +43,4 @@ public class OrganisationDetailEntity extends BaseEntity implements Serializable
     @JoinColumn(name = "tech_party_id")
     private HearingPartyEntity hearingParty;
 
-    public OrganisationDetailEntity(OrganisationDetailEntity original) {
-        this.id = original.id;
-        this.organisationName = original.organisationName;
-        this.organisationTypeCode = original.organisationTypeCode;
-        this.hmctsOrganisationReference = original.hmctsOrganisationReference;
-        this.hearingParty = original.hearingParty;
-    }
 }

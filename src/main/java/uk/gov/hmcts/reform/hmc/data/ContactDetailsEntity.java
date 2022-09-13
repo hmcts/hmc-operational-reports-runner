@@ -40,10 +40,4 @@ public class ContactDetailsEntity extends BaseEntity implements Serializable {
     @JoinColumn(name = "tech_party_id")
     private HearingPartyEntity hearingParty;
 
-    public ContactDetailsEntity(ContactDetailsEntity original) {
-        this.id = original.id;
-        this.contactType = original.contactType;
-        this.contactDetails = original.contactDetails;
-        this.hearingParty = original.hearingParty;
-    }
 }

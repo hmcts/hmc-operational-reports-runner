@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ApplicationParamsTest {
 
     private static final String VALUE = "test-value";
+    private static final Long LONG_VALUE = 2L;
     private final ApplicationParams applicationParams = new ApplicationParams();
 
 
@@ -55,5 +56,11 @@ class ApplicationParamsTest {
     void shouldGetNotifyErrorReplyToEmailAddress() {
         ReflectionTestUtils.setField(applicationParams, "notifyErrorReplyToEmailAddress", VALUE);
         assertEquals(VALUE, applicationParams.getNotifyErrorReplyToEmailAddress());
+    }
+
+    @Test
+    void shouldGetConfiguredNumberOfDays() {
+        ReflectionTestUtils.setField(applicationParams, "configuredNumberOfDays", LONG_VALUE);
+        assertEquals(LONG_VALUE, applicationParams.getConfiguredNumberOfDays());
     }
 }

@@ -44,10 +44,4 @@ public class RequiredLocationsEntity extends BaseEntity implements Serializable 
     @JoinColumn(name = "case_hearing_id")
     private CaseHearingRequestEntity caseHearing;
 
-    public RequiredLocationsEntity(RequiredLocationsEntity original) {
-        this.id = original.id;
-        this.locationId = original.locationId;
-        this.locationLevelType = original.locationLevelType;
-        this.caseHearing = original.caseHearing;
-    }
 }

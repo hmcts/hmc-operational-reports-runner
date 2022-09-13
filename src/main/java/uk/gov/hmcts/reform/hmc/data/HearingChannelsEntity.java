@@ -36,9 +36,4 @@ public class HearingChannelsEntity extends BaseEntity implements Serializable {
     @JoinColumn(name = "case_hearing_id")
     private CaseHearingRequestEntity caseHearing;
 
-    public HearingChannelsEntity(HearingChannelsEntity original) {
-        this.hearingChannelsId = original.hearingChannelsId;
-        this.hearingChannelType = original.hearingChannelType;
-        this.caseHearing = original.caseHearing;
-    }
 }

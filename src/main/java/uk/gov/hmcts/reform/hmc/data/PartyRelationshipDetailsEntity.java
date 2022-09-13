@@ -46,10 +46,4 @@ public class PartyRelationshipDetailsEntity extends BaseEntity implements Serial
     @Column(name = "relationship_type")
     private String relationshipType;
 
-    public PartyRelationshipDetailsEntity(PartyRelationshipDetailsEntity original) {
-        this.partyRelationshipDetailsId = original.partyRelationshipDetailsId;
-        this.sourceTechParty = original.sourceTechParty;
-        this.targetTechParty = original.targetTechParty;
-        this.relationshipType = original.relationshipType;
-    }
 }
