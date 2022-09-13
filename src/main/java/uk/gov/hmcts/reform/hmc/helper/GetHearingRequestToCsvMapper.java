@@ -22,9 +22,9 @@ public class GetHearingRequestToCsvMapper {
         HearingRequestForCsv hearingRequestForCsv = new HearingRequestForCsv();
         hearingRequestForCsv.setCaseReference(requestEntity.getCaseReference());
         hearingRequestForCsv.setCaseName(
-                "=HYPERLINK(\"{case_url}\",\"{case_name}\")"
-                        .replace("{case_url}", requestEntity.getCaseUrlContextPath())
-                        .replace("{case_name}", requestEntity.getPublicCaseName()));
+                String.format("=HYPERLINK(\"%1$s\",\"%2$s\")",
+                                requestEntity.getCaseUrlContextPath(),
+                                requestEntity.getPublicCaseName()));
         hearingRequestForCsv.setHearingStatus(hearingActualsHelper.getHearingStatus(requestEntity.getHearing()));
         hearingRequestForCsv.setHearingId(requestEntity.getHearing().getId().toString());
         hearingRequestForCsv.setHearingRequestReceivedDateTime(
