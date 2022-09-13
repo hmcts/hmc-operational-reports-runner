@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import uk.gov.hmcts.reform.hmc.exceptions.ResourceNotFoundException;
+import uk.gov.hmcts.reform.hmc.helper.HearingActualsHelper;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -70,6 +72,16 @@ public class HearingEntity extends BaseEntity implements Serializable {
     @Column(name = "is_linked_flag")
     private Boolean isLinkedFlag;
 
+    public CaseHearingRequestEntity getLatestCaseHearingRequest() {
+        return getCaseHearingRequests().stream()
+            .max(Comparator.comparingInt(CaseHearingRequestEntity::getVersionNumber))
+            .orElseThrow(() -> new ResourceNotFoundException("Cannot find latest case "
+                                                                 + "hearing request for hearing " + id));
+    }
+
+    public Integer getLatestRequestVersion() {
+        return getLatestCaseHearingRequest().getVersionNumber();
+    }
 
     /**
      * Gets the *latest* hearing response - note that this will not necessarily be associated with the latest request.
@@ -82,6 +94,35 @@ public class HearingEntity extends BaseEntity implements Serializable {
             .stream()
             .max(Comparator.comparing(HearingResponseEntity::getRequestTimeStamp))
             : Optional.empty();
+    }
+
+    public String getDerivedHearingStatus() {
+        String hearingStatus = "";
+        switch (this.status) {
+            case "LISTED", "UPDATE_REQUESTED", "UPDATE_SUBMITTED":
+                hearingStatus = this.status;
+                Optional<HearingResponseEntity> hearingResponse = getLatestHearingResponse();
+                if (hearingResponse.isPresent()) {
+                    HearingResponseEntity latestHearingResponse = hearingResponse.get();
+                    Optional<HearingDayDetailsEntity> hearingDayDetails =
+                        latestHearingResponse.getEarliestHearingDayDetails();
+                    if (latestHearingResponse.hasHearingDayDetails() && hearingDayDetails.isPresent()) {
+                        HearingDayDetailsEntity hearingDayDetailsEntity = hearingDayDetails.get();
+                        if (hearingDayDetailsEntity.getStartDateTime() != null
+                            && LocalDate.now().isAfter(hearingDayDetailsEntity.getStartDateTime().toLocalDate())) {
+                            return HearingActualsHelper.AWAITING_ACTUALS;
+                        }
+                    }
+                }
+                break;
+            default:
+                hearingStatus = this.status;
+        }
+        return hearingStatus;
+    }
+
+    public Integer getNextRequestVersion() {
+        return getLatestRequestVersion() + 1;
     }
 
     public boolean hasHearingResponses() {

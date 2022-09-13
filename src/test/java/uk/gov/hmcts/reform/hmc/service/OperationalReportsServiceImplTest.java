@@ -3,30 +3,37 @@ package uk.gov.hmcts.reform.hmc.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import uk.gov.hmcts.reform.hmc.ApplicationParams;
+import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
+import uk.gov.hmcts.reform.hmc.data.HearingEntity;
 import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.hmcts.reform.hmc.helper.GetHearingRequestToCsvMapper;
+import uk.gov.hmcts.reform.hmc.helper.HearingActualsHelper;
 import uk.gov.hmcts.reform.hmc.model.HearingRequestForCsv;
 import uk.gov.hmcts.reform.hmc.repository.CaseHearingRequestRepository;
+import uk.gov.hmcts.reform.hmc.utils.TestingUtil;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class OperationalReportsServiceImplTest {
 
-    private ApplicationParams appParams;
+    @Mock
+    private ApplicationParams applicationParams;
 
-    private OperationalReportsService operationalReportsService;
+    @Mock
+    private HearingActualsHelper hearingActualsHelper;
 
     @Mock
     private CaseHearingRequestRepository caseHearingRequestRepository;
@@ -34,12 +41,17 @@ class OperationalReportsServiceImplTest {
     @Mock
     private GetHearingRequestToCsvMapper getHearingRequestToCsvMapper;
 
+    @InjectMocks
+    private OperationalReportsServiceImpl operationalReportsService;
+
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
+        hearingActualsHelper = new HearingActualsHelper(applicationParams);
         operationalReportsService = new OperationalReportsServiceImpl(
-                appParams,
                 caseHearingRequestRepository,
-                getHearingRequestToCsvMapper
+                getHearingRequestToCsvMapper,
+                hearingActualsHelper
         );
     }
 
@@ -51,35 +63,31 @@ class OperationalReportsServiceImplTest {
     }
 
     @Test
-    void isToBeIncluded() {
-        // All the cases from HMAN-390
-        LocalDateTime endDateTime = LocalDateTime.of(2022,2, 15, 13, 01);
-        LocalDate now = LocalDate.of(2022, 2, 16);
-        assertTrue(operationalReportsService.isToBeIncluded(endDateTime, now, 0L));
+    void getAwaitingActualsRequests() {
+        CaseHearingRequestEntity entity1 = createCaseHearingEntity(2000000001L,
+                9000000000000001L, HearingStatus.UPDATE_SUBMITTED);
+        CaseHearingRequestEntity entity2 = createCaseHearingEntity(2000000002L,
+                9000000000000002L, HearingStatus.UPDATE_REQUESTED);
+        CaseHearingRequestEntity entity3 = createCaseHearingEntity(2000000003L,
+                9000000000000003L, HearingStatus.UPDATE_REQUESTED);
+        List<CaseHearingRequestEntity> entities = List.of(entity1, entity2, entity3);
 
-        endDateTime = LocalDateTime.of(2022,2, 15, 13, 01);
-        now = LocalDate.of(2022, 2, 16);
-        assertFalse(operationalReportsService.isToBeIncluded(endDateTime, now, 2L));
+        List<CaseHearingRequestEntity> awaitingActualsEntities =
+                operationalReportsService.getAwaitingActualsCases(entities);
 
-        endDateTime = LocalDateTime.of(2022,2, 17, 13, 01);
-        now = LocalDate.of(2022, 2, 16);
-        assertFalse(operationalReportsService.isToBeIncluded(endDateTime, now, 2L));
+        // TODO: filtration!!
+        assertEquals(0, awaitingActualsEntities.size(), 0);
+    }
 
-        endDateTime = LocalDateTime.of(2022,2, 14, 13, 01);
-        now = LocalDate.of(2022, 2, 16);
-        assertTrue(operationalReportsService.isToBeIncluded(endDateTime, now, 1L));
-
-        endDateTime = LocalDateTime.of(2022,2, 14, 13, 01);
-        now = LocalDate.of(2022, 2, 16);
-        assertTrue(operationalReportsService.isToBeIncluded(endDateTime, now, 1L));
-
-        endDateTime = LocalDateTime.of(2022,2, 16, 13, 01);
-        now = LocalDate.of(2022, 2, 16);
-        assertFalse(operationalReportsService.isToBeIncluded(endDateTime, now, 1L));
-
-        endDateTime = LocalDateTime.of(2022,2, 17, 13, 01);
-        now = LocalDate.of(2022, 2, 16);
-        assertFalse(operationalReportsService.isToBeIncluded(endDateTime, now, 0L));
+    private CaseHearingRequestEntity createCaseHearingEntity(Long hearingId, Long caseHearingId, HearingStatus status) {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setId(hearingId);
+        hearingEntity.setStatus(status.name());
+        CaseHearingRequestEntity caseHearingEntity = TestingUtil.caseHearingRequestEntityWithPartyOrg();
+        caseHearingEntity.setCaseHearingID(caseHearingId);
+        caseHearingEntity.setHearing(hearingEntity);
+        hearingEntity.setCaseHearingRequests(List.of(caseHearingEntity));
+        return caseHearingEntity;
     }
 
     private List<HearingRequestForCsv> createHearingRequestForCsvTestData() {
@@ -128,5 +136,4 @@ class OperationalReportsServiceImplTest {
         hearingRequest.setHearingStatus(HearingStatus.UPDATE_REQUESTED.name());
         return hearingRequest;
     }
-
 }

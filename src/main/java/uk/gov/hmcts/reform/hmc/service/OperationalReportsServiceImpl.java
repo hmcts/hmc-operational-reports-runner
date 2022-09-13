@@ -6,12 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.reform.hmc.ApplicationParams;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
-import uk.gov.hmcts.reform.hmc.data.HearingDayDetailsEntity;
-import uk.gov.hmcts.reform.hmc.data.HearingResponseEntity;
 import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.hmcts.reform.hmc.helper.GetHearingRequestToCsvMapper;
+import uk.gov.hmcts.reform.hmc.helper.HearingActualsHelper;
 import uk.gov.hmcts.reform.hmc.model.HearingRequestForCsv;
 import uk.gov.hmcts.reform.hmc.repository.CaseHearingRequestRepository;
 
@@ -19,15 +17,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
-
-import static java.time.temporal.ChronoUnit.DAYS;
 
 @Slf4j
 @Service
@@ -35,17 +28,17 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
 
     private static final String PATTERN = "dd-MM-yyyy";
 
-    private final ApplicationParams appParams;
-    private CaseHearingRequestRepository caseHearingRequestRepository;
-    private GetHearingRequestToCsvMapper getHearingRequestToCsvMapper;
+    private final CaseHearingRequestRepository caseHearingRequestRepository;
+    private final GetHearingRequestToCsvMapper getHearingRequestToCsvMapper;
+    private final HearingActualsHelper hearingActualsHelper;
 
     @Autowired
-    OperationalReportsServiceImpl(ApplicationParams appParams,
-                                  CaseHearingRequestRepository caseHearingRequestRepository,
-                                  GetHearingRequestToCsvMapper getHearingRequestToCsvMapper) {
-        this.appParams = appParams;
+    OperationalReportsServiceImpl(CaseHearingRequestRepository caseHearingRequestRepository,
+                                  GetHearingRequestToCsvMapper getHearingRequestToCsvMapper,
+                                  HearingActualsHelper hearingActualsHelper) {
         this.caseHearingRequestRepository = caseHearingRequestRepository;
         this.getHearingRequestToCsvMapper = getHearingRequestToCsvMapper;
+        this.hearingActualsHelper = hearingActualsHelper;
     }
 
     @Override
@@ -63,40 +56,29 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
                 HearingStatus.UPDATE_SUBMITTED.name());
         List<CaseHearingRequestEntity> caseHearingRequestEntities =  getHearingsForStatuses(statuses);
         List<CaseHearingRequestEntity> filteredCaseHearingRequests =
-                filterCaseHearingRequests(caseHearingRequestEntities);
+                getAwaitingActualsCases(caseHearingRequestEntities);
         String csv = createCsvData(mapToCsvObjects(filteredCaseHearingRequests));
         return generateFileFromString(csv);
     }
 
 
     @Override
-    public List<CaseHearingRequestEntity> filterCaseHearingRequests(
+    public List<CaseHearingRequestEntity> getAwaitingActualsCases(
             List<CaseHearingRequestEntity> caseHearingRequestEntities) {
-        List<CaseHearingRequestEntity> filteredEntities = new ArrayList<>();
+        List<CaseHearingRequestEntity> awaitingActualsEntities = new ArrayList<>();
 
-        caseHearingRequestEntities.stream().forEach(e -> {
+        caseHearingRequestEntities.forEach(e -> {
             log.debug("caseHearingRequest id: {}; status {}", e.getCaseHearingID(), e.getHearing().getStatus());
-            Optional<HearingResponseEntity> hearingResponse = e.getHearing().getLatestHearingResponse();
-            if (hearingResponse.isPresent()) {
-                HearingResponseEntity latestHearingResponse = hearingResponse.get();
-                log.debug("latestHearingResponse id: {}", latestHearingResponse.getHearingResponseId());
-                Optional<HearingDayDetailsEntity> hearingDayDetails =
-                        latestHearingResponse.getLatestHearingDayDetails();
-                if (latestHearingResponse.hasHearingDayDetails() && hearingDayDetails.isPresent()) {
-                    HearingDayDetailsEntity hearingDayDetailsEntity = hearingDayDetails.get();
-                    log.debug("latestHearingDayDetails id: {}", hearingDayDetailsEntity.getHearingDayId());
-                    if (isToBeIncluded(hearingDayDetailsEntity.getEndDateTime())) {
-                        log.debug("isToBeIncluded == true");
-                        filteredEntities.add(e);
-                    } else {
-                        log.debug("isToBeIncluded == false");
-                    }
-                }
+            if (hearingActualsHelper.getHearingStatus(e.getHearing()).equals(HearingActualsHelper.AWAITING_ACTUALS)) {
+                log.debug(HearingActualsHelper.AWAITING_ACTUALS);
+                awaitingActualsEntities.add(e);
+            } else {
+                log.debug("NOT " + HearingActualsHelper.AWAITING_ACTUALS);
             }
         });
 
-        log.info("Filtered to {} caseHearingRequests.", filteredEntities.size());
-        return filteredEntities;
+        log.info("Found {} awaiting actuals requests.", awaitingActualsEntities.size());
+        return awaitingActualsEntities;
     }
 
     @Override
@@ -117,7 +99,7 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
     @Override
     public List<HearingRequestForCsv> mapToCsvObjects(List<CaseHearingRequestEntity> caseHearings) {
         List<HearingRequestForCsv> csvRequests = new ArrayList<>();
-        caseHearings.stream().forEach(requestEntity ->
+        caseHearings.forEach(requestEntity ->
                                           csvRequests.add(getHearingRequestToCsvMapper.toHearingRequestForCsv(
                                               requestEntity))
         );
@@ -146,23 +128,6 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
                                           .format(new Date()) + ".csv");
         FileUtils.writeStringToFile(csvOutputFile, data, Charset.defaultCharset());
         return csvOutputFile;
-    }
-
-    @Override
-    public boolean isToBeIncluded(LocalDateTime endDate) {
-        long configuredNumberOfDays = appParams.getConfiguredNumberOfDays();
-        return isToBeIncluded(endDate, LocalDate.now(), configuredNumberOfDays);
-    }
-
-    @Override
-    public boolean isToBeIncluded(LocalDateTime endDateTime, LocalDate now, Long configuredNumberOfDays) {
-        if (endDateTime.toLocalDate().isAfter(now)) {
-            log.debug("endDateTime {} is after now {}", endDateTime, now);
-            return false;
-        }
-        log.debug("Days between endDateTime {} and now {} = {}. configuredNumberOfDays {}",
-                endDateTime, now, DAYS.between(endDateTime.toLocalDate(), now), configuredNumberOfDays);
-        return (DAYS.between(endDateTime.toLocalDate(), now) > configuredNumberOfDays);
     }
 
 }
