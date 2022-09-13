@@ -7,20 +7,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HearingRequestForCsv {
-    @JsonProperty("Case Reference")
+    @JsonProperty("case reference")
     private String caseReference;
-    @JsonProperty("Case Name")
+    @JsonProperty("case name")
     private String caseName;
-    @JsonProperty("Hearing Status")
+    @JsonProperty("hearing status")
     private String hearingStatus;
-    @JsonProperty("Hearing Id")
+    @JsonProperty("HMC Id")
     private String hearingId;
     @JsonProperty("List Assist Id")
     private String listAssistId;
-    @JsonProperty("Hearing Request Received Date Time")
+    @JsonProperty("Date/time of last request")
     private String hearingRequestReceivedDateTime;
-    @JsonProperty("Hearing Response Received Date Time")
+    @JsonProperty("Date/time of last LA response")
     private String hearingResponseReceivedDateTime;
-    @JsonProperty("First Scheduled Hearing Date Time")
+    @JsonProperty("Date/time of first scheduled hearing date")
     private String firstScheduledHearingDate;
 }
