@@ -4,11 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import uk.gov.hmcts.reform.hmc.exceptions.ResourceNotFoundException;
-import uk.gov.hmcts.reform.hmc.helper.HearingActualsHelper;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
