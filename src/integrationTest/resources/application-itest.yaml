@@ -36,3 +36,7 @@ idam:
     url: http://localhost:${wiremock.server.port:5000}
   s2s-auth:
     url: http://localhost:${wiremock.server.port:5000}/s2s
+
+
+app.configuredNumberOfDays: 2
+

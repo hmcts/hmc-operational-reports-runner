@@ -11,6 +11,8 @@ public interface OperationalReportsService {
 
     File createCsvDataForExceptions() throws IOException;
 
+    File createCsvDataForAwaitingActuals() throws IOException;
+
     List<HearingRequestForCsv> createCsvObjectsForGivenStatuses(List<String> statuses);
 
     List<CaseHearingRequestEntity> getHearingsForStatuses(List<String> statuses);
@@ -20,5 +22,8 @@ public interface OperationalReportsService {
     String createCsvData(List<HearingRequestForCsv> hearingRequestForCsvs);
 
     File generateFileFromString(String file) throws IOException;
+
+    List<CaseHearingRequestEntity> getAwaitingActualsCases(
+            List<CaseHearingRequestEntity> caseHearingRequestEntities);
 
 }

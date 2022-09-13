@@ -37,8 +37,6 @@ spring:
   jpa:
     database: postgresql
     show-sql: false
-    generate-ddl: true
-
     hibernate:
       ddl-auto: none
     properties:
@@ -51,7 +49,7 @@ azure:
     instrumentation-key: ${hmc.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
 notify:
-  api-key: ${NOTIFY_HMC_API_KEY:notify-api-key}
+  api-key: ${NOTIFY_HMC_API_KEY}
   email-templates:
     error:
       template-id: ${NOTIFY_ERROR_TEMPLATE_ID}
@@ -61,6 +59,8 @@ notify:
       template-id: ${NOTIFY_AWAITING_ACTUALS_TEMPLATE_ID}
       email-address: ${NOTIFY_AWAITING_ACTUALS_EMAIL_ADDRESS}
       reply-to-email-address: ${NOTIFY_AWAITING_ACTUALS_REPLY_TO_EMAIL_ADDRESS}
+
+app.configuredNumberOfDays: 0
 
 smoke.test.enabled: false
 

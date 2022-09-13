@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.hmc.data.CaseHearingRequestEntity;
 import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.hmcts.reform.hmc.helper.GetHearingRequestToCsvMapper;
+import uk.gov.hmcts.reform.hmc.helper.HearingActualsHelper;
 import uk.gov.hmcts.reform.hmc.model.HearingRequestForCsv;
 import uk.gov.hmcts.reform.hmc.repository.CaseHearingRequestRepository;
 
@@ -26,14 +27,18 @@ import java.util.Locale;
 public class OperationalReportsServiceImpl implements OperationalReportsService {
 
     private static final String PATTERN = "dd-MM-yyyy";
-    private CaseHearingRequestRepository caseHearingRequestRepository;
-    private GetHearingRequestToCsvMapper getHearingRequestToCsvMapper;
+
+    private final CaseHearingRequestRepository caseHearingRequestRepository;
+    private final GetHearingRequestToCsvMapper getHearingRequestToCsvMapper;
+    private final HearingActualsHelper hearingActualsHelper;
 
     @Autowired
     OperationalReportsServiceImpl(CaseHearingRequestRepository caseHearingRequestRepository,
-                                  GetHearingRequestToCsvMapper getHearingRequestToCsvMapper) {
+                                  GetHearingRequestToCsvMapper getHearingRequestToCsvMapper,
+                                  HearingActualsHelper hearingActualsHelper) {
         this.caseHearingRequestRepository = caseHearingRequestRepository;
         this.getHearingRequestToCsvMapper = getHearingRequestToCsvMapper;
+        this.hearingActualsHelper = hearingActualsHelper;
     }
 
     @Override
@@ -42,6 +47,38 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
         List<HearingRequestForCsv> hearingRequestForCsvs = createCsvObjectsForGivenStatuses(statuses);
         String csv = createCsvData(hearingRequestForCsvs);
         return generateFileFromString(csv);
+    }
+
+    @Override
+    public File createCsvDataForAwaitingActuals() throws IOException {
+        List<String> statuses = List.of(HearingStatus.LISTED.name(),
+                HearingStatus.UPDATE_REQUESTED.name(),
+                HearingStatus.UPDATE_SUBMITTED.name());
+        List<CaseHearingRequestEntity> caseHearingRequestEntities =  getHearingsForStatuses(statuses);
+        List<CaseHearingRequestEntity> filteredCaseHearingRequests =
+                getAwaitingActualsCases(caseHearingRequestEntities);
+        String csv = createCsvData(mapToCsvObjects(filteredCaseHearingRequests));
+        return generateFileFromString(csv);
+    }
+
+
+    @Override
+    public List<CaseHearingRequestEntity> getAwaitingActualsCases(
+            List<CaseHearingRequestEntity> caseHearingRequestEntities) {
+        List<CaseHearingRequestEntity> awaitingActualsEntities = new ArrayList<>();
+
+        caseHearingRequestEntities.forEach(e -> {
+            log.debug("caseHearingRequest id: {}; status {}", e.getCaseHearingID(), e.getHearing().getStatus());
+            if (hearingActualsHelper.getHearingStatus(e.getHearing()).equals(HearingActualsHelper.AWAITING_ACTUALS)) {
+                log.debug(HearingActualsHelper.AWAITING_ACTUALS);
+                awaitingActualsEntities.add(e);
+            } else {
+                log.debug("NOT " + HearingActualsHelper.AWAITING_ACTUALS);
+            }
+        });
+
+        log.info("Found {} awaiting actuals requests.", awaitingActualsEntities.size());
+        return awaitingActualsEntities;
     }
 
     @Override
@@ -62,7 +99,7 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
     @Override
     public List<HearingRequestForCsv> mapToCsvObjects(List<CaseHearingRequestEntity> caseHearings) {
         List<HearingRequestForCsv> csvRequests = new ArrayList<>();
-        caseHearings.stream().forEach(requestEntity ->
+        caseHearings.forEach(requestEntity ->
                                           csvRequests.add(getHearingRequestToCsvMapper.toHearingRequestForCsv(
                                               requestEntity))
         );
@@ -92,6 +129,5 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
         FileUtils.writeStringToFile(csvOutputFile, data, Charset.defaultCharset());
         return csvOutputFile;
     }
-
 
 }

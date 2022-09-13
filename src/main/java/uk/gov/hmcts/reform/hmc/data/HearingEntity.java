@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import uk.gov.hmcts.reform.hmc.exceptions.ResourceNotFoundException;
+import uk.gov.hmcts.reform.hmc.helper.HearingActualsHelper;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -135,7 +136,7 @@ public class HearingEntity extends BaseEntity implements Serializable {
                         HearingDayDetailsEntity hearingDayDetailsEntity = hearingDayDetails.get();
                         if (hearingDayDetailsEntity.getStartDateTime() != null
                             && LocalDate.now().isAfter(hearingDayDetailsEntity.getStartDateTime().toLocalDate())) {
-                            return "AWAITING_ACTUALS";
+                            return HearingActualsHelper.AWAITING_ACTUALS;
                         }
                     }
                 }
