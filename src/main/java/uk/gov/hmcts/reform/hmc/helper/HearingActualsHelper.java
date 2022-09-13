@@ -41,19 +41,19 @@ public class HearingActualsHelper {
         return hearingEntity.getStatus();
     }
 
-    public boolean isEarliestPlannedHearingDayValid(HearingResponseEntity latestHearingResponse) {
+    protected boolean isEarliestPlannedHearingDayValid(HearingResponseEntity latestHearingResponse) {
         Optional<HearingDayDetailsEntity> hearingDayDetails =
                 latestHearingResponse.getEarliestHearingDayDetails();
         if (latestHearingResponse.hasHearingDayDetails() && hearingDayDetails.isPresent()) {
             HearingDayDetailsEntity hearingDayDetailsEntity = hearingDayDetails.get();
-            log.info("is now {} after earliest planned day {} ?", LocalDate.now(),
+            log.debug("is now {} after earliest planned day {} ?", LocalDate.now(),
                     hearingDayDetailsEntity.getStartDateTime().toLocalDate());
             return (LocalDate.now().isAfter(hearingDayDetailsEntity.getStartDateTime().toLocalDate()));
         }
         return false;
     }
 
-    public boolean isLastPlannedHearingDayValid(HearingResponseEntity latestHearingResponse) {
+    protected boolean isLastPlannedHearingDayValid(HearingResponseEntity latestHearingResponse) {
         Optional<HearingDayDetailsEntity> hearingDayDetails =
                 latestHearingResponse.getLatestHearingDayDetails();
         if (latestHearingResponse.hasHearingDayDetails() && hearingDayDetails.isPresent()) {
@@ -63,15 +63,15 @@ public class HearingActualsHelper {
         return false;
     }
 
-    public boolean isLastPlannedHearingDayValid(LocalDateTime endDate) {
+    private boolean isLastPlannedHearingDayValid(LocalDateTime endDate) {
         long configuredNumberOfDays = appParams.getConfiguredNumberOfDays();
         return isLastPlannedHearingDayValid(endDate, LocalDate.now(), configuredNumberOfDays);
     }
 
-    public boolean isLastPlannedHearingDayValid(LocalDateTime endDateTime, LocalDate now,
+    protected boolean isLastPlannedHearingDayValid(LocalDateTime endDateTime, LocalDate now,
                                                  Long configuredNumberOfDays) {
         if (endDateTime.toLocalDate().isAfter(now)) {
-            log.info("last planned datetime {} is not after now {}", endDateTime, now);
+            log.debug("last planned datetime {} is not after now {}", endDateTime, now);
             return false;
         }
         log.debug("Days between endDateTime {} and now {} = {}. configuredNumberOfDays {}",
