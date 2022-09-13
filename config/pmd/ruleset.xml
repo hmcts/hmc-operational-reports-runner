@@ -11,6 +11,8 @@
     <exclude name="JUnitTestContainsTooManyAsserts"/>
     <exclude name="JUnitTestsShouldIncludeAssert" />
     <exclude name="JUnitAssertionsShouldIncludeMessage" />
+
+    <exclude name="TooManyFields" />
   </rule>
   <rule ref="category/java/codestyle.xml">
     <exclude name="AtLeastOneConstructor"/>

@@ -20,30 +20,36 @@ spring:
     import: "optional:configtree:/mnt/secrets/hmc/"
   application:
     name: HMC Operational Reports Runner
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}${DB_OPTIONS:}
-#    username: ${DB_USER_NAME}
-#    password: ${DB_PASSWORD}
-#    properties:
-#      charSet: UTF-8
-#    hikari:
-#      minimumIdle: 2
-#      maximumPoolSize: 10
-#      idleTimeout: 10000
-#      poolName: {to-be-defined}HikariCP
-#      maxLifetime: 7200000
-#      connectionTimeout: 30000
-#  jpa:
-#    properties:
-#      hibernate:
-#        jdbc:
-#          lob:
-#            # silence the 'wall-of-text' - unnecessary exception throw about blob types
-#            non_contextual_creation: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${CFT_HEARING_SERVICE_DB_HOST:localhost}:${CFT_HEARING_SERVICE_DB_PORT:5060}/${DB_NAME:hmc_cft_hearing_service}${CFT_HEARING_SERVICE_DB_OPTIONS:}
+    username: ${CFT_HEARING_SERVICE_DB_USERNAME:hmc}
+    password: ${CFT_HEARING_SERVICE_DB_PASSWORD:hmc}
+    properties:
+      charSet: UTF-8
+    hikari:
+      minimumIdle: 2
+      maximumPoolSize: 10
+      idleTimeout: 10000
+      #      poolName: {to-be-defined}HikariCP
+      maxLifetime: 7200000
+      connectionTimeout: 30000
+  jpa:
+    database: postgresql
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+azure:
+  application-insights:
+    web.enabled: false
+    instrumentation-key: ${hmc.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
 notify:
-  api-key: ${NOTIFY_HMC_API_KEY:notify-api-key}
+  api-key: ${NOTIFY_HMC_API_KEY}
   email-templates:
     error:
       template-id: ${NOTIFY_ERROR_TEMPLATE_ID}
@@ -54,9 +60,8 @@ notify:
       email-address: ${NOTIFY_AWAITING_ACTUALS_EMAIL_ADDRESS}
       reply-to-email-address: ${NOTIFY_AWAITING_ACTUALS_REPLY_TO_EMAIL_ADDRESS}
 
-azure:
-  application-insights:
-    web.enabled: false
-    instrumentation-key: ${hmc.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
+app.configuredNumberOfDays: 0
 
 smoke.test.enabled: false
+
+app.insights.log.size: ${OPERATIONAL_REPORTS_RUNNER_LOG_SIZE:250}
