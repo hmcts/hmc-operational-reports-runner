@@ -6,6 +6,7 @@ import uk.gov.hmcts.reform.hmc.ApplicationParams;
 import uk.gov.hmcts.reform.hmc.data.HearingDayDetailsEntity;
 import uk.gov.hmcts.reform.hmc.data.HearingEntity;
 import uk.gov.hmcts.reform.hmc.data.HearingResponseEntity;
+import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,22 +26,19 @@ public class HearingActualsHelper {
     }
 
     public String getHearingStatus(HearingEntity hearingEntity) {
-        final String[] hearingStatus = {null};
-        switch (hearingEntity.getStatus()) {
-            case "LISTED", "UPDATE_REQUESTED", "UPDATE_SUBMITTED" -> {
-                hearingStatus[0] = hearingEntity.getStatus();
-                Optional<HearingResponseEntity> hearingResponse = hearingEntity.getLatestHearingResponse();
-                hearingResponse.ifPresent(
-                        latestHearingResponse -> {
-                            if (isEarliestPlannedHearingDayValid(latestHearingResponse)
-                                    && isLastPlannedHearingDaysValid(latestHearingResponse)) {
-                                hearingStatus[0] = AWAITING_ACTUALS;
-                            }
-                        });
+        if (hearingEntity.getStatus().equals(HearingStatus.LISTED)
+            || hearingEntity.getStatus().equals(HearingStatus.UPDATE_REQUESTED)
+            || hearingEntity.getStatus().equals(HearingStatus.UPDATE_SUBMITTED)) {
+            Optional<HearingResponseEntity> hearingResponse = hearingEntity.getLatestHearingResponse();
+            if (hearingResponse.isPresent()) {
+                HearingResponseEntity latestHearingResponse = hearingResponse.get();
+                if (isEarliestPlannedHearingDayValid(latestHearingResponse)
+                    && isLastPlannedHearingDayValid(latestHearingResponse)) {
+                    return AWAITING_ACTUALS;
+                }
             }
-            default -> hearingStatus[0] = hearingEntity.getStatus();
         }
-        return hearingStatus[0];
+        return hearingEntity.getStatus();
     }
 
     public boolean isEarliestPlannedHearingDayValid(HearingResponseEntity latestHearingResponse) {
@@ -55,22 +53,22 @@ public class HearingActualsHelper {
         return false;
     }
 
-    public boolean isLastPlannedHearingDaysValid(HearingResponseEntity latestHearingResponse) {
+    public boolean isLastPlannedHearingDayValid(HearingResponseEntity latestHearingResponse) {
         Optional<HearingDayDetailsEntity> hearingDayDetails =
                 latestHearingResponse.getLatestHearingDayDetails();
         if (latestHearingResponse.hasHearingDayDetails() && hearingDayDetails.isPresent()) {
             HearingDayDetailsEntity hearingDayDetailsEntity = hearingDayDetails.get();
-            return isLastPlannedHearingDaysValid(hearingDayDetailsEntity.getStartDateTime());
+            return isLastPlannedHearingDayValid(hearingDayDetailsEntity.getEndDateTime());
         }
         return false;
     }
 
-    public boolean isLastPlannedHearingDaysValid(LocalDateTime endDate) {
+    public boolean isLastPlannedHearingDayValid(LocalDateTime endDate) {
         long configuredNumberOfDays = appParams.getConfiguredNumberOfDays();
-        return isLastPlannedHearingDaysValid(endDate, LocalDate.now(), configuredNumberOfDays);
+        return isLastPlannedHearingDayValid(endDate, LocalDate.now(), configuredNumberOfDays);
     }
 
-    public boolean isLastPlannedHearingDaysValid(LocalDateTime endDateTime, LocalDate now,
+    public boolean isLastPlannedHearingDayValid(LocalDateTime endDateTime, LocalDate now,
                                                  Long configuredNumberOfDays) {
         if (endDateTime.toLocalDate().isAfter(now)) {
             log.debug("last planned datetime {} is not after now {}", endDateTime, now);
