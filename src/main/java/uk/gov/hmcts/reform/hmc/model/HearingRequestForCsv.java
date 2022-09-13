@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HearingRequestForCsv {
-    @JsonProperty("case reference")
+    @JsonProperty("Case Reference")
     private String caseReference;
-    @JsonProperty("case name")
+    @JsonProperty("Case Name")
     private String caseName;
-    @JsonProperty("hearing status")
+    @JsonProperty("Hearing Status")
     private String hearingStatus;
     @JsonProperty("HMC Id")
     private String hearingId;
