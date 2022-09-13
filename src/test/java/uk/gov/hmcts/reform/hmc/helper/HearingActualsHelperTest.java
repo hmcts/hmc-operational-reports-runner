@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -99,6 +100,72 @@ class HearingActualsHelperTest {
         latestHearingResponse.setHearingDayDetails(List.of(hearingDayDetails1, hearingDayDetails2));
         when(applicationParams.getConfiguredNumberOfDays()).thenReturn(0L);
         assertFalse(hearingActualsHelper.isLastPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
+    void getHearingStatusForListed() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.LISTED.name());
+        HearingResponseEntity latestHearingResponse = new HearingResponseEntity();
+        latestHearingResponse.setHearing(hearingEntity);
+        HearingDayDetailsEntity hearingDayDetails1 = new HearingDayDetailsEntity();
+        hearingDayDetails1.setEndDateTime(LocalDateTime.now().minusMonths(1));
+        HearingDayDetailsEntity hearingDayDetails2 = new HearingDayDetailsEntity();
+        hearingDayDetails2.setEndDateTime(LocalDateTime.now().plusMonths(1));
+        latestHearingResponse.setHearingDayDetails(List.of(hearingDayDetails1, hearingDayDetails2));
+        assertEquals(hearingActualsHelper.getHearingStatus(hearingEntity), HearingStatus.LISTED.name());
+
+    }
+
+    @Test
+    void getHearingStatusForUpdateRequested() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.UPDATE_REQUESTED.name());
+        HearingResponseEntity latestHearingResponse = new HearingResponseEntity();
+        latestHearingResponse.setHearing(hearingEntity);
+        HearingDayDetailsEntity hearingDayDetails1 = new HearingDayDetailsEntity();
+        hearingDayDetails1.setEndDateTime(LocalDateTime.now().minusMonths(1));
+        HearingDayDetailsEntity hearingDayDetails2 = new HearingDayDetailsEntity();
+        hearingDayDetails2.setEndDateTime(LocalDateTime.now().plusMonths(1));
+        latestHearingResponse.setHearingDayDetails(List.of(hearingDayDetails1, hearingDayDetails2));
+        assertEquals(hearingActualsHelper.getHearingStatus(hearingEntity), HearingStatus.UPDATE_REQUESTED.name());
+
+    }
+
+    @Test
+    void getHearingStatusForUpdateSubmitted() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.UPDATE_SUBMITTED.name());
+        HearingResponseEntity latestHearingResponse = new HearingResponseEntity();
+        latestHearingResponse.setHearing(hearingEntity);
+        HearingDayDetailsEntity hearingDayDetails1 = new HearingDayDetailsEntity();
+        hearingDayDetails1.setEndDateTime(LocalDateTime.now().minusMonths(1));
+        HearingDayDetailsEntity hearingDayDetails2 = new HearingDayDetailsEntity();
+        hearingDayDetails2.setEndDateTime(LocalDateTime.now().plusMonths(1));
+        latestHearingResponse.setHearingDayDetails(List.of(hearingDayDetails1, hearingDayDetails2));
+        assertEquals(hearingActualsHelper.getHearingStatus(hearingEntity), HearingStatus.UPDATE_SUBMITTED.name());
+
+    }
+
+    @Test
+    void getHearingStatusForAwaitingActuals() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.UPDATE_SUBMITTED.name());
+        HearingDayDetailsEntity hearingDayDetails1 = new HearingDayDetailsEntity();
+        hearingDayDetails1.setStartDateTime(LocalDateTime.now().minusMonths(3));
+        hearingDayDetails1.setEndDateTime(LocalDateTime.now().minusMonths(2));
+        HearingDayDetailsEntity hearingDayDetails2 = new HearingDayDetailsEntity();
+        hearingDayDetails2.setStartDateTime(LocalDateTime.now().minusMonths(1));
+        hearingDayDetails2.setEndDateTime(LocalDateTime.now().minusDays(1));
+        HearingResponseEntity latestHearingResponse = new HearingResponseEntity();
+        latestHearingResponse.setHearingResponseId(10L);
+        latestHearingResponse.setRequestVersion(2);
+        latestHearingResponse.setHearingDayDetails(List.of(hearingDayDetails1, hearingDayDetails2));
+        latestHearingResponse.setHearing(hearingEntity);
+        hearingEntity.setHearingResponses(List.of(latestHearingResponse));
+        when(applicationParams.getConfiguredNumberOfDays()).thenReturn(0L);
+        assertEquals(HearingActualsHelper.AWAITING_ACTUALS, hearingActualsHelper.getHearingStatus(hearingEntity));
+
     }
 
     @Test
