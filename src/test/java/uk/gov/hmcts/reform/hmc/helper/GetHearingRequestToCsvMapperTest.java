@@ -71,7 +71,6 @@ class GetHearingRequestToCsvMapperTest {
         assertEquals(hearingRequestForCsv.getFirstScheduledHearingDate(), "2020-08-10T12:20");
         assertNull(hearingRequestForCsv.getHearingStatus());
         assertNull(hearingRequestForCsv.getCaseReference());
-        assertNull(hearingRequestForCsv.getCaseName());
         assertNull(hearingRequestForCsv.getListAssistId());
     }
 
