@@ -55,6 +55,8 @@ public class ApplicationParams {
         return notifyAwaitingHearingsReplyToEmailAddress;
     }
 
-    public Long getConfiguredNumberOfDays() { return configuredNumberOfDays; }
+    public Long getConfiguredNumberOfDays() {
+        return configuredNumberOfDays;
+    }
 
 }
