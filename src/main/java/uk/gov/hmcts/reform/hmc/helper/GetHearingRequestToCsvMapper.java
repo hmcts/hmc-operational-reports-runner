@@ -15,13 +15,15 @@ public class GetHearingRequestToCsvMapper {
         HearingRequestForCsv hearingRequestForCsv = new HearingRequestForCsv();
         hearingRequestForCsv.setCaseReference(requestEntity.getCaseReference());
         hearingRequestForCsv.setCaseName(
-                String.format("=HYPERLINK(\"%1$s\",\"%2$s\")",
-                                requestEntity.getCaseUrlContextPath(),
-                                requestEntity.getPublicCaseName()));
+            String.format(
+                "=HYPERLINK(\"%1$s\",\"%2$s\")",
+                requestEntity.getCaseUrlContextPath(),
+                requestEntity.getPublicCaseName()
+            ));
         hearingRequestForCsv.setHearingStatus(requestEntity.getHearing().getStatus());
         hearingRequestForCsv.setHearingId(requestEntity.getHearing().getId().toString());
         hearingRequestForCsv.setHearingRequestReceivedDateTime(
-                requestEntity.getHearingRequestReceivedDateTime().toString());
+            requestEntity.getHearingRequestReceivedDateTime().toString());
         loadHearingResponseValues(requestEntity, hearingRequestForCsv);
         return hearingRequestForCsv;
     }
@@ -36,13 +38,16 @@ public class GetHearingRequestToCsvMapper {
             }
             if (null != latestHearingResponse.getRequestTimeStamp()) {
                 hearingRequestForCsv.setHearingResponseReceivedDateTime(
-                        latestHearingResponse.getRequestTimeStamp().toString());
+                    latestHearingResponse.getRequestTimeStamp().toString());
             }
             Optional<HearingDayDetailsEntity> hearingDayDetails = latestHearingResponse.getEarliestHearingDayDetails();
             if (hearingDayDetails.isPresent()) {
                 HearingDayDetailsEntity earliestHearingDayDetails = hearingDayDetails.get();
-                hearingRequestForCsv.setFirstScheduledHearingDate(earliestHearingDayDetails
-                                                                      .getStartDateTime().toString());
+                String date = null;
+                if (earliestHearingDayDetails.getStartDateTime() != null) {
+                    date = earliestHearingDayDetails.getStartDateTime().toString();
+                }
+                hearingRequestForCsv.setFirstScheduledHearingDate(date);
             }
         }
     }
