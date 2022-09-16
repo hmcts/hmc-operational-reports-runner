@@ -50,7 +50,7 @@ public class HearingActualsHelper {
             if (hearingDayDetailsEntity.getStartDateTime() != null) {
                 date = hearingDayDetailsEntity.getStartDateTime();
                 log.debug("is now {} after earliest planned day {} ?", LocalDate.now(), date);
-                return (LocalDate.now().isAfter(date.toLocalDate()));
+                return (!LocalDate.now().isBefore(date.toLocalDate()));
             } else {
                 log.debug("startDateTime is null");
                 return false;
