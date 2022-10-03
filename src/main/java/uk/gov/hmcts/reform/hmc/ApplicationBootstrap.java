@@ -5,13 +5,13 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.inject.Inject;
 
 @Slf4j
 @SpringBootApplication
-@SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, it is not a utility class
+@SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, it's not a utility class
 public class ApplicationBootstrap implements ApplicationRunner {
 
     @Inject
@@ -25,8 +25,8 @@ public class ApplicationBootstrap implements ApplicationRunner {
     }
 
     public static void main(final String[] args) {
-        final ApplicationContext context = SpringApplication.run(ApplicationBootstrap.class);
-        SpringApplication.exit(context);
+        final ConfigurableApplicationContext context = SpringApplication.run(ApplicationBootstrap.class);
+        context.close();
     }
 
 }
