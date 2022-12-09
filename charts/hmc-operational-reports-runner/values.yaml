@@ -36,7 +36,7 @@ job:
           alias: CFT_HEARING_SERVICE_DB_PORT
         - name: cft-hearing-service-POSTGRES-DATABASE
           alias: CFT_HEARING_SERVICE_DB_NAME
-  environment:
+  #environment:
   #    TODO
   global:
     jobKind: CronJob
