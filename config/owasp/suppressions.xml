@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-  <suppress until="2022-11-01">
-    <cve>CVE-2016-1000027</cve>
-    <cve>CVE-2022-25857</cve>
-    <cve>CVE-2021-29425</cve>
-    <cve>CVE-2022-38749</cve>
-    <cve>CVE-2022-38751</cve>
-    <cve>CVE-2022-38750</cve>
-  </suppress>
   <suppress>
     <notes>Temporary Suppression
         CVE-2021-37533 refer [Ticket]
