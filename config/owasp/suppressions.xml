@@ -15,7 +15,7 @@
     <cve>CVE-2020-10663</cve>
     <cve>CVE-2020-7712</cve>
    </suppress>
-   <suppress until="2023-11-31">
+   <suppress until="2023-11-28">
     <cve>CVE-2016-1000027</cve>
      <cve>CVE-2022-25857</cve>
      <cve>CVE-2021-29425</cve>
