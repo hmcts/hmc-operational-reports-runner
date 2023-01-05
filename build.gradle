@@ -12,6 +12,7 @@ plugins {
   id 'uk.gov.hmcts.java' version '0.12.27'
 }
 
+
 group = 'uk.gov.hmcts.reform'
 version = '0.0.1'
 
