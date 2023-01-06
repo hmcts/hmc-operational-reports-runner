@@ -59,7 +59,7 @@ withPipeline(type, product, component) {
         env.ENV='aat'
     }
 
-  afterSuccess('akschartsinstall') {
+  afterAlways('akschartsinstall') {
 
         echo "Just waiting a while to ensure that the pod has run the job"
         sh "sleep 120s"
