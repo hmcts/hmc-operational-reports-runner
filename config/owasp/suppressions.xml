@@ -14,7 +14,8 @@
         CVE-2022-41854 refer [Ticket]
         CVE-2022-38750 refer [Ticket]
         CVE-2016-1000027 refer [Ticket]
-        CVE-2022-42252 refer [Ticket]</notes>
+        CVE-2022-42252 refer [Ticket]
+        CVE-2021-4277 refer https://tools.hmcts.net/jira/browse/HMAN-500</notes>
     <cve>CVE-2021-37533</cve>
     <cve>CVE-2021-29425</cve>
     <cve>CVE-2022-42003</cve>
@@ -29,5 +30,6 @@
     <cve>CVE-2022-38750</cve>
     <cve>CVE-2016-1000027</cve>
     <cve>CVE-2022-42252</cve>
+    <cve>CVE-2021-4277</cve>
   </suppress>
 </suppressions>
