@@ -40,6 +40,45 @@ class HearingActualsHelperTest {
     }
 
     @Test
+    void isEarliestPlannedHearingDayValidForHearingDayStartingYesterday() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.UPDATE_REQUESTED.name());
+        HearingResponseEntity latestHearingResponse = new HearingResponseEntity();
+        HearingDayDetailsEntity hearingDayDetails1 = new HearingDayDetailsEntity();
+        hearingDayDetails1.setStartDateTime(LocalDateTime.now().minusDays(1));
+        HearingDayDetailsEntity hearingDayDetails2 = new HearingDayDetailsEntity();
+        hearingDayDetails2.setStartDateTime(LocalDateTime.now().plusMonths(2));
+        latestHearingResponse.setHearingDayDetails(List.of(hearingDayDetails1, hearingDayDetails2));
+        assertTrue(hearingActualsHelper.isEarliestPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
+    void isEarliestPlannedHearingDayValidForHearingDayStartingToday() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.UPDATE_REQUESTED.name());
+        HearingResponseEntity latestHearingResponse = new HearingResponseEntity();
+        HearingDayDetailsEntity hearingDayDetails1 = new HearingDayDetailsEntity();
+        hearingDayDetails1.setStartDateTime(LocalDateTime.now());
+        HearingDayDetailsEntity hearingDayDetails2 = new HearingDayDetailsEntity();
+        hearingDayDetails2.setStartDateTime(LocalDateTime.now().plusMonths(2));
+        latestHearingResponse.setHearingDayDetails(List.of(hearingDayDetails1, hearingDayDetails2));
+        assertTrue(hearingActualsHelper.isEarliestPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
+    void isEarliestPlannedHearingDayNotValidForHearingDayStartingTomorrow() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.UPDATE_REQUESTED.name());
+        HearingResponseEntity latestHearingResponse = new HearingResponseEntity();
+        HearingDayDetailsEntity hearingDayDetails1 = new HearingDayDetailsEntity();
+        hearingDayDetails1.setStartDateTime(LocalDateTime.now().plusDays(1));
+        HearingDayDetailsEntity hearingDayDetails2 = new HearingDayDetailsEntity();
+        hearingDayDetails2.setStartDateTime(LocalDateTime.now().plusMonths(2));
+        latestHearingResponse.setHearingDayDetails(List.of(hearingDayDetails1, hearingDayDetails2));
+        assertFalse(hearingActualsHelper.isEarliestPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
     void isEarliestPlannedHearingDayValidForEarlyHearingDays() {
         HearingEntity hearingEntity = new HearingEntity();
         hearingEntity.setStatus(HearingStatus.UPDATE_REQUESTED.name());
