@@ -41,3 +41,4 @@ job:
   global:
     jobKind: CronJob
     enableKeyVaults: true
+    environment: aat
