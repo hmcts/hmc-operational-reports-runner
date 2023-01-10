@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 @Singleton
 public class ApplicationParams {
 
-    @Value("${app.configuredNumberOfDays}")
+    @Value("${awaiting-actuals.configured-number-of-days}")
     private Long configuredNumberOfDays;
     @Value("${notify.api-key}")
     private String notifyApiKey;
