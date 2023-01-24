@@ -43,11 +43,6 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
-  cloud:
-    discovery:
-      client:
-        composite-indicator:
-          enabled: false
 azure:
   application-insights:
     web.enabled: false
