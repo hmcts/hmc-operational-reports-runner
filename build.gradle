@@ -239,7 +239,7 @@ dependencies {
 
   functionalTestImplementation sourceSets.main.runtimeClasspath
   functionalTestImplementation sourceSets.test.runtimeClasspath
-  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.1'
+  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.11'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.hmc.ApplicationBootstrap'
