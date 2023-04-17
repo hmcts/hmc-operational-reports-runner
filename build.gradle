@@ -214,7 +214,7 @@ dependencies {
 
   implementation group: 'io.rest-assured', name: 'rest-assured'
 
-  implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.5.7.Final'
+  implementation group: 'org.hibernate', name: 'hibernate-core', version: '6.2.1.Final'
   runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.5.3'
 
   annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
