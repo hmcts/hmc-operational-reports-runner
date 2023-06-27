@@ -15,6 +15,7 @@ public interface CaseHearingRequestRepository extends CrudRepository<CaseHearing
 
     @Query("from CaseHearingRequestEntity chr WHERE chr.hearing.status in :statuses "
             + "and chr.versionNumber = (select max(chr2.versionNumber) from CaseHearingRequestEntity chr2 "
+            + "and chr.hmctsServiceCode = \"BBA3\" "
             + "where chr2.hearing.id = chr.hearing.id) "
             + "order by chr.hearing.id desc")
     List<CaseHearingRequestEntity> getCaseHearingDetailsWithStatuses(List<String> statuses);
