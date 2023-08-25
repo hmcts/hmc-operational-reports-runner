@@ -23,4 +23,6 @@ public class HearingRequestForCsv {
     private String hearingResponseReceivedDateTime;
     @JsonProperty("Date/time of first scheduled hearing date")
     private String firstScheduledHearingDate;
+    @JsonProperty("Error Description")
+    private String errorDescription;
 }
