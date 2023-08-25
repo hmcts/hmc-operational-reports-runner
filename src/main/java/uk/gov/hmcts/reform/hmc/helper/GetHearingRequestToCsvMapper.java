@@ -11,7 +11,7 @@ import java.util.Optional;
 @Component
 public class GetHearingRequestToCsvMapper {
 
-    public HearingRequestForCsv toHearingRequestForCsv(CaseHearingRequestEntity requestEntity) {
+    public HearingRequestForCsv toHearingRequestForCsv(CaseHearingRequestEntity requestEntity, boolean isError) {
         HearingRequestForCsv hearingRequestForCsv = new HearingRequestForCsv();
         hearingRequestForCsv.setCaseReference(requestEntity.getCaseReference());
         hearingRequestForCsv.setCaseName(
@@ -20,6 +20,9 @@ public class GetHearingRequestToCsvMapper {
                 requestEntity.getCaseUrlContextPath(),
                 requestEntity.getPublicCaseName()
             ));
+        if (isError == true) {
+            hearingRequestForCsv.setErrorDescription(requestEntity.getHearing().getErrorDescription().toString());
+        }
         hearingRequestForCsv.setHearingStatus(requestEntity.getHearing().getStatus());
         hearingRequestForCsv.setHearingId(requestEntity.getHearing().getId().toString());
         hearingRequestForCsv.setHearingRequestReceivedDateTime(
