@@ -44,7 +44,7 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
     @Override
     public File createCsvDataForExceptions() throws IOException {
         List<String> statuses = List.of(HearingStatus.EXCEPTION.name());
-        List<HearingRequestForCsv> hearingRequestForCsvs = createCsvObjectsForGivenStatuses(statuses, true);
+        List<HearingRequestForCsv> hearingRequestForCsvs = createCsvObjectsForGivenStatuses(statuses);
         String csv = createCsvData(hearingRequestForCsvs);
         return generateFileFromString(csv);
     }
@@ -57,7 +57,7 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
         List<CaseHearingRequestEntity> caseHearingRequestEntities =  getHearingsForStatuses(statuses);
         List<CaseHearingRequestEntity> filteredCaseHearingRequests =
                 getAwaitingActualsCases(caseHearingRequestEntities);
-        String csv = createCsvData(mapToCsvObjects(filteredCaseHearingRequests, false));
+        String csv = createCsvData(mapToCsvObjects(filteredCaseHearingRequests));
         return generateFileFromString(csv);
     }
 
@@ -82,10 +82,10 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
     }
 
     @Override
-    public List<HearingRequestForCsv> createCsvObjectsForGivenStatuses(List<String> statuses, boolean isError) {
+    public List<HearingRequestForCsv> createCsvObjectsForGivenStatuses(List<String> statuses) {
         List<CaseHearingRequestEntity> entities = getHearingsForStatuses(statuses);
         log.info("Found {} caseHearingRequests.", entities.size());
-        return mapToCsvObjects(entities, isError);
+        return mapToCsvObjects(entities);
     }
 
     @Override
@@ -97,11 +97,11 @@ public class OperationalReportsServiceImpl implements OperationalReportsService 
     }
 
     @Override
-    public List<HearingRequestForCsv> mapToCsvObjects(List<CaseHearingRequestEntity> caseHearings, boolean isError) {
+    public List<HearingRequestForCsv> mapToCsvObjects(List<CaseHearingRequestEntity> caseHearings) {
         List<HearingRequestForCsv> csvRequests = new ArrayList<>();
         caseHearings.forEach(requestEntity ->
                                           csvRequests.add(getHearingRequestToCsvMapper.toHearingRequestForCsv(
-                                              requestEntity, isError))
+                                              requestEntity))
         );
         log.info("Created {} CSV Request objects.", csvRequests.size());
         return csvRequests;

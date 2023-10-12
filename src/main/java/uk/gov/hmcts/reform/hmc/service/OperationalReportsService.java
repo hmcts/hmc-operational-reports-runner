@@ -13,11 +13,11 @@ public interface OperationalReportsService {
 
     File createCsvDataForAwaitingActuals() throws IOException;
 
-    List<HearingRequestForCsv> createCsvObjectsForGivenStatuses(List<String> statuses, boolean isError);
+    List<HearingRequestForCsv> createCsvObjectsForGivenStatuses(List<String> statuses);
 
     List<CaseHearingRequestEntity> getHearingsForStatuses(List<String> statuses);
 
-    List<HearingRequestForCsv> mapToCsvObjects(List<CaseHearingRequestEntity> caseHearings, boolean isError);
+    List<HearingRequestForCsv> mapToCsvObjects(List<CaseHearingRequestEntity> caseHearings);
 
     String createCsvData(List<HearingRequestForCsv> hearingRequestForCsvs);
 

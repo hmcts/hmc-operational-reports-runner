@@ -65,7 +65,7 @@ class GetHearingRequestToCsvMapperTest {
         caseHearingRequestEntity.setHearingWindowEndDateRange(LocalDate.now());
         caseHearingRequestEntity.setHearingRequestReceivedDateTime(LocalDateTime.now());
         HearingRequestForCsv hearingRequestForCsv =
-                getHearingRequestToCsvMapper.toHearingRequestForCsv(caseHearingRequestEntity, false);
+                getHearingRequestToCsvMapper.toHearingRequestForCsv(caseHearingRequestEntity);
         assertEquals(hearingRequestForCsv.getHearingId(), hearingEntity.getId().toString());
         assertEquals(hearingRequestForCsv.getHearingResponseReceivedDateTime(),"2004-01-01T12:00");
         assertEquals(hearingRequestForCsv.getFirstScheduledHearingDate(), "2020-08-10T12:20");
