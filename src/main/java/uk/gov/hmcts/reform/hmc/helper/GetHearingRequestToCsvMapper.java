@@ -20,7 +20,7 @@ public class GetHearingRequestToCsvMapper {
                 requestEntity.getCaseUrlContextPath(),
                 requestEntity.getPublicCaseName()
             ));
-            hearingRequestForCsv.setErrorDescription(requestEntity.getHearing().getErrorDescription());
+        hearingRequestForCsv.setErrorDescription(requestEntity.getHearing().getErrorDescription());
         hearingRequestForCsv.setHearingStatus(requestEntity.getHearing().getStatus());
         hearingRequestForCsv.setHearingId(requestEntity.getHearing().getId().toString());
         hearingRequestForCsv.setHearingRequestReceivedDateTime(
