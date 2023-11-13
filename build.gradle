@@ -134,7 +134,7 @@ def versions = [
         junitPlatform   : '1.7.2',
         lombok          : '1.18.20',
         reformLogging   : '6.0.1',
-        jackson         : '2.14.2',
+        jackson         : '2.15.3',
         springBoot      : springBoot.class.package.implementationVersion,
         springFramework : '5.3.26',
         springCloud     : '2020.0.1',
