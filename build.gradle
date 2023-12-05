@@ -7,7 +7,7 @@ plugins {
   id 'io.freefair.lombok' version '6.5.1'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.sonarqube' version '3.3'
-  id 'org.springframework.boot' version '2.7.11'
+  id 'org.springframework.boot' version '2.7.12'
   id 'uk.gov.hmcts.java' version '0.12.40'
 }
 
