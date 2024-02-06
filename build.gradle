@@ -7,7 +7,7 @@ plugins {
   id 'io.freefair.lombok' version '6.5.1'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.sonarqube' version '3.3'
-  id 'org.springframework.boot' version '2.7.12'
+  id 'org.springframework.boot' version '2.7.18'
   id 'uk.gov.hmcts.java' version '0.12.40'
 }
 
@@ -132,12 +132,12 @@ sonarqube {
 def versions = [
         junit           : '5.7.2',
         junitPlatform   : '1.7.2',
-        lombok          : '1.18.20',
+        lombok          : '1.18.30',
         reformLogging   : '6.0.1',
-        jackson         : '2.15.3',
+        jackson         : '2.16.1',
         springBoot      : springBoot.class.package.implementationVersion,
         springFramework : '5.3.26',
-        springCloud     : '2020.0.1',
+        springCloud     : '2021.0.8',
         springfoxSwagger: '3.0.0',
         testcontainers  : '1.16.0'
 ]
@@ -172,9 +172,9 @@ ext {
 
 
 dependencies {
-  implementation group: 'org.yaml', name: 'snakeyaml', version: '2.0'
+  implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
 
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.73'
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.85'
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.73'
 
   implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
