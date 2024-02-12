@@ -4,6 +4,7 @@ plugins {
   id 'idea'
   id 'jacoco'
   id 'com.github.ben-manes.versions' version '0.51.0'
+  id 'org.owasp.dependencycheck' version '9.0.9'
   id 'io.freefair.lombok' version '6.5.1'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.sonarqube' version '3.3'
@@ -174,6 +175,7 @@ ext {
 dependencies {
   implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jackson
+  implementation group: 'org.json', name: 'json', version: '20240205'
 
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.85'
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.85'
