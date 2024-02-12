@@ -3,7 +3,7 @@ plugins {
   id 'checkstyle'
   id 'idea'
   id 'jacoco'
-  id 'com.github.ben-manes.versions' version '0.42.0'
+  id 'com.github.ben-manes.versions' version '0.51.0'
   id 'io.freefair.lombok' version '6.5.1'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.sonarqube' version '3.3'
@@ -173,6 +173,7 @@ ext {
 
 dependencies {
   implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jackson
 
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.85'
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.85'
@@ -181,7 +182,7 @@ dependencies {
   implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
   implementation group: 'javax.inject', name: 'javax.inject', version: '1'
-  implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.5'
+  implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.16.1'
 
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
@@ -244,7 +245,7 @@ dependencies {
   integrationTestImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
   integrationTestImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
   integrationTestImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
-  integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.4.7'
+  integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.4.9'
   integrationTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
   functionalTestImplementation sourceSets.main.runtimeClasspath
