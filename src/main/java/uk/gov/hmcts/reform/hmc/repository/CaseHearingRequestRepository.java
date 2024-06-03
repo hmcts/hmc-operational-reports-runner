@@ -14,6 +14,7 @@ import java.util.List;
 public interface CaseHearingRequestRepository extends CrudRepository<CaseHearingRequestEntity, Long> {
 
     @Query("from CaseHearingRequestEntity chr WHERE chr.hearing.status in :statuses "
+            + "and chr.hmctsServiceCode = 'BBA3' "
             + "and chr.versionNumber = (select max(chr2.versionNumber) from CaseHearingRequestEntity chr2 "
             + "where chr2.hearing.id = chr.hearing.id) "
             + "order by chr.hearing.id desc")

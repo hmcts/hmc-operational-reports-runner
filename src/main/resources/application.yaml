@@ -43,6 +43,11 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
+  cloud:
+    discovery:
+      client:
+        composite-indicator:
+          enabled: false
 azure:
   application-insights:
     web.enabled: false
@@ -60,7 +65,9 @@ notify:
       email-address: ${NOTIFY_AWAITING_ACTUALS_EMAIL_ADDRESS}
       reply-to-email-address: ${NOTIFY_AWAITING_ACTUALS_REPLY_TO_EMAIL_ADDRESS}
 
-app.configuredNumberOfDays: 0
+
+awaiting-actuals:
+  configured-number-of-days: ${AWAITING_ACTUALS_CONFIG_DAYS:2}
 
 smoke.test.enabled: false
 

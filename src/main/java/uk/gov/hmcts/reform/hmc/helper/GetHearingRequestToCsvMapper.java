@@ -13,13 +13,17 @@ public class GetHearingRequestToCsvMapper {
 
     public HearingRequestForCsv toHearingRequestForCsv(CaseHearingRequestEntity requestEntity) {
         HearingRequestForCsv hearingRequestForCsv = new HearingRequestForCsv();
-        hearingRequestForCsv.setCaseReference(requestEntity.getCaseReference());
+        //numbers greater than 15 digits results in last number always being a 0
+        //https://learn.microsoft.com/en-US/office/troubleshoot/excel/last-digits-changed-to-zeros
+        hearingRequestForCsv.setCaseReference(String.format(requestEntity.getCaseReference() + "\t"));
+
         hearingRequestForCsv.setCaseName(
             String.format(
                 "=HYPERLINK(\"%1$s\",\"%2$s\")",
                 requestEntity.getCaseUrlContextPath(),
                 requestEntity.getPublicCaseName()
             ));
+        hearingRequestForCsv.setErrorDescription(requestEntity.getHearing().getErrorDescription());
         hearingRequestForCsv.setHearingStatus(requestEntity.getHearing().getStatus());
         hearingRequestForCsv.setHearingId(requestEntity.getHearing().getId().toString());
         hearingRequestForCsv.setHearingRequestReceivedDateTime(
