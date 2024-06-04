@@ -44,6 +44,7 @@ public class ApplicationBootstrap implements ApplicationRunner {
         } finally {
             client.flush();
             waitTelemetryGracefulPeriod();
+            System.exit(0);
         }
     }
 
