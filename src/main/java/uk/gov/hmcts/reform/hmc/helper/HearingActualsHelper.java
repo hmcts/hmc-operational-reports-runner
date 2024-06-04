@@ -76,13 +76,18 @@ public class HearingActualsHelper {
 
     protected boolean isLastPlannedHearingDayValid(LocalDateTime endDateTime, LocalDate now,
                                                    Long configuredNumberOfDays) {
-        if (endDateTime.toLocalDate().isAfter(now)) {
-            log.debug("last planned datetime {} is not after now {}", endDateTime, now);
+        if (endDateTime != null) {
+            if (endDateTime.toLocalDate().isAfter(now)) {
+                log.debug("last planned datetime {} is not after now {}", endDateTime, now);
+                return false;
+            }
+            log.debug("Days between endDateTime {} and now {} = {}. configuredNumberOfDays {}",
+                      endDateTime, now, DAYS.between(endDateTime.toLocalDate(), now), configuredNumberOfDays
+            );
+            return (DAYS.between(endDateTime.toLocalDate(), now) > configuredNumberOfDays);
+        } else {
+            log.debug("last planned datetime is null");
             return false;
         }
-        log.debug("Days between endDateTime {} and now {} = {}. configuredNumberOfDays {}",
-                  endDateTime, now, DAYS.between(endDateTime.toLocalDate(), now), configuredNumberOfDays
-        );
-        return (DAYS.between(endDateTime.toLocalDate(), now) > configuredNumberOfDays);
     }
 }

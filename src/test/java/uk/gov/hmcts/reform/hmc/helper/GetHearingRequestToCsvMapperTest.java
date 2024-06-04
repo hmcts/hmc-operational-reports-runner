@@ -44,6 +44,7 @@ class GetHearingRequestToCsvMapperTest {
     void toHearingRequestForCsv() {
         HearingEntity hearingEntity = new HearingEntity();
         hearingEntity.setId(2000000001L);
+        hearingEntity.setErrorDescription("Invalid case ref");
 
         HearingDayDetailsEntity hearingDayDetails =
             hearingDayDetailsEntities(LocalDateTime.parse("2020-08-10T12:20:00"),
@@ -70,8 +71,9 @@ class GetHearingRequestToCsvMapperTest {
         assertEquals(hearingRequestForCsv.getHearingResponseReceivedDateTime(),"2004-01-01T12:00");
         assertEquals(hearingRequestForCsv.getFirstScheduledHearingDate(), "2020-08-10T12:20");
         assertNull(hearingRequestForCsv.getHearingStatus());
-        assertNull(hearingRequestForCsv.getCaseReference());
+        assertEquals(hearingRequestForCsv.getCaseReference(),  "null\t");
         assertNull(hearingRequestForCsv.getListAssistId());
+        assertEquals(hearingRequestForCsv.getErrorDescription(), "Invalid case ref");
     }
 
     private HearingResponseEntity hearingResponse(int requestVersion, int timestampYear) {
