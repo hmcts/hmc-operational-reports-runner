@@ -8,23 +8,19 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-
-import javax.inject.Inject;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @Slf4j
 @SpringBootApplication
-@SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, it is not a utility class
+@SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, it's not a utility class
 public class ApplicationBootstrap implements ApplicationRunner {
-
-    @Autowired
-    private final TelemetryClient client;
 
     @Value("${telemetry.wait.period:10000}")
     private int waitPeriod;
 
-    @Inject
-    private ApplicationExecutor applicationExecutor;
+    private final TelemetryClient client;
+
+    private final ApplicationExecutor applicationExecutor;
 
     @Autowired
     public ApplicationBootstrap(TelemetryClient client,
@@ -45,11 +41,12 @@ public class ApplicationBootstrap implements ApplicationRunner {
             client.flush();
             waitTelemetryGracefulPeriod();
         }
+        System.exit(0);
     }
 
     public static void main(final String[] args) {
-        final ApplicationContext context = SpringApplication.run(ApplicationBootstrap.class);
-        SpringApplication.exit(context);
+        final ConfigurableApplicationContext context = SpringApplication.run(ApplicationBootstrap.class);
+        context.close();
     }
 
     private void waitTelemetryGracefulPeriod() throws InterruptedException {
