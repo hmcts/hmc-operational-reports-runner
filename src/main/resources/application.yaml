@@ -54,7 +54,7 @@ azure:
     instrumentation-key: ${hmc.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
 notify:
-  api-key: ${NOTIFY_HMC_API_KEY}
+  api-key: ${NOTIFY_HMC_API_KEY:dummy_key}
   email-templates:
     error:
       template-id: ${NOTIFY_ERROR_TEMPLATE_ID}
