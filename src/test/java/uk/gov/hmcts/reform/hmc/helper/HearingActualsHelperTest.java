@@ -14,10 +14,12 @@ import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -239,4 +241,89 @@ class HearingActualsHelperTest {
         assertFalse(hearingActualsHelper.isLastPlannedHearingDayValid(endDateTime, now, 0L));
     }
 
+    @Test
+    void shouldGetAwaitingActualsStatusForValidHearing() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.LISTED.name());
+        HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
+        HearingDayDetailsEntity hearingDayDetails = new HearingDayDetailsEntity();
+        hearingDayDetails.setStartDateTime(LocalDateTime.now().minusDays(1));
+        hearingDayDetails.setEndDateTime(LocalDateTime.now().minusDays(1));
+        when(latestHearingResponse.getEarliestHearingDayDetails()).thenReturn(Optional.of(hearingDayDetails));
+        when(latestHearingResponse.getLatestHearingDayDetails()).thenReturn(Optional.of(hearingDayDetails));
+        when(latestHearingResponse.hasHearingDayDetails()).thenReturn(true);
+        hearingEntity.setHearingResponses(List.of(latestHearingResponse));
+        when(applicationParams.getConfiguredNumberOfDays()).thenReturn(0L);
+
+        assertEquals(HearingActualsHelper.AWAITING_ACTUALS, hearingActualsHelper.getHearingStatus(hearingEntity));
+    }
+
+    @Test
+    void shouldGetOriginalStatusForInvalidHearing() {
+        HearingEntity hearingEntity = new HearingEntity();
+        hearingEntity.setStatus(HearingStatus.LISTED.name());
+        HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
+        when(latestHearingResponse.getEarliestHearingDayDetails()).thenReturn(Optional.empty());
+        when(latestHearingResponse.hasHearingDayDetails()).thenReturn(false);
+        hearingEntity.setHearingResponses(List.of(latestHearingResponse));
+
+        assertEquals(HearingStatus.LISTED.name(), hearingActualsHelper.getHearingStatus(hearingEntity));
+    }
+
+    @Test
+    void shouldReturnTrueWhenEarliestPlannedHearingDayValidForPastDate() {
+        HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
+        HearingDayDetailsEntity hearingDayDetails = new HearingDayDetailsEntity();
+        hearingDayDetails.setStartDateTime(LocalDateTime.now().minusDays(1));
+        when(latestHearingResponse.getEarliestHearingDayDetails()).thenReturn(Optional.of(hearingDayDetails));
+        when(latestHearingResponse.hasHearingDayDetails()).thenReturn(true);
+
+        assertTrue(hearingActualsHelper.isEarliestPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
+    void shouldReturnFalseWhenEarliestPlannedHearingDayValidForFutureDate() {
+        HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
+        HearingDayDetailsEntity hearingDayDetails = new HearingDayDetailsEntity();
+        hearingDayDetails.setStartDateTime(LocalDateTime.now().plusDays(1));
+        when(latestHearingResponse.getEarliestHearingDayDetails()).thenReturn(Optional.of(hearingDayDetails));
+        when(latestHearingResponse.hasHearingDayDetails()).thenReturn(true);
+
+        assertFalse(hearingActualsHelper.isEarliestPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
+    void shouldReturnTrueWhenLastPlannedHearingDayValidForPastDate() {
+        HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
+        HearingDayDetailsEntity hearingDayDetails = new HearingDayDetailsEntity();
+        hearingDayDetails.setEndDateTime(LocalDateTime.now().minusDays(1));
+        when(latestHearingResponse.getLatestHearingDayDetails()).thenReturn(Optional.of(hearingDayDetails));
+        when(latestHearingResponse.hasHearingDayDetails()).thenReturn(true);
+        when(applicationParams.getConfiguredNumberOfDays()).thenReturn(0L);
+
+        assertTrue(hearingActualsHelper.isLastPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
+    void shouldreturnfalseWhenLastPlannedHearingDayValidForFutureDate() {
+        HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
+        HearingDayDetailsEntity hearingDayDetails = new HearingDayDetailsEntity();
+        hearingDayDetails.setEndDateTime(LocalDateTime.now().plusDays(1));
+        when(latestHearingResponse.getLatestHearingDayDetails()).thenReturn(Optional.of(hearingDayDetails));
+        when(latestHearingResponse.hasHearingDayDetails()).thenReturn(true);
+        when(applicationParams.getConfiguredNumberOfDays()).thenReturn(0L);
+
+        assertFalse(hearingActualsHelper.isLastPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
+    void shouldReturnFalseWhenLastPlannedHearingDayValidForNullEndDate() {
+        HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
+        HearingDayDetailsEntity hearingDayDetails = new HearingDayDetailsEntity();
+        hearingDayDetails.setEndDateTime(null);
+        when(latestHearingResponse.getLatestHearingDayDetails()).thenReturn(Optional.of(hearingDayDetails));
+        when(latestHearingResponse.hasHearingDayDetails()).thenReturn(true);
+
+        assertFalse(hearingActualsHelper.isLastPlannedHearingDayValid(latestHearingResponse));
+    }
 }
