@@ -69,11 +69,6 @@ public class HearingActualsHelper {
         return false;
     }
 
-    private boolean isLastPlannedHearingDayValid(LocalDateTime endDate) {
-        long configuredNumberOfDays = appParams.getConfiguredNumberOfDays();
-        return isLastPlannedHearingDayValid(endDate, LocalDate.now(), configuredNumberOfDays);
-    }
-
     protected boolean isLastPlannedHearingDayValid(LocalDateTime endDateTime, LocalDate now,
                                                    Long configuredNumberOfDays) {
         if (endDateTime != null) {
@@ -90,4 +85,10 @@ public class HearingActualsHelper {
             return false;
         }
     }
+
+    private boolean isLastPlannedHearingDayValid(LocalDateTime endDate) {
+        long configuredNumberOfDays = appParams.getConfiguredNumberOfDays();
+        return isLastPlannedHearingDayValid(endDate, LocalDate.now(), configuredNumberOfDays);
+    }
+
 }
