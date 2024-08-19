@@ -147,8 +147,8 @@ class HearingActualsHelperTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "LISTED", "UPDATE_REQUESTED", "UPDATE_SUBMITTED" })
-    void getHearingStatusForGivenStatus(String hearingStatus) {
+    @ValueSource(strings = { "LISTED", "UPDATE_REQUESTED", "UPDATE_SUBMITTED", "CANCELLATION_REQUESTED" })
+    void shouldGetHearingStatusForGivenStatus(String hearingStatus) {
         HearingEntity hearingEntity = new HearingEntity();
         hearingEntity.setStatus(HearingStatus.valueOf(hearingStatus).name());
         HearingResponseEntity latestHearingResponse = new HearingResponseEntity();
@@ -183,7 +183,7 @@ class HearingActualsHelperTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "LISTED", "UPDATE_REQUESTED", "UPDATE_SUBMITTED" })
+    @ValueSource(strings = { "LISTED", "UPDATE_REQUESTED", "UPDATE_SUBMITTED", "CANCELLATION_REQUESTED" })
     void shouldReturnHearingStatusWhenNoPlannedDates(String hearingStatus) {
         HearingEntity hearingEntity = new HearingEntity();
         hearingEntity.setStatus(hearingStatus);
@@ -200,8 +200,7 @@ class HearingActualsHelperTest {
         "2022-02-17T13:01, 2022-02-16, 0, false"
     })
     void isAwaitingActuals(LocalDateTime endDateTime, LocalDate now, long configuredNumberOfDays, boolean expected) {
-        assertEquals(expected, hearingActualsHelper.isLastPlannedHearingDayValid(endDateTime, now,
-                                                                                 configuredNumberOfDays));
+        assertEquals(expected, hearingActualsHelper.isLastPlannedHearingDayValid(endDateTime, now, configuredNumberOfDays));
     }
 
     @Test
