@@ -200,7 +200,8 @@ class HearingActualsHelperTest {
         "2022-02-17T13:01, 2022-02-16, 0, false"
     })
     void isAwaitingActuals(LocalDateTime endDateTime, LocalDate now, long configuredNumberOfDays, boolean expected) {
-        assertEquals(expected, hearingActualsHelper.isLastPlannedHearingDayValid(endDateTime, now, configuredNumberOfDays));
+        assertEquals(expected, hearingActualsHelper.isLastPlannedHearingDayValid(endDateTime, now,
+                                                                                 configuredNumberOfDays));
     }
 
     @Test
