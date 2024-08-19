@@ -256,6 +256,17 @@ class HearingActualsHelperTest {
     }
 
     @Test
+    void shouldReturnFalseWhenNullEarliestPlannedHearingDay() {
+        HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
+        HearingDayDetailsEntity hearingDayDetails = new HearingDayDetailsEntity();
+        hearingDayDetails.setStartDateTime(null);
+        when(latestHearingResponse.getEarliestHearingDayDetails()).thenReturn(Optional.of(hearingDayDetails));
+        when(latestHearingResponse.hasHearingDayDetails()).thenReturn(true);
+
+        assertFalse(hearingActualsHelper.isEarliestPlannedHearingDayValid(latestHearingResponse));
+    }
+
+    @Test
     void shouldReturnTrueWhenLastPlannedHearingDayValidForPastDate() {
         HearingResponseEntity latestHearingResponse = mock(HearingResponseEntity.class);
         HearingDayDetailsEntity hearingDayDetails = new HearingDayDetailsEntity();
