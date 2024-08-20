@@ -8,7 +8,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 @Slf4j
 @SpringBootApplication
@@ -41,12 +40,10 @@ public class ApplicationBootstrap implements ApplicationRunner {
             client.flush();
             waitTelemetryGracefulPeriod();
         }
-        System.exit(0);
     }
 
-    public static void main(final String[] args) {
-        final ConfigurableApplicationContext context = SpringApplication.run(ApplicationBootstrap.class);
-        context.close();
+    public static void main(String[] args) {
+        SpringApplication.run(ApplicationBootstrap.class, args);
     }
 
     private void waitTelemetryGracefulPeriod() throws InterruptedException {
