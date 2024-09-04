@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.hmc;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.hmcts.reform.hmc.service.NotifyService;
 import uk.gov.hmcts.reform.hmc.service.OperationalReportsService;
@@ -9,6 +8,7 @@ import uk.gov.service.notify.NotificationClientException;
 
 import java.io.File;
 import java.io.IOException;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Slf4j
@@ -19,13 +19,13 @@ public class ApplicationExecutor {
 
     private final NotifyService notifyService;
     private final ApplicationParams appParams;
+    private final OperationalReportsService operationalReportsService;
 
-    @Autowired
-    OperationalReportsService operationalReportsService;
-
-    @Autowired
+    @Inject
     public ApplicationExecutor(ApplicationParams appParams,
-                               NotifyService notifyService) {
+                               NotifyService notifyService,
+                               OperationalReportsService operationalReportsService) {
+        this.operationalReportsService = operationalReportsService;
         this.notifyService = notifyService;
         this.appParams = appParams;
     }
@@ -38,10 +38,10 @@ public class ApplicationExecutor {
     }
 
     private void generateExceptionReport() throws IOException, NotificationClientException {
-        log.info("Creating CSV data for Exceptions...");
+        log.debug("Creating CSV data for Exceptions...");
         File reportExceptions = operationalReportsService.createCsvDataForExceptions();
         log.info("CSV Data for Exceptions successfully created.");
-        log.info("Invoking Notify Service for the Exceptions report...");
+        log.debug("Invoking Notify Service for the Exceptions report...");
         notifyService.sendEmail(appParams.getNotifyErrorTemplateId(),
                                 appParams.getNotifyErrorEmailAddress(),
                                 reportExceptions,
@@ -52,10 +52,10 @@ public class ApplicationExecutor {
     }
 
     private void generateAwaitingActualsReport() throws IOException, NotificationClientException {
-        log.info("Creating CSV data for Awaiting Actuals...");
+        log.debug("Creating CSV data for Awaiting Actuals...");
         File reportAwaitingActuals = operationalReportsService.createCsvDataForAwaitingActuals();
         log.info("CSV Data for Awaiting Actuals successfully created.");
-        log.info("Invoking Notify Service for the Awaiting Actuals report...");
+        log.debug("Invoking Notify Service for the Awaiting Actuals report...");
         notifyService.sendEmail(appParams.getNotifyAwaitingHearingsTemplateId(),
                                 appParams.getNotifyAwaitingHearingsEmailAddress(),
                                 reportAwaitingActuals,
