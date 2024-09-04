@@ -50,7 +50,7 @@ public class HearingActualsHelper {
             if (hearingDayDetailsEntity.getStartDateTime() != null) {
                 date = hearingDayDetailsEntity.getStartDateTime();
                 log.debug("is now {} after earliest planned day {} ?", LocalDate.now(), date);
-                return (LocalDate.now().isAfter(date.toLocalDate()));
+                return (!LocalDate.now().isBefore(date.toLocalDate()));
             } else {
                 log.debug("startDateTime is null");
                 return false;
@@ -69,11 +69,6 @@ public class HearingActualsHelper {
         return false;
     }
 
-    private boolean isLastPlannedHearingDayValid(LocalDateTime endDate) {
-        long configuredNumberOfDays = appParams.getConfiguredNumberOfDays();
-        return isLastPlannedHearingDayValid(endDate, LocalDate.now(), configuredNumberOfDays);
-    }
-
     protected boolean isLastPlannedHearingDayValid(LocalDateTime endDateTime, LocalDate now,
                                                    Long configuredNumberOfDays) {
         if (endDateTime != null) {
@@ -90,4 +85,10 @@ public class HearingActualsHelper {
             return false;
         }
     }
+
+    private boolean isLastPlannedHearingDayValid(LocalDateTime endDate) {
+        long configuredNumberOfDays = appParams.getConfiguredNumberOfDays();
+        return isLastPlannedHearingDayValid(endDate, LocalDate.now(), configuredNumberOfDays);
+    }
+
 }
