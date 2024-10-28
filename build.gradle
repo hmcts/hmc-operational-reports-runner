@@ -3,13 +3,13 @@ plugins {
   id 'checkstyle'
   id 'idea'
   id 'jacoco'
+  id 'se.patrikerdes.use-latest-versions' version '0.2.18'
   id 'com.github.ben-manes.versions' version '0.51.0'
-  id 'org.owasp.dependencycheck' version '9.0.9'
-  id 'io.freefair.lombok' version '6.5.1'
-  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'org.sonarqube' version '3.3'
-  id 'org.springframework.boot' version '2.7.18'
-  id 'uk.gov.hmcts.java' version '0.12.40'
+  id 'org.owasp.dependencycheck' version '11.0.0'
+  id 'io.spring.dependency-management' version '1.1.5'
+  id 'org.sonarqube' version '5.1.0.4882'
+  id 'org.springframework.boot' version '3.3.5'
+  id 'uk.gov.hmcts.java' version '0.12.57'
 }
 
 group = 'uk.gov.hmcts.reform'
@@ -19,6 +19,10 @@ java {
   toolchain {
     languageVersion = JavaLanguageVersion.of(17)
   }
+}
+
+application {
+  mainClass = 'uk.gov.hmcts.reform.hmc.ApplicationBootstrap'
 }
 
 sourceSets {
@@ -40,16 +44,16 @@ sourceSets {
     resources.srcDir file('src/integrationTest/resources')
   }
 
-  idea {
-    module {
-      // config to allow Intellij to mark test source and resource files correctly to help linting tools
-      testSourceDirs += project.sourceSets.functionalTest.java.srcDirs
-      testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
-      testResourceDirs += project.sourceSets.functionalTest.resources.srcDirs
-      testResourceDirs += project.sourceSets.integrationTest.resources.srcDirs
-    }
-  }
+}
 
+idea {
+  module {
+    // config to allow Intellij to mark test source and resource files correctly to help linting tools
+    testSourceDirs += project.sourceSets.functionalTest.java.srcDirs
+    testSourceDirs += project.sourceSets.integrationTest.java.srcDirs
+    testResourceDirs += project.sourceSets.functionalTest.resources.srcDirs
+    testResourceDirs += project.sourceSets.integrationTest.resources.srcDirs
+  }
 }
 
 configurations {
@@ -113,7 +117,7 @@ jacocoTestReport {
   reports {
     xml.required = true
     csv.required = false
-    xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+    xml.outputLocation = file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
   }
 }
 
@@ -124,24 +128,11 @@ sonarqube {
   properties {
     property "sonar.projectName", "Reform :: hmc-operational-reports-runner"
     property "sonar.projectKey", "uk.gov.hmcts.reform:hmc-operational-reports-runner"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
     property "sonar.coverage.exclusions", "**/hmc/ApplicationBootstrap.java"
     property "sonar.exclusions","**/hmc/ApplicationExecutor.java"
   }
 }
-
-def versions = [
-        junit           : '5.7.2',
-        junitPlatform   : '1.7.2',
-        lombok          : '1.18.30',
-        reformLogging   : '6.0.1',
-        jackson         : '2.16.1',
-        springBoot      : springBoot.class.package.implementationVersion,
-        springFramework : '5.3.26',
-        springCloud     : '2021.0.8',
-        springfoxSwagger: '3.0.0',
-        testcontainers  : '1.16.0'
-]
 
 // before committing a change, make sure task still works
 dependencyUpdates {
@@ -168,95 +159,86 @@ repositories {
 }
 
 ext {
-  log4JVersion = "2.17.1"
+  set('spring-framework.version', '6.1.14')
+  set('spring-security.version', '6.3.4')
+  set('springCloudVersion', '2023.0.3')
+  set('jackson.version', '2.18.0')
+  set('snakeyaml.version', '2.3')
+  log4JVersion = "2.24.1"
+  slf4jVersion = "2.0.16"
+  logbackVersion = "1.5.11"
+  reformLogging= '6.0.1'
+  lombokVersion = '1.18.34'
+  junitJupiterVersion = '5.10.5'
+  junitVintageVersion = '5.10.5'
+  junitPlatform = '1.7.2'
+  powermockVersion = '2.0.9'
+  springfoxSwagger = '3.0.0'
+  testcontainers = '1.20.3'
 }
 
-
 dependencies {
-  implementation group: 'org.yaml', name: 'snakeyaml', version: '2.2'
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: versions.jackson
-  implementation group: 'org.json', name: 'json', version: '20240205'
 
-  implementation group: 'jakarta.annotation', name: 'jakarta.annotation-api', version: '2.1.1'
-
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.89'
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.89'
-
-  implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
-  implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
-
-  implementation group: 'javax.inject', name: 'javax.inject', version: '1'
-  implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.16.1'
-
+  // SPRING
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
-
-  implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc') {
-    exclude group: 'org.apache.tomcat', module: 'tomcat-jdbc'
-  }
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
-
-  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.7'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
   implementation group: 'org.springframework.retry', name: 'spring-retry'
 
-  implementation 'uk.gov.service.notify:notifications-java-client:3.19.2-RELEASE'
-  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.0.1'
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.8.0'
 
-  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
-  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.6'
-  implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.13'
-  implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.13'
-  implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-  implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.32'
-  implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
 
+  // HMCTS
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLogging
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLogging
+  implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '5.2.1-RELEASE'
+  
+  implementation group: 'org.json', name: 'json', version: '20240303'
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '10.1.31'
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '10.1.31'
+  implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
+  implementation group: 'commons-io', name: 'commons-io', version: '2.17.0'
+  implementation group: 'jakarta.annotation', name: 'jakarta.annotation-api', version: '2.1.1'
+  implementation group: 'jakarta.inject', name: 'jakarta.inject-api', version: '2.0.1'
+  implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.18.0'
+  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.0'
+  implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+  implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
+  implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+  implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
   implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
-
-  // temporary work around for dependency check
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jackson
-  implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.jackson, ext: 'pom'
-
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
+  implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.1.7.Final'
+  compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.7.4'
 
-  implementation group: 'io.rest-assured', name: 'rest-assured'
-
-  implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.5.7.Final'
-  runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.5.5'
-
-  annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-  testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-
-  testImplementation(platform('org.junit:junit-bom:5.8.2'))
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
-    exclude group: 'junit', module: 'junit'
-    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-  }
-  testImplementation group: 'org.mockito', name: 'mockito-inline', version: '3.11.1'
+  testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.5'
+  testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.5'
+  testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.14.2'
   testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.9'
   testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.9'
-  testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '3.1.0'
-  testImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
-  testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: versions.testcontainers
+  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+  testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '4.1.4'
+  testImplementation group: 'org.testcontainers', name: 'postgresql', version: testcontainers
+  testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: testcontainers
 
   integrationTestImplementation sourceSets.main.runtimeClasspath
   integrationTestImplementation sourceSets.test.runtimeClasspath
-  integrationTestImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
-  integrationTestImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-  integrationTestImplementation group: 'org.testcontainers', name: 'postgresql', version: versions.testcontainers
-  integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.4.9'
-  integrationTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+  integrationTestImplementation group: 'org.wiremock', name: 'wiremock', version: '3.9.2'
+  integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.5.1'
 
   functionalTestImplementation sourceSets.main.runtimeClasspath
   functionalTestImplementation sourceSets.test.runtimeClasspath
-  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '8.7.11'
+  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '9.1.0'
 }
-
-mainClassName = 'uk.gov.hmcts.reform.hmc.ApplicationBootstrap'
 
 bootJar {
   archiveFileName = "hmc-operational-reports-runner.jar"
