@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.hmc.service;
 
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import javax.validation.ValidationException;
 
 import static uk.gov.hmcts.reform.hmc.ApplicationExecutor.AWAITING_ACTUALS;
 import static uk.gov.service.notify.NotificationClient.prepareUpload;
@@ -69,7 +69,7 @@ public class NotifyService {
         throws NotificationClientException, IOException {
         personalisation.put("link_to_file", prepareUpload(
             FileUtils.readFileToByteArray(csvFile),
-            true
+            csvFile.getName()
         ));
         personalisation.put("date", new SimpleDateFormat(PATTERN, Locale.ENGLISH).format(new Date()));
         if (status.equalsIgnoreCase(HearingStatus.EXCEPTION.name())) {

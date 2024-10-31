@@ -1,5 +1,7 @@
 package uk.gov.hmcts.reform.hmc;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
 import uk.gov.hmcts.reform.hmc.domain.model.enums.HearingStatus;
 import uk.gov.hmcts.reform.hmc.service.NotifyService;
@@ -8,8 +10,6 @@ import uk.gov.service.notify.NotificationClientException;
 
 import java.io.File;
 import java.io.IOException;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 @Slf4j
 @Named
