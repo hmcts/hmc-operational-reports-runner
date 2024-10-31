@@ -173,7 +173,6 @@ ext {
   junitVintageVersion = '5.10.5'
   junitPlatform = '1.7.2'
   powermockVersion = '2.0.9'
-  springfoxSwagger = '3.0.0'
   testcontainers = '1.20.3'
 }
 
@@ -189,7 +188,7 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
   implementation group: 'org.springframework.retry', name: 'spring-retry'
 
-  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.8.0'
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
 
 
   // HMCTS
