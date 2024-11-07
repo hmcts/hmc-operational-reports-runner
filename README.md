@@ -46,6 +46,7 @@ by executing the following command:
   docker-compose up
 ```
 
+
 ### Alternative script to run application
 
 To skip all the setting up and building, just execute the following command:
