@@ -10,7 +10,7 @@ This job will start up, create the Operational Data Reports for sharing and then
 
 ### Prerequisites
 
-- [JDK 17](https://java.com)
+- [JDK 21](https://java.com)
 
 ## Building and deploying the application
 
