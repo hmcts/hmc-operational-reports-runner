@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @Slf4j
 @Named
+@SpringBootApplication
 public class ApplicationExecutor {
 
     public static final String AWAITING_ACTUALS =  "awaiting actuals";
