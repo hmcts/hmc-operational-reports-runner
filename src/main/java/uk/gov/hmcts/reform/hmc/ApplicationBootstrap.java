@@ -36,7 +36,7 @@ public class ApplicationBootstrap implements ApplicationRunner {
             applicationExecutor.execute();
             log.info("Completed the Hmc-Operational-Reports-Runner job successfully.");
         } catch (Exception exception) {
-            log.error("Error executing Next-Hearing-Date-Updater job.", exception);
+            log.error("Error executing Hmc-Operational-Reports-Runner job.", exception);
         } finally {
             client.flush();
             waitTelemetryGracefulPeriod();
