@@ -35,8 +35,7 @@ public class HearingPartyEntity extends BaseEntity implements Serializable {
     private CaseHearingRequestEntity caseHearing;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "tech_party_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tech_party_id", nullable = false)
     private Long techPartyId;
 
