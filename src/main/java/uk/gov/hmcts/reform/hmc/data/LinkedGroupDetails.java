@@ -29,7 +29,7 @@ public class LinkedGroupDetails extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-        generator="linked_group_details_id_seq")
+        generator = "linked_group_details_id_seq")
     @Column(name = "linked_group_id")
     private Long linkedGroupId;
 
