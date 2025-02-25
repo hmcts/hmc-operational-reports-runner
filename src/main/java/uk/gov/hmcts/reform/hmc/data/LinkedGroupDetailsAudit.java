@@ -25,7 +25,8 @@ import java.time.LocalDateTime;
 public class LinkedGroupDetailsAudit extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "linked_group_details_audit_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "linked_group_details_audit_id_seq")
     @Column(name = "linked_group_details_audit_id")
     private Long linkedGroupDetailsAuditId;
 

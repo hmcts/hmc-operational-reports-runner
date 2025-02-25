@@ -23,7 +23,8 @@ public class ChangeReasonsEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 4353447468967037802L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "change_reasons_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "change_reasons_id_seq")
     @Column(name = "id")
     private Long id;
 

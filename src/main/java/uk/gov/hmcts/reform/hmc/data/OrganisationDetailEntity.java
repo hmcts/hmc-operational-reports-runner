@@ -25,7 +25,8 @@ public class OrganisationDetailEntity extends BaseEntity implements Serializable
     private static final long serialVersionUID = 1283927209461686116L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "organisation_detail_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "organisation_detail_id_seq")
     @Column(name = "id")
     private Long id;
 

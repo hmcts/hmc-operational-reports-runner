@@ -30,7 +30,8 @@ public class ActualHearingEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -6230201524807926703L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "actual_hearing_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "actual_hearing_id_seq")
     @Column(name = "actual_hearing_id")
     private Long actualHearingId;
 

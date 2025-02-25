@@ -30,7 +30,8 @@ public class PartyRelationshipDetailsEntity extends BaseEntity implements Serial
     private static final long serialVersionUID = -4983833617462382058L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "party_relationship_details_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "party_relationship_details_id_seq")
     @Column(name = "party_relationship_details_id")
     private Long partyRelationshipDetailsId;
 

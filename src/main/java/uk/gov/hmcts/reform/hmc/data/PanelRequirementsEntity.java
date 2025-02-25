@@ -25,7 +25,8 @@ public class PanelRequirementsEntity extends BaseEntity implements Serializable 
     private static final long serialVersionUID = -5997315507728667393L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "panel_requirements_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "panel_requirements_id_seq")
     @Column(name = "id")
     private Long id;
 

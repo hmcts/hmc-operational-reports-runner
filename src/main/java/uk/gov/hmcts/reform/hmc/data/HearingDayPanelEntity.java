@@ -23,7 +23,8 @@ public class HearingDayPanelEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -5104107251904201708L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hearing_day_panel_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "hearing_day_panel_seq")
     @Column(name = "id")
     private Long id;
 
