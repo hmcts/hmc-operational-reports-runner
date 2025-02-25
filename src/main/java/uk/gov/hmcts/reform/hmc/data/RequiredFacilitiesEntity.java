@@ -25,7 +25,7 @@ public class RequiredFacilitiesEntity extends BaseEntity implements Serializable
     private static final long serialVersionUID = 5520012537845131680L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "required_facilities_id_seq")
     @Column(name = "id")
     private Long id;
 

@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 public class LinkedHearingDetailsAudit extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "linked_hearing_details_audit_id_seq")
     @Column(name = "linked_hearing_details_audit_id")
     private Long linkedHearingDetailsAuditId;
 

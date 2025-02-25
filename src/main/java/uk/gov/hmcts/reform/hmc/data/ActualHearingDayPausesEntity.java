@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class ActualHearingDayPausesEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pauses_id_seq")
     @Column(name = "pauses_id")
     private Long pausesId;
 

@@ -30,7 +30,7 @@ public class CaseHearingRequestEntity extends BaseEntity implements Serializable
     private static final long serialVersionUID = -3590902739857407292L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "case_hearing_id_seq")
     @Column(name = "case_hearing_id")
     private Long caseHearingID;
 

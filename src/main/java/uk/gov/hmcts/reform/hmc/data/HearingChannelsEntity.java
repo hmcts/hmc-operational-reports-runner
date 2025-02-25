@@ -24,7 +24,7 @@ public class HearingChannelsEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -6716655160254569132L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hearing_channels_id_seq")
     @Column(name = "hearing_channels_id")
     private Long hearingChannelsId;
 

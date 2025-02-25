@@ -60,6 +60,7 @@ configurations {
   functionalTestRuntimeOnly.extendsFrom runtimeOnly
 
   integrationTestImplementation.extendsFrom testImplementation
+  integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
   integrationTestRuntimeOnly.extendsFrom runtimeOnly
 
   smokeTestImplementation.extendsFrom testImplementation
@@ -231,7 +232,7 @@ dependencies {
 
   implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
 
-  compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
   annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
   runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
 
@@ -240,12 +241,14 @@ dependencies {
   testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '4.1.4'
   testImplementation group: 'org.testcontainers', name: 'postgresql', version: testcontainers
   testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: testcontainers
-  testCompileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  testImplementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
   testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
   integrationTestImplementation sourceSets.main.runtimeClasspath
   integrationTestImplementation sourceSets.test.runtimeClasspath
   integrationTestImplementation group: 'org.wiremock', name: 'wiremock', version: '3.9.2'
+  integrationTestImplementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+  integrationTestAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
   functionalTestImplementation sourceSets.main.runtimeClasspath
   functionalTestImplementation sourceSets.test.runtimeClasspath

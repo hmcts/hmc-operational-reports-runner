@@ -23,7 +23,7 @@ public class CancellationReasonsEntity extends BaseEntity implements Serializabl
     private static final long serialVersionUID = -2368217815246644116L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cancellation_reason_id_seq")
     @Column(name = "id")
     private Long id;
 

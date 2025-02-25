@@ -28,7 +28,7 @@ public class CaseCategoriesEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 3631552987002525237L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "case_categories_id_seq")
     @Column(name = "id")
     private Long id;
 

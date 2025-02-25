@@ -27,7 +27,7 @@ public class NonStandardDurationsEntity extends BaseEntity implements Serializab
     private static final long serialVersionUID = 2548536101352732983L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "non_standard_durations_id_seq")
     @Column(name = "id")
     private Long id;
 

@@ -27,7 +27,7 @@ public class ActualHearingPartyEntity extends BaseEntity implements Serializable
     private static final long serialVersionUID = -7066394300898450286L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "actual_party_id_seq")
     @Column(name = "actual_party_id")
     private Long actualPartyId;
 

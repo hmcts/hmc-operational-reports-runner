@@ -25,7 +25,7 @@ public class IndividualDetailEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4817549124719790363L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "individual_detail_id_seq")
     @Column(name = "id")
     private Long id;
 
