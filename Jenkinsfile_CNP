@@ -59,20 +59,22 @@ withPipeline(type, product, component) {
         env.ENV='aat'
     }
 
-  afterAlways('akschartsinstall') {
-
-        echo "Just waiting a while to ensure that the pod has run the job"
-        sh "sleep 120s"
-
-        // Execute functional tests
-        echo "Verifying that functional test run correctly"
-        try {
-            builder.gradle('functional')
-        } finally {
-            junit '**/test-results/**/*.xml'
-        }
-    }
 // There currently are no functional tests for this project
+
+//   afterAlways('akschartsinstall') {
+
+//         echo "Just waiting a while to ensure that the pod has run the job"
+//         sh "sleep 120s"
+
+//         // Execute functional tests
+//         echo "Verifying that functional test run correctly"
+//         try {
+//             builder.gradle('functional')
+//         } finally {
+//             junit '**/test-results/**/*.xml'
+//         }
+//     }
+
 //
 //   afterAlways('functionalTest:preview') {
 //         junit 'build/test-results/functional/**/*.xml'
