@@ -72,32 +72,33 @@ withPipeline(type, product, component) {
             junit '**/test-results/**/*.xml'
         }
     }
+// There currently are no functional tests for this project
+//
+//   afterAlways('functionalTest:preview') {
+//         junit 'build/test-results/functional/**/*.xml'
+//         archiveArtifacts 'build/reports/tests/functional/index.html'
 
-  afterAlways('functionalTest:preview') {
-        junit 'build/test-results/functional/**/*.xml'
-        archiveArtifacts 'build/reports/tests/functional/index.html'
+//         publishHTML target: [
+//                 allowMissing         : true,
+//                 alwaysLinkToLastBuild: true,
+//                 keepAll              : true,
+//                 reportDir            : "build/reports/tests/functional",
+//                 reportFiles          : "index.html",
+//                 reportName           : "hmc-operational-reports-runner Functional Test Report"
+//         ]
+//     }
 
-        publishHTML target: [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "build/reports/tests/functional",
-                reportFiles          : "index.html",
-                reportName           : "hmc-operational-reports-runner Functional Test Report"
-        ]
-    }
+//   afterAlways('functionalTest:aat') {
+//         junit 'build/test-results/functional/**/*.xml'
+//         archiveArtifacts 'build/reports/tests/functional/index.html'
 
-  afterAlways('functionalTest:aat') {
-        junit 'build/test-results/functional/**/*.xml'
-        archiveArtifacts 'build/reports/tests/functional/index.html'
-
-        publishHTML target: [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "build/reports/tests/functional",
-                reportFiles          : "index.html",
-                reportName           : "hmc-operational-reports-runner Functional Test Report"
-        ]
-    }
+//         publishHTML target: [
+//                 allowMissing         : true,
+//                 alwaysLinkToLastBuild: true,
+//                 keepAll              : true,
+//                 reportDir            : "build/reports/tests/functional",
+//                 reportFiles          : "index.html",
+//                 reportName           : "hmc-operational-reports-runner Functional Test Report"
+//         ]
+//     }
 }
