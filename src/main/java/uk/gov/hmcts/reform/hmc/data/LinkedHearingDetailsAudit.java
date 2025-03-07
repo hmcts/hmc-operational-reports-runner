@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,9 @@ public class LinkedHearingDetailsAudit extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-        generator = "linked_hearing_details_audit_id_seq")
+        generator = "linked_hearing_details_audit_id_seq_generator")
+    @SequenceGenerator(name = "linked_hearing_details_audit_id_seq_generator", 
+        sequenceName = "linked_hearing_details_audit_id_seq", allocationSize = 1)
     @Column(name = "linked_hearing_details_audit_id")
     private Long linkedHearingDetailsAuditId;
 

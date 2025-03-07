@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,7 +29,9 @@ public class ActualHearingPartyEntity extends BaseEntity implements Serializable
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-        generator = "actual_party_id_seq")
+        generator = "actual_party_id_seq_generator")
+    @SequenceGenerator(name = "actual_party_id_seq_generator", 
+        sequenceName = "actual_party_id_seq", allocationSize = 1)
     @Column(name = "actual_party_id")
     private Long actualPartyId;
 

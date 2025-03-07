@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,7 +35,9 @@ public class HearingResponseEntity extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-        generator = "hearing_response_id_seq")
+        generator = "hearing_response_id_seq_generator")
+    @SequenceGenerator(name = "hearing_response_id_seq_generator", 
+        sequenceName = "hearing_response_id_seq", allocationSize = 1)
     @Column(name = "hearing_response_id")
     private Long hearingResponseId;
 

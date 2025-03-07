@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,9 @@ public class RequiredLocationsEntity extends BaseEntity implements Serializable 
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-        generator = "required_locations_id_seq")
+        generator = "required_locations_id_seq_generator")
+    @SequenceGenerator(name = "required_locations_id_seq_generator", 
+        sequenceName = "required_locations_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 

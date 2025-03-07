@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,9 @@ public class PanelUserRequirementsEntity extends BaseEntity implements Serializa
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-        generator = "panel_user_requirements_id_seq")
+        generator = "panel_user_requirements_id_seq_generator")
+    @SequenceGenerator(name = "panel_user_requirements_id_seq_generator", 
+        sequenceName = "panel_user_requirements_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 

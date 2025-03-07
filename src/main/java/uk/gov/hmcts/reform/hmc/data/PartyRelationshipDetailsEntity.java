@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,9 @@ public class PartyRelationshipDetailsEntity extends BaseEntity implements Serial
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, 
-        generator = "party_relationship_details_id_seq")
+        generator = "party_relationship_details_id_seq_generator")
+    @SequenceGenerator(name = "party_relationship_details_id_seq_generator", 
+        sequenceName = "party_relationship_details_id_seq", allocationSize = 1)
     @Column(name = "party_relationship_details_id")
     private Long partyRelationshipDetailsId;
 
