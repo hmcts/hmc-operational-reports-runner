@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,8 +26,10 @@ public class OrganisationDetailEntity extends BaseEntity implements Serializable
     private static final long serialVersionUID = 1283927209461686116L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "organisation_detail_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "organisation_detail_id_seq_generator")
+    @SequenceGenerator(name = "organisation_detail_id_seq_generator", 
+        sequenceName = "organisation_detail_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 

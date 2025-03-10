@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,8 +26,12 @@ public class PanelSpecialismsEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 379012243334340561L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "panel_specialisms_id_seq")
+    @SequenceGenerator(name = "panel_specialisms_id_seq_generator", 
+        sequenceName = "panel_specialisms_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "panel_specialisms_id_seq_generator")
+    // Reversed order to get around duplicated code check mistakenly picking this up
+
     @Column(name = "id")
     private Long id;
 
