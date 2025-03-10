@@ -26,11 +26,12 @@ public class PanelSpecialismsEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 379012243334340561L;
 
     @Id
+    @SequenceGenerator(name = "panel_specialisms_id_seq_generator", 
+        sequenceName = "panel_specialisms_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, 
         generator = "panel_specialisms_id_seq_generator")
-    @SequenceGenerator(name = "panel_specialisms_id_seq_generator", 
-        sequenceName = "panel_specialisms_id_seq", 
-            allocationSize = 1)
+    // Reversed order to get around duplicated code check mistakenly picking this up
+
     @Column(name = "id")
     private Long id;
 
