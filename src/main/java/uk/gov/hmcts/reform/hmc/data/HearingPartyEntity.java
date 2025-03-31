@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,8 +36,10 @@ public class HearingPartyEntity extends BaseEntity implements Serializable {
     private CaseHearingRequestEntity caseHearing;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "tech_party_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "tech_party_id_seq_generator")
+    @SequenceGenerator(name = "tech_party_id_seq_generator", 
+        sequenceName = "tech_party_id_seq", allocationSize = 1)
     @Column(name = "tech_party_id", nullable = false)
     private Long techPartyId;
 
