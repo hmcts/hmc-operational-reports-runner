@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,15 +29,17 @@ public class RequiredLocationsEntity extends BaseEntity implements Serializable 
     private static final long serialVersionUID = 1119281173095751231L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "required_locations_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "required_locations_id_seq_generator")
+    @SequenceGenerator(name = "required_locations_id_seq_generator", 
+        sequenceName = "required_locations_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "location_id", nullable = false)
     private String locationId;
 
-    @Column(name = "location_level_type", columnDefinition = "locationType", nullable = false)
+    @Column(name = "location_level_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private LocationType locationLevelType;
 

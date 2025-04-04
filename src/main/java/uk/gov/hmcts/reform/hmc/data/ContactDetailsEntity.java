@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,8 +26,10 @@ public class ContactDetailsEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -4144280388835257685L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "contact_details_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "contact_details_id_seq_generator")
+    @SequenceGenerator(name = "contact_details_id_seq_generator", 
+        sequenceName = "contact_details_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
