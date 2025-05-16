@@ -1,5 +1,6 @@
 {
+  "connectionString": "${file:/mnt/secrets/hmc/app-insights-connection-string}",
   "role": {
-    "name": "rpe-demo"
+    "name": "hmc-operational-reports-runner"
   }
 }

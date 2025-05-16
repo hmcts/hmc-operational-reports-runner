@@ -1,24 +1,23 @@
 package uk.gov.hmcts.reform.hmc.data;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Table(name = "hearing_day_details")
 @EqualsAndHashCode(callSuper = true)
@@ -29,8 +28,10 @@ public class HearingDayDetailsEntity extends BaseEntity implements Serializable 
     private static final long serialVersionUID = -7404453999051585377L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "hearing_day_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "hearing_day_id_seq_generator")
+    @SequenceGenerator(name = "hearing_day_id_seq_generator", 
+        sequenceName = "hearing_day_id_seq", allocationSize = 1)
     @Column(name = "hearing_day_id")
     private Long hearingDayId;
 
@@ -50,12 +51,10 @@ public class HearingDayDetailsEntity extends BaseEntity implements Serializable 
     @JoinColumn(name = "hearing_response_id")
     private HearingResponseEntity hearingResponse;
 
-    @OneToMany(mappedBy = "hearingDayDetails", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "hearingDayDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<HearingDayPanelEntity> hearingDayPanel;
 
-    @OneToMany(mappedBy = "hearingDayDetails", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "hearingDayDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<HearingAttendeeDetailsEntity> hearingAttendeeDetails;
 
 }

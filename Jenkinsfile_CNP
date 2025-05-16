@@ -63,45 +63,48 @@ withPipeline(type, product, component) {
         env.ENV='aat'
     }
 
-  afterAlways('akschartsinstall') {
+// There currently are no functional tests for this project
 
-        echo "Just waiting a while to ensure that the pod has run the job"
-        sh "sleep 120s"
+//   afterAlways('akschartsinstall') {
 
-        // Execute functional tests
-        echo "Verifying that functional test run correctly"
-        try {
-            builder.gradle('functional')
-        } finally {
-            junit '**/test-results/**/*.xml'
-        }
-    }
+//         echo "Just waiting a while to ensure that the pod has run the job"
+//         sh "sleep 120s"
 
-  afterAlways('functionalTest:preview') {
-        junit 'build/test-results/functional/**/*.xml'
-        archiveArtifacts 'build/reports/tests/functional/index.html'
+//         // Execute functional tests
+//         echo "Verifying that functional test run correctly"
+//         try {
+//             builder.gradle('functional')
+//         } finally {
+//             junit '**/test-results/**/*.xml'
+//         }
+//     }
 
-        publishHTML target: [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "build/reports/tests/functional",
-                reportFiles          : "index.html",
-                reportName           : "hmc-operational-reports-runner Functional Test Report"
-        ]
-    }
+//
+//   afterAlways('functionalTest:preview') {
+//         junit 'build/test-results/functional/**/*.xml'
+//         archiveArtifacts 'build/reports/tests/functional/index.html'
 
-  afterAlways('functionalTest:aat') {
-        junit 'build/test-results/functional/**/*.xml'
-        archiveArtifacts 'build/reports/tests/functional/index.html'
+//         publishHTML target: [
+//                 allowMissing         : true,
+//                 alwaysLinkToLastBuild: true,
+//                 keepAll              : true,
+//                 reportDir            : "build/reports/tests/functional",
+//                 reportFiles          : "index.html",
+//                 reportName           : "hmc-operational-reports-runner Functional Test Report"
+//         ]
+//     }
 
-        publishHTML target: [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "build/reports/tests/functional",
-                reportFiles          : "index.html",
-                reportName           : "hmc-operational-reports-runner Functional Test Report"
-        ]
-    }
+//   afterAlways('functionalTest:aat') {
+//         junit 'build/test-results/functional/**/*.xml'
+//         archiveArtifacts 'build/reports/tests/functional/index.html'
+
+//         publishHTML target: [
+//                 allowMissing         : true,
+//                 alwaysLinkToLastBuild: true,
+//                 keepAll              : true,
+//                 reportDir            : "build/reports/tests/functional",
+//                 reportFiles          : "index.html",
+//                 reportName           : "hmc-operational-reports-runner Functional Test Report"
+//         ]
+//     }
 }

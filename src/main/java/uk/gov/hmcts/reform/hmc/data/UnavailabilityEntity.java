@@ -1,5 +1,17 @@
 package uk.gov.hmcts.reform.hmc.data;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -8,17 +20,6 @@ import uk.gov.hmcts.reform.hmc.model.DayOfWeekUnavailable;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Table(name = "unavailability")
 @EqualsAndHashCode(callSuper = true)
@@ -30,8 +31,10 @@ public class UnavailabilityEntity extends BaseEntity  implements Serializable {
     private static final long serialVersionUID = 5423332025288476165L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "unavailability_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "unavailability_id_seq_generator")
+    @SequenceGenerator(name = "unavailability_id_seq_generator", 
+        sequenceName = "unavailability_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
 

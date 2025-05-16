@@ -1,6 +1,15 @@
 package uk.gov.hmcts.reform.hmc.data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Generated;
@@ -9,14 +18,6 @@ import uk.gov.hmcts.reform.hmc.domain.model.enums.LinkType;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Table(name = "linked_group_details")
 @EqualsAndHashCode(callSuper = true)
@@ -28,8 +29,10 @@ public class LinkedGroupDetails extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 9069607205338784728L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY,
-        generator = "linked_group_details_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, 
+        generator = "linked_group_details_id_seq_generator")
+    @SequenceGenerator(name = "linked_group_details_id_seq_generator", 
+        sequenceName = "linked_group_details_id_seq", allocationSize = 1)
     @Column(name = "linked_group_id")
     private Long linkedGroupId;
 

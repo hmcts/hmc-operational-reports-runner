@@ -54,16 +54,16 @@ azure:
     instrumentation-key: ${hmc.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
 notify:
-  api-key: ${NOTIFY_HMC_API_KEY}
+  api-key: ${NOTIFY_HMC_API_KEY:dummy_key_aaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
   email-templates:
     error:
-      template-id: ${NOTIFY_ERROR_TEMPLATE_ID}
-      email-address: ${NOTIFY_ERROR_EMAIL_ADDRESS}
-      reply-to-email-address: ${NOTIFY_ERROR_REPLY_TO_EMAIL_ADDRESS}
+      template-id: ${NOTIFY_ERROR_TEMPLATE_ID:dummy_id}
+      email-address: ${NOTIFY_ERROR_EMAIL_ADDRESS:dummy_email}
+      reply-to-email-address: ${NOTIFY_ERROR_REPLY_TO_EMAIL_ADDRESS:dummy_email}
     awaiting-actuals:
-      template-id: ${NOTIFY_AWAITING_ACTUALS_TEMPLATE_ID}
-      email-address: ${NOTIFY_AWAITING_ACTUALS_EMAIL_ADDRESS}
-      reply-to-email-address: ${NOTIFY_AWAITING_ACTUALS_REPLY_TO_EMAIL_ADDRESS}
+      template-id: ${NOTIFY_AWAITING_ACTUALS_TEMPLATE_ID:dummy_id}
+      email-address: ${NOTIFY_AWAITING_ACTUALS_EMAIL_ADDRESS:dummy_email}
+      reply-to-email-address: ${NOTIFY_AWAITING_ACTUALS_REPLY_TO_EMAIL_ADDRESS:dummy_email}
 
 
 awaiting-actuals:
