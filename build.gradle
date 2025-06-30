@@ -155,7 +155,9 @@ dependencyCheck {
 repositories {
   mavenLocal()
   mavenCentral()
-  maven { url = 'https://jitpack.io' }
+  maven {
+    url = 'https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1'
+  }
 }
 
 ext {
@@ -166,7 +168,7 @@ ext {
   set('jackson.version', '2.18.2')
   set('snakeyaml.version', '2.3')
   slf4jVersion = '2.0.16'
-  reformLogging = '6.1.6'
+  reformLogging = '6.1.9'
   logbackVersion = '1.5.16'
   lombokVersion = '1.18.36'
 
@@ -253,7 +255,7 @@ dependencies {
   functionalTestImplementation sourceSets.main.runtimeClasspath
   functionalTestImplementation sourceSets.test.runtimeClasspath
   functionalTestImplementation group: 'com.github.hmcts', name: 'ccd-test-definitions', version: '7.25.0'
-  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '9.2.1'
+  functionalTestImplementation group: 'com.github.hmcts', name: 'befta-fw', version: '9.2.4'
 }
 
 bootJar {
