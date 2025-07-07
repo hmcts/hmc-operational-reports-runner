@@ -204,7 +204,7 @@ dependencies {
   implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion                      // spring-boot-starter-actuator
   implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.6.4.Final'
   
-  testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.15.2'                    // spring-cloud-starter-contract-stub-runner
+  testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.18.0'                    // spring-cloud-starter-contract-stub-runner
   integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.5.1'            // spring-cloud-starter-contract-stub-runner
   // end::CVE Vulnerability dependency overrides                                                      // MAIN PARENT DEPENDEDNCY
 
