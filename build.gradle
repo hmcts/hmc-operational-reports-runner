@@ -173,7 +173,7 @@ ext {
   lombokVersion = '1.18.38'
 
   // Test versions
-  junitJupiterVersion = '5.11.4'
+  junitJupiterVersion = '5.13.3'
   junitPlatform = '1.11.4'
   testcontainers = '1.21.3'
 
