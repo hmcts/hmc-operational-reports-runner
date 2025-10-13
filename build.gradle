@@ -202,7 +202,7 @@ dependencies {
   implementation group: 'org.json', name: 'json', version: '20250107'	                                // notifications-java-client
   implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion                         // spring-boot-starter-actuator
   implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion                      // spring-boot-starter-actuator
-  implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.6.20.Final'
+  implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '7.1.4.Final'
   
   testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.18.0'                    // spring-cloud-starter-contract-stub-runner
   integrationTestImplementation group: 'net.minidev', name: 'json-smart', version: '2.5.2'            // spring-cloud-starter-contract-stub-runner
