@@ -164,7 +164,7 @@ ext {
   set('springCloudVersion', '2025.0.0')
   set('spring-framework.version', '6.2.9')
   set('spring-security.version', '6.5.2')
-  set('log4j2.version', '2.24.3')
+  set('log4j2.version', '2.24.4')
   set('jackson.version', '2.18.2')
   set('snakeyaml.version', '2.3')
   reformLogging = '6.1.9'
@@ -189,9 +189,17 @@ ext {
 dependencies {
 
   // start::CVE Vulnerability dependency overrides                                                    // MAIN PARENT DEPENDEDNCY
-  
+
   // put CVE Vulnerability (sub)dependency overrides here e.g.
   // implementation group: 'com.example', name: 'example-lib', version: '1.0.0' //  parent dependency name
+  constraints {
+    implementation('org.apache.logging.log4j:log4j-api:2.24.4') {
+      because 'CVE-2025-68161'
+    }
+    implementation('org.apache.logging.log4j:log4j-to-slf4j:2.24.4') {
+      because 'CVE-2025-68161'
+    }
+  }
 
   // end::CVE Vulnerability dependency overrides                                                      // MAIN PARENT DEPENDEDNCY
 
