@@ -13,11 +13,13 @@ GradleBuilder builder = new GradleBuilder(this, product)
 
 def secrets = [
         'hmc-${env}': [
+                secret('nvd-api-key', 'NVD_API_KEY')
         ]
 ]
 
 def prSecrets = [
         'hmc-aat': [
+                secret('nvd-api-key', 'NVD_API_KEY')
         ]
 ]
 
