@@ -150,6 +150,13 @@ apply from: './gradle/suppress.gradle'
 // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
 dependencyCheck {
   suppressionFile = 'config/owasp/suppressions.xml'
+
+  nvd {
+    validForHours = 24
+    delay = 8000
+    apiKey = 'fa3a42f3-7e56-4fba-b1f6-5758092c42ea'
+  }
+
 }
 
 repositories {
