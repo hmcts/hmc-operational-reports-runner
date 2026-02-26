@@ -31,6 +31,8 @@ jobs:
           java-version: 21
           distribution: 'temurin'
       - name: Run dependencyCheck
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: ./gradlew dependencyCheckAggregate
         continue-on-error: true
       - name: Run suppressCves
