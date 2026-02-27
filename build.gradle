@@ -150,7 +150,18 @@ apply from: './gradle/suppress.gradle'
 // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
 dependencyCheck {
   suppressionFile = 'config/owasp/suppressions.xml'
+
+  nvd {
+    validForHours = 24
+    delay = 8000
+    apiKey = providers.gradleProperty("nvdApiKey")
+      .map { it.trim() }
+      .orElse(providers.environmentVariable("NVD_API_KEY").map { it.trim() })
+      .orNull
+  }
+
 }
+
 
 repositories {
   mavenLocal()
@@ -189,7 +200,7 @@ ext {
 dependencies {
 
   // start::CVE Vulnerability dependency overrides                                                    // MAIN PARENT DEPENDEDNCY
-  
+
   // put CVE Vulnerability (sub)dependency overrides here e.g.
   // implementation group: 'com.example', name: 'example-lib', version: '1.0.0' //  parent dependency name
 
