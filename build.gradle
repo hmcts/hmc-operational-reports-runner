@@ -155,7 +155,8 @@ dependencyCheck {
     validForHours = 24
     delay = 8000
     apiKey = providers.gradleProperty("nvdApiKey")
-      .orElse(providers.environmentVariable("NVD_API_KEY"))
+      .map { it.trim() }
+      .orElse(providers.environmentVariable("NVD_API_KEY").map { it.trim() })
       .orNull
   }
 
