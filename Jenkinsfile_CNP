@@ -33,8 +33,15 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 withPipeline(type, product, component) {
     // Run OWASP dependency check during shared-library security checks.
-    // NVD_API_KEY is loaded from Key Vault in onPR/onNonPR below.
+    // Load secrets here as well so NVD_API_KEY is always present for this step.
     before('securitychecks') {
+        if (env.CHANGE_ID) {
+            echo "Loading PR secrets for dependency check"
+            loadVaultSecrets(prSecrets)
+        } else {
+            echo "Loading non-PR secrets for dependency check"
+            loadVaultSecrets(secrets)
+        }
         steps.sh "./gradlew --no-daemon dependencyCheckAggregate"
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/dependency-check/*'
     }
