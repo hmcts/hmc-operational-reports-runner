@@ -34,6 +34,15 @@ jobs:
         with:
           java-version: 21
           distribution: 'temurin'
+      - name: Check NVD key presence
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: |
+          if [ -z "${NVD_API_KEY:-}" ]; then
+            echo "NVD_API_KEY missing"
+            exit 1
+          fi
+          echo "NVD_API_KEY present (length: ${#NVD_API_KEY})"
       - name: Run dependencyCheck
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
