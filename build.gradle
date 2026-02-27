@@ -154,11 +154,21 @@ dependencyCheck {
   nvd {
     validForHours = 24
     delay = 8000
-    apiKey = System.getenv("NVD_API_KEY")
-    println "NVD_API_KEY present: ${apiKey != null}"
-    println "NVD_API_KEY length: ${apiKey?.length() ?: 0}"
+    apiKey = providers.environmentVariable("NVD_API_KEY").orNull
   }
 
+}
+
+gradle.taskGraph.whenReady { graph ->
+  def runsDependencyCheck = graph.hasTask(':dependencyCheckAggregate') || graph.hasTask(':dependencyCheckAnalyze')
+  if (runsDependencyCheck) {
+    def key = providers.environmentVariable("NVD_API_KEY").orNull
+    println "NVD_API_KEY present: ${key != null && !key.trim().isEmpty()}"
+    println "NVD_API_KEY length: ${key?.length() ?: 0}"
+    if (key == null || key.trim().isEmpty()) {
+      throw new GradleException("NVD_API_KEY is missing for dependency-check tasks")
+    }
+  }
 }
 
 repositories {
