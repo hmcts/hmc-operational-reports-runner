@@ -32,6 +32,13 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 withPipeline(type, product, component) {
+    // Run OWASP dependency check during shared-library security checks.
+    // NVD_API_KEY is loaded from Key Vault in onPR/onNonPR below.
+    before('securitychecks') {
+        steps.sh "./gradlew --no-daemon dependencyCheckAggregate"
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/dependency-check/*'
+    }
+
   afterAlways('test') {
         // hmcts/cnp-jenkins-library may fail to copy artifacts after checkstyle error so repeat command
         // (see /src/uk/gov/hmcts/contino/GradleBuilder.groovy)
