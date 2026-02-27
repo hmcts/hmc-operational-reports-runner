@@ -32,28 +32,20 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 withPipeline(type, product, component) {
-    def loadNvdSecrets = {
-        if (env.CHANGE_ID) {
-            echo "Loading PR secrets for NVD API key"
-            loadVaultSecrets(prSecrets)
-            env.ENV='preview'
-        } else {
-            echo "Loading non-PR secrets for NVD API key"
-            loadVaultSecrets(secrets)
-            env.ENV='aat'
-        }
-    }
-
-    // Ensure NVD_API_KEY is present before standard Gradle test/build work starts.
-    before('test') {
-        loadNvdSecrets()
-    }
-
     // Run OWASP dependency check during shared-library security checks.
-    // Load again defensively in case stage execution context is isolated.
     before('securitychecks') {
-        loadNvdSecrets()
-        steps.sh '''#!/bin/bash
+        def nvdSecrets = [[
+            secretType : 'Secret',
+            name       : 'nvd-api-key',
+            version    : '',
+            envVariable: 'NVD_API_KEY'
+        ]]
+        def vaultName = env.CHANGE_ID ? 'hmc-aat' : "hmc-${env.ENV ?: 'aat'}"
+
+        steps.withAzureKeyvault(
+            azureKeyVaultSecrets: nvdSecrets,
+        ) {
+            steps.sh '''#!/bin/bash
 set -euo pipefail
 if [ -z "${NVD_API_KEY:-}" ]; then
   echo "NVD_API_KEY is not set before dependency check"
@@ -62,6 +54,7 @@ fi
 echo "NVD_API_KEY is set for dependency check (length: ${#NVD_API_KEY})"
 ./gradlew --no-daemon dependencyCheckAggregate
 '''
+        }
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/dependency-check/*'
     }
 
