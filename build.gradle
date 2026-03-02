@@ -203,6 +203,7 @@ dependencies {
 
   // put CVE Vulnerability (sub)dependency overrides here e.g.
   // implementation group: 'com.example', name: 'example-lib', version: '1.0.0' //  parent dependency name
+  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.18.0' // springdoc-openapi -> swagger-core-jakarta
 
   // end::CVE Vulnerability dependency overrides                                                      // MAIN PARENT DEPENDEDNCY
 
