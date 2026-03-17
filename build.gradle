@@ -164,7 +164,7 @@ ext {
   set('springCloudVersion', '2025.0.0')
   set('spring-framework.version', '6.2.9')
   set('spring-security.version', '6.5.2')
-  set('log4j2.version', '2.24.3')
+  set('log4j2.version', '2.25.3')
   set('jackson.version', '2.18.2')
   set('snakeyaml.version', '2.3')
   reformLogging = '6.1.9'
@@ -192,7 +192,7 @@ dependencies {
 
   // put CVE Vulnerability (sub)dependency overrides here e.g.
   // implementation group: 'com.example', name: 'example-lib', version: '1.0.0' //  parent dependency name
-
+  implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.18.0'
   // end::CVE Vulnerability dependency overrides                                                      // MAIN PARENT DEPENDEDNCY
 
   // SPRING
