@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = {ApplicationRunner.class})
 class ApplicationBootstrapIntegrationTest {
     private static final String FLAG = "true";
-
+    
     @BeforeAll
     static void setup() {
         System.setProperty("api.version", "1.44");
