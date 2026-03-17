@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.repository;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -21,11 +20,6 @@ class CaseHearingRequestRepositoryIT extends BaseTest {
 
     private static final String GET_HEARINGS_DATA_SCRIPT = "classpath:sql/get-caseHearings_request.sql";
 
-    @BeforeAll
-    static void setup() {
-        System.setProperty("api.version", "1.44");
-    }
-    
     @Test
     @Sql(scripts = {DELETE_HEARING_DATA_SCRIPT, GET_HEARINGS_DATA_SCRIPT})
     void getCaseHearingDetailsForStatusesListed() {
