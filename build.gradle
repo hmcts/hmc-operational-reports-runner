@@ -171,7 +171,7 @@ ext {
   lombokVersion = '1.18.38'
   junit = '5.13.4'
   junitPlatform = '1.13.4'
-  testcontainers = '2.0.3'
+  testcontainers = '1.21.4'
 
   libraries = [
     junit5: [
@@ -225,7 +225,7 @@ dependencies {
   testImplementation libraries.junit5
   testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
   testImplementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-contract-stub-runner', version: '4.3.0'
-  testImplementation group: 'org.testcontainers', name: 'postgresql', version: testcontainers
+  testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.21.3'
   testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: testcontainers
   testImplementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
   testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
