@@ -171,7 +171,7 @@ ext {
   lombokVersion = '1.18.38'
   junit = '5.13.4'
   junitPlatform = '1.13.4'
-  testcontainers = '1.21.3'
+  testcontainers = '1.21.4'
 
   libraries = [
     junit5: [
@@ -189,7 +189,7 @@ ext {
 dependencies {
 
   // start::CVE Vulnerability dependency overrides                                                    // MAIN PARENT DEPENDEDNCY
-  
+
   // put CVE Vulnerability (sub)dependency overrides here e.g.
   // implementation group: 'com.example', name: 'example-lib', version: '1.0.0' //  parent dependency name
 
