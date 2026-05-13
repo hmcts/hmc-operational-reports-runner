@@ -167,7 +167,7 @@ ext {
   set('log4j2.version', '2.25.3')
   set('jackson.version', '2.18.2')
   set('snakeyaml.version', '2.3')
-  reformLogging = '6.1.9'
+  reformLogging = '8.0.0'
   lombokVersion = '1.18.38'
   junit = '5.13.4'
   junitPlatform = '1.13.4'
@@ -209,12 +209,10 @@ dependencies {
 
   // HMCTS
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLogging
-  implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLogging
   implementation group: 'uk.gov.service.notify', name: 'notifications-java-client', version: '5.2.1-RELEASE'
 
 
   implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.19.2'
-  implementation group: 'com.microsoft.azure', name: 'applicationinsights-spring-boot-starter', version: '2.6.4'
   implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.6.0'
   implementation group: 'jakarta.inject', name: 'jakarta.inject-api', version: '2.0.1'
   implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.1'

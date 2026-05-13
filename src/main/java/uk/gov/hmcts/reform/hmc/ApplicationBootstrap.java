@@ -1,9 +1,7 @@
 package uk.gov.hmcts.reform.hmc;
 
-import com.microsoft.applicationinsights.TelemetryClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,31 +13,21 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, it's not a utility class
 public class ApplicationBootstrap implements ApplicationRunner {
 
-    @Value("${telemetry.wait.period:10000}")
-    private int waitPeriod;
-
-    private final TelemetryClient client;
-
     private final ApplicationExecutor applicationExecutor;
 
     @Autowired
-    public ApplicationBootstrap(TelemetryClient client,
-                                ApplicationExecutor applicationExecutor) {
-        this.client = client;
+    public ApplicationBootstrap(ApplicationExecutor applicationExecutor) {
         this.applicationExecutor = applicationExecutor;
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         try {
             log.info("Starting the Hmc-Operational-Reports-Runner job.");
             applicationExecutor.execute();
             log.info("Completed the Hmc-Operational-Reports-Runner job successfully.");
         } catch (Exception exception) {
             log.error("Error executing Hmc-Operational-Reports-Runner job.", exception);
-        } finally {
-            client.flush();
-            waitTelemetryGracefulPeriod();
         }
         System.exit(0);
     }
@@ -47,9 +35,5 @@ public class ApplicationBootstrap implements ApplicationRunner {
     public static void main(final String[] args) {
         final ConfigurableApplicationContext context = SpringApplication.run(ApplicationBootstrap.class);
         context.close();
-    }
-
-    private void waitTelemetryGracefulPeriod() throws InterruptedException {
-        Thread.sleep(waitPeriod);
     }
 }
