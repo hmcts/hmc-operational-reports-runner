@@ -1,8 +1,8 @@
 package uk.gov.hmcts.reform.hmc;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.ApplicationArguments;
@@ -19,8 +19,12 @@ class ApplicationBootstrapTest {
     @Mock
     private ApplicationExecutor applicationExecutor;
 
-    @InjectMocks
     private ApplicationBootstrap underTest;
+
+    @BeforeEach
+    void setUp() {
+        underTest = new ApplicationBootstrap(applicationExecutor);
+    }
 
     @Test
     void testShouldRunExecutor() throws Exception {
