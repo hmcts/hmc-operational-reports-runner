@@ -167,6 +167,7 @@ ext {
   set('log4j2.version', '2.25.3')
   set('jackson.version', '2.18.2')
   set('snakeyaml.version', '2.3')
+  set('commons-lang3.version', '3.18.0')
   reformLogging = '8.0.0'
   lombokVersion = '1.18.38'
   junit = '5.13.4'
