@@ -31,4 +31,13 @@
     <cve>CVE-2026-41854</cve>
     <cve>CVE-2026-41853</cve>
   </suppress>
+  <suppress>
+    <notes>Temporary Suppression
+        CVE-2026-54512 refer [Ticket]
+        CVE-2026-54513 refer [Ticket]
+        CVE-2026-54514 refer [Ticket]</notes>
+    <cve>CVE-2026-54512</cve>
+    <cve>CVE-2026-54513</cve>
+    <cve>CVE-2026-54514</cve>
+  </suppress>
 </suppressions>
