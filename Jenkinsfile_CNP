@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@cve-dashboard")
 
 import uk.gov.hmcts.contino.GradleBuilder
 
@@ -30,6 +30,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 withPipeline(type, product, component) {
+  enableCveDashboardIngestion()
   afterAlways('test') {
         // hmcts/cnp-jenkins-library may fail to copy artifacts after checkstyle error so repeat command
         // (see /src/uk/gov/hmcts/contino/GradleBuilder.groovy)
