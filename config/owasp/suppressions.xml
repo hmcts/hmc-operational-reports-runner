@@ -35,10 +35,14 @@
     <notes>Temporary Suppression
         CVE-2026-54512 refer [Ticket]
         CVE-2026-54513 refer [Ticket]
-        CVE-2026-54514 refer [Ticket]</notes>
+        CVE-2026-54514 refer [Ticket]
+        CVE-2026-54515 refer [Ticket]
+        CVE-2026-41855 refer [Ticket]</notes>
     <cve>CVE-2026-54512</cve>
     <cve>CVE-2026-54513</cve>
     <cve>CVE-2026-54514</cve>
+    <cve>CVE-2026-54515</cve>
+    <cve>CVE-2026-41855</cve>
   </suppress>
   <suppress>
     <notes><![CDATA[
