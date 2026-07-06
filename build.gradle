@@ -163,7 +163,6 @@ repositories {
 ext {
   set('springCloudVersion', '2025.0.0')
   set('log4j2.version', '2.25.4')
-  set('jackson.version', '2.18.2')
   set('snakeyaml.version', '2.3')
   set('commons-lang3.version', '3.18.0')
   reformLogging = '8.0.0'
