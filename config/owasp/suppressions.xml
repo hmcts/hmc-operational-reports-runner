@@ -6,4 +6,10 @@
     <cve>CVE-2025-7962</cve>
     <cve>CVE-2026-54515</cve>
   </suppress>
+  <suppress>
+    <cve>CVE-2026-54399</cve>
+  </suppress>
+  <suppress>
+    <cve>CVE-2026-54428</cve>
+  </suppress>
 </suppressions>
