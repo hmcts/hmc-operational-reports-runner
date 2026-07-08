@@ -1,7 +1,7 @@
-import groovy.xml.DOMBuilder
-import groovy.xml.XmlSlurper
-import groovy.xml.XmlUtil
 import groovy.xml.slurpersupport.GPathResult
+import groovy.xml.DOMBuilder
+import groovy.xml.XmlUtil
+import groovy.xml.XmlSlurper
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node
@@ -13,11 +13,7 @@ import javax.xml.xpath.XPathFactory
 
 void suppressCves(String reportName = Globals.REPORT_NAME) {
     // Default output directory is 'build/reports'
-    def outputDirectory = dependencyCheck.getOutputDirectory()
-    if (outputDirectory.respondsTo('get')) {
-      outputDirectory = outputDirectory.get().asFile
-    }
-    def reportFile = new File(project.file(outputDirectory), reportName)
+    def reportFile = new File(project.file(dependencyCheck.getOutputDirectory()), reportName)
     if (!reportFile.isFile()) {
         throw new FileNotFoundException("Report file not found." +
                 "\nPossible Solution: run :dependencyCheckAggregate")
@@ -31,11 +27,7 @@ void suppressCves(String reportName = Globals.REPORT_NAME) {
 
     if (!unSuppressedCves.isEmpty()) {
         // Suppression file must be specified as 'suppressionFile=...' in build.gradle.
-        def suppressionFilePath = dependencyCheck.getSuppressionFile()
-        if (suppressionFilePath.respondsTo('get')) {
-          suppressionFilePath = suppressionFilePath.get()
-        }
-        File suppressionFile = project.file(suppressionFilePath)
+        File suppressionFile = project.file(dependencyCheck.getSuppressionFile())
         validateSection(suppressionFile, new XmlSlurper(false, false).parse(suppressionFile))
 
         String suppressionXml = new String(suppressionFile.readBytes(), "UTF-8")
