@@ -150,7 +150,18 @@ apply from: './gradle/suppress.gradle'
 // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
 dependencyCheck {
   suppressionFile = 'config/owasp/suppressions.xml'
+
+  nvd {
+    validForHours = 24
+    delay = 8000
+    apiKey = providers.gradleProperty("nvdApiKey")
+      .map { it.trim() }
+      .orElse(providers.environmentVariable("NVD_API_KEY").map { it.trim() })
+      .orNull
+  }
+
 }
+
 
 repositories {
   mavenLocal()
