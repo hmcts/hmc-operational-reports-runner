@@ -2,9 +2,10 @@
   <suppress>
     <notes>Temporary Suppression
         CVE-2025-7962  False positive, see https://github.com/dependency-check/DependencyCheck/issues/8130
-        CVE-2026-54515 refer [Ticket]</notes>
-    <cve>CVE-2025-7962</cve>
+        CVE-2026-54515 refer [Ticket]
+        CVE-2026-54291 refer [Ticket]</notes>
     <cve>CVE-2026-54515</cve>
+    <cve>CVE-2026-54291</cve>
   </suppress>
   <suppress>
     <cve>CVE-2026-54399</cve>
