@@ -59,4 +59,7 @@
   <suppress>
     <cve>CVE-2026-34481</cve>
   </suppress>
+  <suppress>
+    <cve>CVE-2025-7962</cve>
+  </suppress>
 </suppressions>
