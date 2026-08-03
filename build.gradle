@@ -167,7 +167,7 @@ ext {
   set('commons-lang3.version', '3.18.0')
   set('jackson.version', '2.18.9')
   reformLogging = '8.0.0'
-  lombokVersion = '1.18.38'
+  lombokVersion = '1.18.46'
   junit = '5.13.4'
   junitPlatform = '1.13.4'
   testcontainers = '1.21.4'
