@@ -14,4 +14,20 @@
     <cve>CVE-2026-59280</cve>
     <cve>CVE-2026-59314</cve>
   </suppress>
+
+  <suppress>
+      <cve>CVE-2026-47890</cve>
+  </suppress>
+  
+  <suppress>
+      <cve>CVE-2026-47891</cve>
+  </suppress>
+  
+  <suppress>
+      <cve>CVE-2026-59281</cve>
+  </suppress>
+  
+  <suppress>
+      <cve>CVE-2026-59282</cve>
+  </suppress>
 </suppressions>
