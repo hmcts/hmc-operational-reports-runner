@@ -37,12 +37,6 @@ spring:
 ccd:
   data-store:
     host: http://localhost:${wiremock.server.port:4452}
-idam:
-  api:
-    url: http://localhost:${wiremock.server.port:5000}
-  s2s-auth:
-    url: http://localhost:${wiremock.server.port:5000}/s2s
-
 
 app.configuredNumberOfDays: 2
 
