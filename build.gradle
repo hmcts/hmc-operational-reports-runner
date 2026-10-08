@@ -166,6 +166,7 @@ ext {
   set('snakeyaml.version', '2.3')
   set('commons-lang3.version', '3.18.0')
   set('jackson.version', '2.18.9')
+  set('netty.version', '4.1.138.Final')
   reformLogging = '8.0.0'
   lombokVersion = '1.18.38'
   junit = '5.13.4'
