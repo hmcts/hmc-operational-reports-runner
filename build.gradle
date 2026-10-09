@@ -192,6 +192,11 @@ dependencies {
   // put CVE Vulnerability (sub)dependency overrides here e.g.
   // implementation group: 'com.example', name: 'example-lib', version: '1.0.0' //  parent dependency name
   implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.18.0'
+  constraints {
+    implementation('org.apache.qpid:proton-j:0.35.0') {
+      because 'Fixes CVE-2026-66257, CVE-2026-66273, CVE-2026-66274, CVE-2026-66275 and CVE-2026-66277'
+    }
+  }
   // end::CVE Vulnerability dependency overrides                                                      // MAIN PARENT DEPENDEDNCY
 
   // SPRING
