@@ -149,7 +149,23 @@ dependencyUpdates {
 apply from: './gradle/suppress.gradle'
 // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
 dependencyCheck {
+  formats = ['HTML', 'XML']
   suppressionFile = 'config/owasp/suppressions.xml'
+}
+
+tasks.register("printSuppressionFile") {
+  doLast {
+    def suppressionFile = dependencyCheck.getSuppressionFile()
+    if (suppressionFile?.metaClass?.respondsTo(suppressionFile, "getOrNull")) {
+      suppressionFile = suppressionFile.getOrNull()
+    } else if (suppressionFile?.metaClass?.respondsTo(suppressionFile, "get")) {
+      suppressionFile = suppressionFile.get()
+    }
+    if (!suppressionFile) {
+      throw new GradleException("No dependency-check suppression file configured")
+    }
+    println "SUPPRESSION_FILE=${suppressionFile}"
+  }
 }
 
 repositories {
@@ -166,6 +182,7 @@ ext {
   set('snakeyaml.version', '2.3')
   set('commons-lang3.version', '3.18.0')
   set('jackson.version', '2.18.9')
+  set('netty.version', '4.1.138.Final')
   reformLogging = '8.0.0'
   lombokVersion = '1.18.38'
   junit = '5.13.4'
