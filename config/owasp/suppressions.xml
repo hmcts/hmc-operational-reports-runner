@@ -14,7 +14,8 @@
         CVE-2026-47888 refer [Ticket]
         CVE-2026-47889 refer [Ticket]
         CVE-2026-47883 refer [Ticket]
-        CVE-2026-47887 refer [Ticket]</notes>
+        CVE-2026-47887 refer [Ticket]
+        CVE-2025-7962 refer [Ticket]</notes>
     <cve>CVE-2026-47892</cve>
     <cve>CVE-2026-59313</cve>
     <cve>CVE-2026-59283</cve>
@@ -29,6 +30,7 @@
     <cve>CVE-2026-47889</cve>
     <cve>CVE-2026-47883</cve>
     <cve>CVE-2026-47887</cve>
+    <cve>CVE-2025-7962</cve>
   </suppress>
   <suppress>
     <cve>CVE-2026-47890</cve>
