@@ -169,7 +169,7 @@ ext {
   set('jackson.version', '2.18.9')
   set('netty.version', '4.1.138.Final')
   reformLogging = '8.0.0'
-  lombokVersion = '1.18.38'
+  lombokVersion = '1.18.48'
   junit = '5.13.4'
   junitPlatform = '1.13.4'
   testcontainers = '1.21.4'
